@@ -1,103 +1,124 @@
-import Image from "next/image";
+"use client";
+
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    const ref = useRef(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    const isDark = useIsDarkMode();
+
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["start start", "end start"],
+    });
+
+    const background = useTransform(
+        scrollYProgress,
+        [0, 1],
+        isDark
+            ? [
+                  "linear-gradient(to bottom, #000000 25%, #0b7d79)",
+                  "linear-gradient(to bottom, #000000 80%, #5d14a6)",
+              ]
+            : [
+                  "linear-gradient(to bottom, #ffffff 25%, #61e8e4)",
+                  "linear-gradient(to bottom, #ffffff 80%, #a560eb)",
+              ]
+    );
+
+    const contentBackground = useTransform(
+        scrollYProgress,
+        [0, 1],
+        isDark ? ["#0b7d79", "#5d14a6"] : ["#61e8e4", "#a560eb"]
+    );
+
+    // Animations
+    const hiX = useTransform(scrollYProgress, [0, 0.7], ["0%", "-100vw"]);
+    const smileX = useTransform(scrollYProgress, [0, 0.7], ["0%", "100vw"]);
+    const jannikScale = useTransform(scrollYProgress, [0.1, 0.4], [0, 1]);
+    const jannikOpacity = useTransform(scrollYProgress, [0.1, 0.4], [0, 1]);
+
+    const revealOpacity = useTransform(scrollYProgress, [0.3, 0.5], [0, 1]);
+    const revealY = useTransform(scrollYProgress, [0.2, 0.5], [100, 0]);
+
+    return (
+        <>
+            <div ref={ref} className=''>
+                <motion.div
+                    style={{ background }}
+                    className='fixed inset-0 h-[100dvh] -z-10'
+                />
+                <div className='h-[200vh]'>
+                    <div className='sticky top-0 h-screen flex justify-center items-center'>
+                        <div className='absolute overflow-y-hidden w-full justify-center flex flex-row items-center gap-4'>
+                            <motion.h1
+                                style={{ x: hiX }}
+                                className='text-5xl md:text-9xl'
+                            >
+                                👋🏻
+                            </motion.h1>
+                            <motion.h3
+                                style={{ x: smileX }}
+                                className='text-5xl md:text-9xl font-serif italic'
+                            >
+                                Hi
+                            </motion.h3>
+                        </div>
+                        <div className='absolute flex'>
+                            <motion.h2
+                                style={{
+                                    scale: jannikScale,
+                                    opacity: jannikOpacity,
+                                }}
+                                className='flex flex-row items-baseline gap-2 md:gap-4 text-xl md:text-5xl pointer-events-none font-light'
+                            >
+                                I'm{" "}
+                                <p className='font-serif italic text-5xl md:text-9xl'>
+                                    Jannik
+                                </p>
+                            </motion.h2>
+                            {/* <motion.div
+                                style={{
+                                    opacity: revealOpacity,
+                                    y: revealY,
+                                }}
+                                className='absolute top-[140%] w-full flex justify-center text-center'
+                            >
+                                <p className='text-md md:text-2xl w-full font-medium text-left'>
+                                    Computer science student based in Stuttgart
+                                    - Germany.
+                                </p>
+                            </motion.div> */}
+                        </div>
+                    </div>
+
+                    <footer className='fixed bottom-0 left-0 w-full py-4 text-center text-sm text-foreground'>
+                        &copy; 2025 Jannik Thieme
+                    </footer>
+                </div>
+                {/* <div className='relative -top-24 py-14 z-10 px-8 sm:px-20 text-center'>
+                    <h2 className='text-3xl md:text-5xl font-serif italic font-bold mb-6'>
+                        My Skills
+                    </h2>
+                    <div className='border rounded-2xl bg-neutral-800/25'>
+                        React, NextJS, Java
+                    </div>
+                </div> */}
+            </div>
+        </>
+    );
+}
+
+function useIsDarkMode() {
+    const [isDark, setIsDark] = useState(false);
+
+    useEffect(() => {
+        const mq = window.matchMedia("(prefers-color-scheme: dark)");
+        setIsDark(mq.matches);
+        mq.addEventListener("change", (e) => setIsDark(e.matches));
+        return () => mq.removeEventListener("change", () => {});
+    }, []);
+
+    return isDark;
 }
