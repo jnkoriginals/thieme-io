@@ -102,7 +102,7 @@ export default function Home() {
                         My Skills
                     </h2>
                     <div className='border rounded-2xl bg-neutral-800/25'>
-                        React, NextJS, Java
+                        Skills
                     </div>
                 </div> */}
             </div>
