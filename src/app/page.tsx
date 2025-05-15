@@ -27,11 +27,11 @@ export default function Home() {
               ]
     );
 
-    const contentBackground = useTransform(
-        scrollYProgress,
-        [0, 1],
-        isDark ? ["#0b7d79", "#5d14a6"] : ["#61e8e4", "#a560eb"]
-    );
+    // const contentBackground = useTransform(
+    //     scrollYProgress,
+    //     [0, 1],
+    //     isDark ? ["#0b7d79", "#5d14a6"] : ["#61e8e4", "#a560eb"]
+    // );
 
     // Animations
     const hiX = useTransform(scrollYProgress, [0, 0.7], ["0%", "-100vw"]);
@@ -39,8 +39,8 @@ export default function Home() {
     const jannikScale = useTransform(scrollYProgress, [0.1, 0.4], [0, 1]);
     const jannikOpacity = useTransform(scrollYProgress, [0.1, 0.4], [0, 1]);
 
-    const revealOpacity = useTransform(scrollYProgress, [0.3, 0.5], [0, 1]);
-    const revealY = useTransform(scrollYProgress, [0.2, 0.5], [100, 0]);
+    // const revealOpacity = useTransform(scrollYProgress, [0.3, 0.5], [0, 1]);
+    // const revealY = useTransform(scrollYProgress, [0.2, 0.5], [100, 0]);
 
     return (
         <>
@@ -73,7 +73,7 @@ export default function Home() {
                                 }}
                                 className='flex flex-row items-baseline gap-2 md:gap-4 text-xl md:text-5xl pointer-events-none font-light'
                             >
-                                I'm{" "}
+                                I&apos;m
                                 <p className='font-serif italic text-5xl md:text-9xl'>
                                     Jannik
                                 </p>
