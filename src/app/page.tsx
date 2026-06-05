@@ -238,7 +238,7 @@ function Hero() {
                             Projekte
                         </a>
                         <a
-                            href='mailto:jan.thieme@icloud.com'
+                            href='#contact'
                             className='px-5 py-2.5 border border-neutral-300 dark:border-neutral-700 text-sm font-medium rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors'
                         >
                             Kontakt
@@ -511,31 +511,101 @@ function Skills() {
 }
 
 function Contact() {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
+    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        setStatus("loading");
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, message }),
+            });
+            if (res.ok) {
+                setStatus("success");
+                setName("");
+                setMessage("");
+            } else {
+                setStatus("error");
+            }
+        } catch {
+            setStatus("error");
+        }
+    }
+
     return (
         <section
             id='contact'
             className='px-6 md:px-16 lg:px-24 max-w-5xl mx-auto py-24 md:py-32'
         >
             <SectionLabel label='Kontakt' />
-            <h2 className='text-3xl md:text-5xl font-semibold tracking-tight mb-10'>
-                Let&apos;s work together.
-            </h2>
-            <div className='flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8'>
-                <a
-                    href='mailto:jan.thieme@icloud.com'
-                    className='text-sm font-medium underline underline-offset-4 decoration-neutral-300 dark:decoration-neutral-600 hover:decoration-neutral-900 dark:hover:decoration-neutral-100 transition-colors'
-                >
-                    jan.thieme@icloud.com
-                </a>
-                <span className='hidden sm:block w-px h-4 bg-neutral-300 dark:bg-neutral-700' />
-                <a
-                    href='https://www.linkedin.com/in/jannik-thieme-51878a354/'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='text-sm font-medium underline underline-offset-4 decoration-neutral-300 dark:decoration-neutral-600 hover:decoration-neutral-900 dark:hover:decoration-neutral-100 transition-colors'
-                >
-                    LinkedIn
-                </a>
+            <div className='flex flex-col md:flex-row md:items-start md:justify-between gap-12'>
+                <div className='md:max-w-sm'>
+                    <h2 className='text-3xl md:text-4xl font-semibold tracking-tight mb-4'>
+                        Let&apos;s work together.
+                    </h2>
+                    <p className='text-neutral-500 dark:text-neutral-400 text-sm leading-relaxed mb-8'>
+                        Schreib mir — ich melde mich schnellstmöglich zurück.
+                    </p>
+                    <a
+                        href='https://www.linkedin.com/in/jannik-thieme-51878a354/'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='text-sm font-medium underline underline-offset-4 decoration-neutral-300 dark:decoration-neutral-600 hover:decoration-neutral-900 dark:hover:decoration-neutral-100 transition-colors'
+                    >
+                        LinkedIn ↗
+                    </a>
+                </div>
+
+                <form onSubmit={handleSubmit} className='flex-1 flex flex-col gap-4'>
+                    <div>
+                        <label className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>Name</label>
+                        <input
+                            type='text'
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                            placeholder='Dein Name'
+                            className='w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:focus:ring-neutral-600 transition'
+                        />
+                    </div>
+                    <div>
+                        <label className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>E-Mail</label>
+                        <input
+                            type='email'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            placeholder='deine@email.de'
+                            className='w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:focus:ring-neutral-600 transition'
+                        />
+                    </div>
+                    <div>
+                        <label className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>Nachricht</label>
+                        <textarea
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            required
+                            rows={5}
+                            placeholder='Wie kann ich dir helfen?'
+                            className='w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:focus:ring-neutral-600 transition resize-none'
+                        />
+                    </div>
+                    <button
+                        type='submit'
+                        disabled={status === "loading" || status === "success"}
+                        className='self-start px-6 py-3 bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-medium rounded-full hover:opacity-75 transition-opacity disabled:opacity-50'
+                    >
+                        {status === "loading" ? "Senden..." : status === "success" ? "Gesendet ✓" : "Senden"}
+                    </button>
+                    {status === "error" && (
+                        <p className='text-sm text-red-500'>Etwas ist schiefgelaufen. Bitte versuch es erneut.</p>
+                    )}
+                </form>
             </div>
         </section>
     );
