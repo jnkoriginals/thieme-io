@@ -436,6 +436,16 @@ function ProjectCard({
                     <span className='text-xs text-neutral-400 border border-neutral-200 dark:border-neutral-700 px-2.5 py-0.5 rounded-full'>
                         {project.type}
                     </span>
+                    {project.url && (
+                        <a
+                            href={project.url}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='ml-auto inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors'
+                        >
+                            Live ↗
+                        </a>
+                    )}
                 </div>
                 <p className='text-neutral-500 dark:text-neutral-400 text-sm md:text-base max-w-2xl mb-6 leading-relaxed'>
                     {project.description}
