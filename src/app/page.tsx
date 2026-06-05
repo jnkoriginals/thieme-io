@@ -178,7 +178,7 @@ const experience = [
 
 export default function Home() {
     return (
-        <main className='min-h-screen bg-[--color-background] text-[--color-foreground]'>
+        <main className='min-h-screen bg-[var(--background)] text-[var(--foreground)]'>
             <Hero />
             <Experience />
             <Projects />

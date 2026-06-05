@@ -1,26 +1,19 @@
-@import "tailwindcss";
-
-@variant dark (&:where(.dark, .dark *));
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
     --background: #fafaf9;
     --foreground: #0f0f0f;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .dark {
     --background: #0a0a0a;
     --foreground: #ededed;
-}
-
-@theme inline {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --font-sans: var(--font-geist-sans);
-    --font-mono: var(--font-geist-mono);
-}
-
-html {
-    scroll-behavior: smooth;
 }
 
 body {
