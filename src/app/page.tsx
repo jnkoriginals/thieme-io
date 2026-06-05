@@ -346,22 +346,19 @@ function ProjectCard({
         const mql =
             window.matchMedia &&
             window.matchMedia("(prefers-color-scheme: dark)");
-        const mqHandler = (e: MediaQueryListEvent | MediaQueryList) =>
-            setIsDark((e as any).matches);
+        const mqHandler = (event: MediaQueryListEvent) =>
+            setIsDark(event.matches);
         if (mql) {
-            if (mql.addEventListener)
-                mql.addEventListener("change", mqHandler as any);
-            else if ((mql as any).addListener)
-                (mql as any).addListener(mqHandler as any);
+            if (mql.addEventListener) mql.addEventListener("change", mqHandler);
+            else if (mql.addListener) mql.addListener(mqHandler);
         }
 
         return () => {
             obs.disconnect();
             if (mql) {
                 if (mql.removeEventListener)
-                    mql.removeEventListener("change", mqHandler as any);
-                else if ((mql as any).removeListener)
-                    (mql as any).removeListener(mqHandler as any);
+                    mql.removeEventListener("change", mqHandler);
+                else if (mql.removeListener) mql.removeListener(mqHandler);
             }
         };
     }, []);
@@ -514,7 +511,9 @@ function Contact() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
-    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [status, setStatus] = useState<
+        "idle" | "loading" | "success" | "error"
+    >("idle");
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -561,9 +560,14 @@ function Contact() {
                     </a>
                 </div>
 
-                <form onSubmit={handleSubmit} className='flex-1 flex flex-col gap-4'>
+                <form
+                    onSubmit={handleSubmit}
+                    className='flex-1 flex flex-col gap-4'
+                >
                     <div>
-                        <label className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>Name</label>
+                        <label className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>
+                            Name
+                        </label>
                         <input
                             type='text'
                             value={name}
@@ -574,7 +578,9 @@ function Contact() {
                         />
                     </div>
                     <div>
-                        <label className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>E-Mail</label>
+                        <label className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>
+                            E-Mail
+                        </label>
                         <input
                             type='email'
                             value={email}
@@ -585,7 +591,9 @@ function Contact() {
                         />
                     </div>
                     <div>
-                        <label className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>Nachricht</label>
+                        <label className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>
+                            Nachricht
+                        </label>
                         <textarea
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
@@ -600,10 +608,16 @@ function Contact() {
                         disabled={status === "loading" || status === "success"}
                         className='self-start px-6 py-3 bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-medium rounded-full hover:opacity-75 transition-opacity disabled:opacity-50'
                     >
-                        {status === "loading" ? "Senden..." : status === "success" ? "Gesendet ✓" : "Senden"}
+                        {status === "loading"
+                            ? "Senden..."
+                            : status === "success"
+                              ? "Gesendet ✓"
+                              : "Senden"}
                     </button>
                     {status === "error" && (
-                        <p className='text-sm text-red-500'>Etwas ist schiefgelaufen. Bitte versuch es erneut.</p>
+                        <p className='text-sm text-red-500'>
+                            Etwas ist schiefgelaufen. Bitte versuch es erneut.
+                        </p>
                     )}
                 </form>
             </div>
