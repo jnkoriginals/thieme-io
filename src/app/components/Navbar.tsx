@@ -12,7 +12,7 @@ const navLinks = [
 ];
 
 export function Navbar() {
-    const { theme, setTheme } = useTheme();
+    const { resolvedTheme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -40,12 +40,12 @@ export function Navbar() {
 
                 <div className="flex items-center gap-2">
                     <button
-                        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                        onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
                         className="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
                         aria-label="Toggle theme"
                     >
                         {mounted ? (
-                            theme === "dark" ? (
+                            resolvedTheme === "dark" ? (
                                 <HiSun className="w-4 h-4" />
                             ) : (
                                 <HiMoon className="w-4 h-4" />

@@ -65,6 +65,7 @@ const skillGroups: { category: string; items: SkillItem[] }[] = [
         items: [
             { name: "Java", icon: FaJava, color: "#F89820" },
             { name: "Spring Boot", icon: SiSpring, color: "#6DB33F" },
+            { name: "C#" },
             { name: "Python", icon: SiPython, color: "#3776AB" },
             { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
         ],
@@ -139,6 +140,7 @@ const projects = [
         logo: { light: "/logo-nearby.svg", dark: "/logo-nearby.svg" },
         images: ["/nearby-1.png", "/nearby-2.png", "/nearby-3.png"],
         mobile: true,
+        pressUrl: "https://www.edit-magazin.de/tindern-fuer-cafes-co.html",
     },
 ];
 
@@ -378,7 +380,7 @@ function ProjectCard({
             {/* Screenshots */}
             <div className='bg-neutral-100 dark:bg-neutral-900'>
                 {project.mobile ? (
-                    <div className='px-8 pt-8 pb-8 flex gap-4 justify-center'>
+                    <div className='px-6 pt-8 pb-8 flex gap-4 overflow-x-auto justify-start md:justify-center scrollbar-none'>
                         {project.images?.map((src, i) => (
                             <div
                                 key={i}
@@ -395,11 +397,11 @@ function ProjectCard({
                         ))}
                     </div>
                 ) : (
-                    <div className={`p-6 flex gap-3`}>
+                    <div className='p-6 flex gap-3 overflow-x-auto scrollbar-none'>
                         {project.images?.map((src, i) => (
                             <div
                                 key={i}
-                                className={`rounded-xl overflow-hidden  ${project.images.length === 1 ? "w-full" : "flex-1"}`}
+                                className={`rounded-xl overflow-hidden shrink-0 ${project.images.length === 1 ? "w-full" : "w-4/5 md:flex-1 md:w-auto"}`}
                             >
                                 <Image
                                     src={src}
@@ -433,15 +435,29 @@ function ProjectCard({
                     <span className='text-xs text-neutral-400 border border-neutral-200 dark:border-neutral-700 px-2.5 py-0.5 rounded-full'>
                         {project.type}
                     </span>
-                    {project.url && (
-                        <a
-                            href={project.url}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            className='ml-auto inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors'
-                        >
-                            Live ↗
-                        </a>
+                    {(project.url || project.pressUrl) && (
+                        <div className='ml-auto flex items-center gap-3'>
+                            {project.url && (
+                                <a
+                                    href={project.url}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    className='inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors'
+                                >
+                                    Live <ArrowUpRight />
+                                </a>
+                            )}
+                            {project.pressUrl && (
+                                <a
+                                    href={project.pressUrl}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    className='inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors'
+                                >
+                                    Presse <ArrowUpRight />
+                                </a>
+                            )}
+                        </div>
                     )}
                 </div>
                 <p className='text-neutral-500 dark:text-neutral-400 text-sm md:text-base max-w-2xl mb-6 leading-relaxed'>
@@ -630,6 +646,14 @@ function Footer() {
         <footer className='px-6 md:px-16 lg:px-24 max-w-5xl mx-auto py-8 border-t border-neutral-200 dark:border-neutral-800'>
             <p className='text-xs text-neutral-400'>© 2026 Jannik Thieme</p>
         </footer>
+    );
+}
+
+function ArrowUpRight() {
+    return (
+        <svg width='10' height='10' viewBox='0 0 10 10' fill='none' stroke='currentColor' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round'>
+            <path d='M2 8L8 2M8 2H3M8 2V7' />
+        </svg>
     );
 }
 
