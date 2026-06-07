@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./providers";
-import { Navbar } from "./components/Navbar";
+import { headers } from "next/headers";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -15,22 +14,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Jannik Thieme",
-    description: "Full-Stack Developer — Web & Mobile. Mobile-Medien, HdM Stuttgart.",
+    metadataBase: new URL("https://thieme.io"),
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
+    const headersList = await headers();
+    const lang = headersList.get("x-lang") ?? "de";
+
     return (
-        <html lang="en" suppressHydrationWarning>
+        <html lang={lang} suppressHydrationWarning>
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-                <Providers>
-                    <Navbar />
-                    {children}
-                </Providers>
+                {children}
             </body>
         </html>
     );

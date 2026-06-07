@@ -3,20 +3,29 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { HiSun, HiMoon } from "react-icons/hi2";
 import { HiBars3, HiXMark } from "react-icons/hi2";
+import Link from "next/link";
+import type { Lang } from "@/lib/translations";
 
-const navLinks = [
-    { href: "#experience", label: "Erfahrung" },
-    { href: "#projects", label: "Projekte" },
-    { href: "#skills", label: "Skills" },
-    { href: "#contact", label: "Kontakt" },
-];
+const navLabels: Record<Lang, { experience: string; projects: string; skills: string; contact: string }> = {
+    de: { experience: "Erfahrung", projects: "Projekte", skills: "Skills", contact: "Kontakt" },
+    en: { experience: "Experience", projects: "Projects", skills: "Skills", contact: "Contact" },
+};
 
-export function Navbar() {
+export function Navbar({ lang }: { lang: Lang }) {
     const { resolvedTheme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => setMounted(true), []);
+
+    const labels = navLabels[lang];
+    const navLinks = [
+        { href: "#experience", label: labels.experience },
+        { href: "#projects", label: labels.projects },
+        { href: "#skills", label: labels.skills },
+        { href: "#contact", label: labels.contact },
+    ];
+    const otherLang: Lang = lang === "de" ? "en" : "de";
 
     return (
         <header className="fixed top-0 left-0 right-0 z-50 border-b border-neutral-200/80 dark:border-neutral-800/80 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md">
@@ -39,6 +48,15 @@ export function Navbar() {
                 </div>
 
                 <div className="flex items-center gap-2">
+                    {/* Language switcher */}
+                    <Link
+                        href={`/${otherLang}`}
+                        className="text-xs font-medium text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                        aria-label={`Switch to ${otherLang === "en" ? "English" : "Deutsch"}`}
+                    >
+                        {otherLang.toUpperCase()}
+                    </Link>
+
                     <button
                         onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
                         className="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
