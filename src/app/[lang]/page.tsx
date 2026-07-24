@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import {
     SiReact,
     SiNextdotjs,
@@ -160,7 +161,7 @@ export default function Home() {
             />
             <Skills sectionLabel={t.sections.skills} />
             <Contact t={t} />
-            <Footer footer={t.footer} />
+            <Footer footer={t.footer} lang={lang} />
         </main>
     );
 }
@@ -641,10 +642,22 @@ function Contact({ t }: { t: (typeof translations)[Lang] }) {
     );
 }
 
-function Footer({ footer }: { footer: string }) {
+function Footer({
+    footer,
+    lang,
+}: {
+    footer: (typeof translations)[Lang]["footer"];
+    lang: Lang;
+}) {
     return (
-        <footer className='px-6 md:px-16 lg:px-24 max-w-5xl mx-auto py-8 border-t border-neutral-200 dark:border-neutral-800'>
-            <p className='text-xs text-neutral-400'>{footer}</p>
+        <footer className='px-6 md:px-16 lg:px-24 max-w-5xl mx-auto py-8 border-t border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3'>
+            <p className='text-xs text-neutral-400'>{footer.text}</p>
+            <Link
+                href={`/${lang}/impressum`}
+                className='text-xs text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors underline underline-offset-4 decoration-neutral-300 dark:decoration-neutral-600'
+            >
+                {footer.imprint}
+            </Link>
         </footer>
     );
 }

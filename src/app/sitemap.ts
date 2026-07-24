@@ -22,5 +22,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
                 },
             },
         },
+        {
+            url: "https://thieme.io/de/impressum",
+            lastModified: new Date(),
+            alternates: {
+                languages: {
+                    de: "https://thieme.io/de/impressum",
+                    en: "https://thieme.io/en/impressum",
+                },
+            },
+        },
+        {
+            url: "https://thieme.io/en/impressum",
+            lastModified: new Date(),
+            alternates: {
+                languages: {
+                    de: "https://thieme.io/de/impressum",
+                    en: "https://thieme.io/en/impressum",
+                },
+            },
+        },
     ];
 }
