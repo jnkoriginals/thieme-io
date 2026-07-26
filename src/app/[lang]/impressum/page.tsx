@@ -8,7 +8,8 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { lang } = await params;
-    const t = translations[(lang as Lang) in translations ? (lang as Lang) : "de"];
+    const t =
+        translations[(lang as Lang) in translations ? (lang as Lang) : "de"];
 
     return {
         title: `${t.legal.title} — Jannik Thieme`,
@@ -38,12 +39,15 @@ export default async function ImpressumPage({ params }: Props) {
                 <h1 className='text-3xl md:text-4xl font-semibold tracking-tight mb-2'>
                     {l.title}
                 </h1>
-                <p className='text-sm text-neutral-400 mb-16'>{l.lastUpdated}</p>
+                <p className='text-sm text-neutral-400 mb-16'>
+                    {l.lastUpdated}
+                </p>
 
                 <div className='flex flex-col gap-10'>
                     <LegalSection title={l.section1Title}>
                         <p>{l.name}</p>
-                        <p>{l.address}</p>
+                        <p>{l.address1}</p>
+                        <p>{l.address2}</p>
                         <p>{l.city}</p>
                         <p>{l.country}</p>
                     </LegalSection>
