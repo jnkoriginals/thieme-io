@@ -27,6 +27,8 @@ import {
     SiPostgresql,
     SiMongodb,
     SiJest,
+    SiJunit5,
+    SiSwift,
     SiGooglecloud,
     SiNx,
 } from "react-icons/si";
@@ -62,6 +64,7 @@ const skillGroups: { category: string; items: SkillItem[] }[] = [
             { name: "Ionic", icon: SiIonic, color: "#3880FF" },
             { name: "React Native", icon: SiReact, color: "#61DAFB" },
             { name: "Android", icon: SiAndroid, color: "#3DDC84" },
+            { name: "Swift", icon: SiSwift, color: "#F05138" },
             { name: "Capacitor" },
         ],
     },
@@ -110,6 +113,7 @@ const skillGroups: { category: string; items: SkillItem[] }[] = [
         items: [
             { name: "Jest", icon: SiJest, color: "#C21325" },
             { name: "Playwright" },
+            { name: "JUnit", icon: SiJunit5, color: "#25A162" },
         ],
     },
 ];
