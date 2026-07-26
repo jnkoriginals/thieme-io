@@ -25,6 +25,8 @@ import {
     SiStripe,
     SiMysql,
     SiPostgresql,
+    SiMongodb,
+    SiJest,
     SiGooglecloud,
     SiNx,
 } from "react-icons/si";
@@ -74,11 +76,16 @@ const skillGroups: { category: string; items: SkillItem[] }[] = [
         ],
     },
     {
-        category: "DevOps & Cloud",
+        category: "Cloud",
         items: [
             { name: "AWS", icon: FaAws, color: "#FF9900" },
             { name: "Google Cloud", icon: SiGooglecloud, color: "#4285F4" },
             { name: "Firebase", icon: SiFirebase, color: "#FFCA28" },
+        ],
+    },
+    {
+        category: "CI/CD & Containers",
+        items: [
             { name: "Kubernetes", icon: SiKubernetes, color: "#326CE5" },
             { name: "Docker", icon: SiDocker, color: "#2496ED" },
             {
@@ -87,6 +94,22 @@ const skillGroups: { category: string; items: SkillItem[] }[] = [
                 color: "currentColor",
             },
             { name: "GitLab CI", icon: SiGitlab, color: "#FC6D26" },
+        ],
+    },
+    {
+        category: "Databases",
+        items: [
+            { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
+            { name: "MySQL", icon: SiMysql, color: "#4479A1" },
+            { name: "Firestore", icon: SiFirebase, color: "#FFCA28" },
+            { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
+        ],
+    },
+    {
+        category: "Testing",
+        items: [
+            { name: "Jest", icon: SiJest, color: "#C21325" },
+            { name: "Playwright" },
         ],
     },
 ];
