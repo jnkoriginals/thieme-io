@@ -77,6 +77,8 @@ const skillGroups: { category: string; items: SkillItem[] }[] = [
         category: "DevOps & Cloud",
         items: [
             { name: "AWS", icon: FaAws, color: "#FF9900" },
+            { name: "Google Cloud", icon: SiGooglecloud, color: "#4285F4" },
+            { name: "Firebase", icon: SiFirebase, color: "#FFCA28" },
             { name: "Kubernetes", icon: SiKubernetes, color: "#326CE5" },
             { name: "Docker", icon: SiDocker, color: "#2496ED" },
             {
