@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { HiSun, HiMoon } from "react-icons/hi2";
 import { HiBars3, HiXMark } from "react-icons/hi2";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { Lang } from "@/lib/translations";
 
 const navLabels: Record<Lang, { experience: string; projects: string; skills: string; contact: string }> = {
@@ -15,24 +16,29 @@ export function Navbar({ lang }: { lang: Lang }) {
     const { resolvedTheme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => setMounted(true), []);
 
+    const isHome = pathname === `/${lang}`;
+    const sectionPrefix = isHome ? "" : `/${lang}`;
+
     const labels = navLabels[lang];
     const navLinks = [
-        { href: "#experience", label: labels.experience },
-        { href: "#projects", label: labels.projects },
-        { href: "#skills", label: labels.skills },
-        { href: "#contact", label: labels.contact },
+        { href: `${sectionPrefix}#experience`, label: labels.experience },
+        { href: `${sectionPrefix}#projects`, label: labels.projects },
+        { href: `${sectionPrefix}#skills`, label: labels.skills },
+        { href: `${sectionPrefix}#contact`, label: labels.contact },
     ];
     const otherLang: Lang = lang === "de" ? "en" : "de";
+    const otherLangHref = `/${otherLang}${pathname?.replace(new RegExp(`^/${lang}`), "") ?? ""}`;
 
     return (
         <header className="fixed top-0 left-0 right-0 z-50 border-b border-neutral-200/80 dark:border-neutral-800/80 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md">
             <nav className="max-w-5xl mx-auto px-6 md:px-16 lg:px-24 h-14 flex items-center justify-between">
-                <a href="#" className="text-sm font-semibold tracking-tight">
+                <Link href={`/${lang}`} className="text-sm font-semibold tracking-tight">
                     Jannik Thieme
-                </a>
+                </Link>
 
                 {/* Desktop links */}
                 <div className="hidden md:flex items-center gap-8">
@@ -50,7 +56,7 @@ export function Navbar({ lang }: { lang: Lang }) {
                 <div className="flex items-center gap-2">
                     {/* Language switcher */}
                     <Link
-                        href={`/${otherLang}`}
+                        href={otherLangHref}
                         className="text-xs font-medium text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800"
                         aria-label={`Switch to ${otherLang === "en" ? "English" : "Deutsch"}`}
                     >
