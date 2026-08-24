@@ -31,6 +31,7 @@ import {
     SiSwift,
     SiGooglecloud,
     SiNx,
+    SiUnity,
 } from "react-icons/si";
 import { FaJava, FaAws } from "react-icons/fa";
 import type { IconType } from "react-icons";
@@ -162,6 +163,32 @@ const projectStaticData = [
         images: ["/nearby-1.png", "/nearby-2.png", "/nearby-3.png"],
         mobile: true,
         pressUrl: "https://www.edit-magazin.de/tindern-fuer-cafes-co.html",
+    },
+    {
+        name: "Gaia Protocol",
+        tags: [
+            { name: "Unity", icon: SiUnity },
+            { name: "C#" },
+            { name: "Audio Implementation" },
+            { name: "Localization" },
+            { name: "VR" },
+            { name: "Sound Design" },
+        ] as ProjectTag[],
+        logo: {
+            light: "/logo-gaia-protocol.png",
+            dark: "/logo-gaia-protocol.png",
+        },
+        images: [
+            "/gaia-protocol-poster.png",
+            "/gaia-protocol-1.png",
+            "/gaia-protocol-2.png",
+        ],
+        video: "PVTPaY90tQo",
+        mobile: false,
+        pageUrl: "https://dendree.de/de/products/gaia-protocol",
+        soundtrackUrl:
+            "https://soundcloud.com/jnkoriginals/sets/gaia-protocol-original-game",
+        gamescomUrl: "https://www.rawtalentbooth.com/gamescom-2026/game/65/",
     },
 ];
 
@@ -358,6 +385,90 @@ function Projects({
     );
 }
 
+type Slide =
+    | { type: "image"; src: string }
+    | { type: "video"; videoId: string };
+
+function MediaSlideshow({
+    projectName,
+    slides,
+}: {
+    projectName: string;
+    slides: Slide[];
+}) {
+    const [index, setIndex] = useState(0);
+
+    const goTo = (i: number) => setIndex((i + slides.length) % slides.length);
+
+    return (
+        <div className='relative w-full aspect-video rounded-xl overflow-hidden bg-neutral-200 dark:bg-neutral-950 group'>
+            {slides.map((slide, i) => (
+                <div
+                    key={i}
+                    className={`absolute inset-0 transition-opacity duration-300 ${
+                        i === index
+                            ? "opacity-100 z-10"
+                            : "opacity-0 pointer-events-none"
+                    }`}
+                >
+                    {slide.type === "image" ? (
+                        <Image
+                            src={slide.src}
+                            alt={`${projectName} screenshot ${i + 1}`}
+                            fill
+                            className='object-contain'
+                        />
+                    ) : (
+                        <iframe
+                            src={`https://www.youtube-nocookie.com/embed/${slide.videoId}`}
+                            title={`${projectName} gameplay video`}
+                            className='absolute inset-0 w-full h-full'
+                            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                            allowFullScreen
+                        />
+                    )}
+                </div>
+            ))}
+
+            {slides.length > 1 && (
+                <>
+                    <button
+                        type='button'
+                        onClick={() => goTo(index - 1)}
+                        aria-label='Previous slide'
+                        className='absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-white opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity'
+                    >
+                        <ChevronIcon direction='left' />
+                    </button>
+                    <button
+                        type='button'
+                        onClick={() => goTo(index + 1)}
+                        aria-label='Next slide'
+                        className='absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-white opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity'
+                    >
+                        <ChevronIcon direction='right' />
+                    </button>
+                    <div className='absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2'>
+                        {slides.map((_, i) => (
+                            <button
+                                key={i}
+                                type='button'
+                                onClick={() => goTo(i)}
+                                aria-label={`Go to slide ${i + 1}`}
+                                className={`w-2 h-2 rounded-full transition-colors ${
+                                    i === index
+                                        ? "bg-white"
+                                        : "bg-white/40 hover:bg-white/70"
+                                }`}
+                            />
+                        ))}
+                    </div>
+                </>
+            )}
+        </div>
+    );
+}
+
 function ProjectCard({
     project,
     index,
@@ -400,6 +511,9 @@ function ProjectCard({
 
     const liveLabel = lang === "de" ? "Live" : "Live";
     const pressLabel = lang === "de" ? "Presse" : "Press";
+    const pageLabel = lang === "de" ? "Projektseite" : "Project Page";
+    const soundtrackLabel = "Soundtrack";
+    const gamescomLabel = "gamescom 2026";
 
     return (
         <motion.div
@@ -426,6 +540,24 @@ function ProjectCard({
                                 />
                             </div>
                         ))}
+                    </div>
+                ) : "video" in project && project.video ? (
+                    <div className='p-6'>
+                        <MediaSlideshow
+                            projectName={project.name}
+                            slides={[
+                                ...(project.images?.map(
+                                    (src): Slide => ({
+                                        type: "image",
+                                        src,
+                                    })
+                                ) ?? []),
+                                {
+                                    type: "video",
+                                    videoId: project.video,
+                                },
+                            ]}
+                        />
                     </div>
                 ) : (
                     <div className='p-6 flex gap-3 overflow-x-auto scrollbar-none'>
@@ -465,7 +597,11 @@ function ProjectCard({
                     <span className='text-xs text-neutral-400 border border-neutral-200 dark:border-neutral-700 px-2.5 py-0.5 rounded-full'>
                         {project.type}
                     </span>
-                    {("url" in project || "pressUrl" in project) && (
+                    {("url" in project ||
+                        "pressUrl" in project ||
+                        "pageUrl" in project ||
+                        "soundtrackUrl" in project ||
+                        "gamescomUrl" in project) && (
                         <div className='ml-auto flex items-center gap-3'>
                             {"url" in project && project.url && (
                                 <a
@@ -487,6 +623,38 @@ function ProjectCard({
                                     {pressLabel} <ArrowUpRight />
                                 </a>
                             )}
+                            {"pageUrl" in project && project.pageUrl && (
+                                <a
+                                    href={project.pageUrl as string}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    className='inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors'
+                                >
+                                    {pageLabel} <ArrowUpRight />
+                                </a>
+                            )}
+                            {"soundtrackUrl" in project &&
+                                project.soundtrackUrl && (
+                                    <a
+                                        href={project.soundtrackUrl as string}
+                                        target='_blank'
+                                        rel='noopener noreferrer'
+                                        className='inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors'
+                                    >
+                                        {soundtrackLabel} <ArrowUpRight />
+                                    </a>
+                                )}
+                            {"gamescomUrl" in project &&
+                                project.gamescomUrl && (
+                                    <a
+                                        href={project.gamescomUrl as string}
+                                        target='_blank'
+                                        rel='noopener noreferrer'
+                                        className='inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors'
+                                    >
+                                        {gamescomLabel} <ArrowUpRight />
+                                    </a>
+                                )}
                         </div>
                     )}
                 </div>
@@ -704,6 +872,23 @@ function ArrowUpRight() {
             strokeLinejoin='round'
         >
             <path d='M2 8L8 2M8 2H3M8 2V7' />
+        </svg>
+    );
+}
+
+function ChevronIcon({ direction }: { direction: "left" | "right" }) {
+    return (
+        <svg
+            width='16'
+            height='16'
+            viewBox='0 0 16 16'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='2'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+        >
+            <path d={direction === "left" ? "M10 3L5 8L10 13" : "M6 3L11 8L6 13"} />
         </svg>
     );
 }

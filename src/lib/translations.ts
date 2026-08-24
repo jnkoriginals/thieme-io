@@ -70,13 +70,19 @@ export const translations = {
                 name: "Torga",
                 description:
                     "SaaS-Plattform für Handwerksbetriebe — als Soloprojekt entwickelt. Deckt den gesamten Geschäftsprozess ab: von der Erstbesichtigung über Angebote bis zur gesetzeskonformen E-Rechnung (ZUGFeRD / XRechnung). Mit Multi-Tenancy, GPS-Zeiterfassung, Echtzeit-Updates via WebSocket und modularem Feature-Subscription-System.",
-                type: "Eigenprojekt",
+                type: "Auftragsprojekt",
             },
             {
                 name: "nearby",
                 description:
                     "Mobile App gegen die Entscheidungslähmung: Statt langer Listen wird immer nur ein Ort angezeigt — per Swipe (wie bei Tinder) weitergehen oder direkt loslaufen. Für Touristen und Einheimische, nativ auf iOS & Android.",
                 type: "Studienprojekt",
+            },
+            {
+                name: "Gaia Protocol",
+                description:
+                    "Kooperatives 2-Spieler-VR-Survival-Game — verlassene Raketensilos, feindliche KI-Roboter und eine Menschheit auf der Flucht vor einer außer Kontrolle geratenen KI. Mitentwicklung in Unity/C# mit Fokus auf Audio-Systeme und Sprachlokalisierung, sowie vollständiges Sounddesign und Original-Score. Wird 2026 über RAW Talent auf der gamescom ausgestellt.",
+                type: "Team-Projekt · Dendree",
             },
         ],
         contact: {
@@ -192,13 +198,19 @@ export const translations = {
                 name: "Torga",
                 description:
                     "SaaS platform for tradespeople — developed as a solo project. Covers the entire business process: from initial site visits to quotes through to legally compliant e-invoices (ZUGFeRD / XRechnung). With multi-tenancy, GPS time tracking, real-time updates via WebSocket, and a modular feature subscription system.",
-                type: "Personal Project",
+                type: "Client Project",
             },
             {
                 name: "nearby",
                 description:
                     "Mobile app against decision paralysis: instead of long lists, only one place is shown at a time — swipe (like Tinder) to move on or navigate there directly. For tourists and locals alike, native on iOS & Android.",
                 type: "University Project",
+            },
+            {
+                name: "Gaia Protocol",
+                description:
+                    "Cooperative 2-player VR survival game — abandoned rocket silos, hostile AI-controlled robots, and humanity's last stand against a rogue AI. Contributed to development in Unity/C#, focused on audio systems and localization, alongside full sound design and the original score. Being exhibited at gamescom 2026 via RAW Talent.",
+                type: "Team Project · Dendree",
             },
         ],
         contact: {
