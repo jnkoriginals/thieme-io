@@ -188,7 +188,7 @@ const projectStaticData = [
         pageUrl: "https://dendree.de/de/products/gaia-protocol",
         soundtrackUrl:
             "https://soundcloud.com/jnkoriginals/sets/gaia-protocol-original-game",
-        gamescomUrl: "https://www.rawtalentbooth.com/gamescom-2026/game/65/",
+        gamescomUrl: "https://www.gamescom.global/de/product/gaiaprotocol",
     },
 ];
 
