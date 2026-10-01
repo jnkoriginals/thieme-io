@@ -3,9 +3,9 @@ export type Lang = "de" | "en";
 export const translations = {
     de: {
         metadata: {
-            title: "Jannik Thieme",
+            title: "Jannik Thieme – Full-Stack Developer für Web & Mobile",
             description:
-                "Full-Stack Developer — Web & Mobile. Mobile-Medien, HdM Stuttgart.",
+                "Full-Stack Developer aus Stuttgart: Web- und Mobile-Apps mit React, Next.js, Angular und Spring Boot sowie DevOps mit AWS und Kubernetes.",
         },
         nav: {
             experience: "Erfahrung",
@@ -131,9 +131,9 @@ export const translations = {
     },
     en: {
         metadata: {
-            title: "Jannik Thieme",
+            title: "Jannik Thieme – Full-Stack Developer for Web & Mobile",
             description:
-                "Full-Stack Developer — Web & Mobile. Mobile Media, HdM Stuttgart.",
+                "Full-stack developer based in Stuttgart, building web and mobile apps with React, Next.js, Angular and Spring Boot, plus DevOps with AWS and Kubernetes.",
         },
         nav: {
             experience: "Experience",

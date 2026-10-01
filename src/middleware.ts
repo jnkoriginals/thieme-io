@@ -5,10 +5,15 @@ const DEFAULT_LOCALE = 'de';
 
 function getPreferredLocale(request: NextRequest): string {
     const accept = request.headers.get('accept-language') ?? '';
-    const deIdx = accept.indexOf('de');
-    const enIdx = accept.indexOf('en');
-    if (enIdx !== -1 && (deIdx === -1 || enIdx < deIdx)) return 'en';
-    return DEFAULT_LOCALE;
+    const ranked = accept
+        .split(',')
+        .map((part) => {
+            const [tag, q] = part.trim().split(';q=');
+            return { lang: tag.split('-')[0].toLowerCase(), q: q ? parseFloat(q) : 1 };
+        })
+        .sort((a, b) => b.q - a.q);
+    const match = ranked.find((r) => (LOCALES as readonly string[]).includes(r.lang));
+    return match?.lang ?? DEFAULT_LOCALE;
 }
 
 export function middleware(request: NextRequest) {
@@ -18,11 +23,7 @@ export function middleware(request: NextRequest) {
         (l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`)
     );
 
-    if (pathnameLocale) {
-        const response = NextResponse.next();
-        response.headers.set('x-lang', pathnameLocale);
-        return response;
-    }
+    if (pathnameLocale) return NextResponse.next();
 
     const locale = getPreferredLocale(request);
     const redirectPath = pathname === '/' ? '' : pathname;

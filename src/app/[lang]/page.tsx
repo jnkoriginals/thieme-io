@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -37,10 +38,10 @@ import { FaJava, FaAws } from "react-icons/fa";
 import type { IconType } from "react-icons";
 import { translations, type Lang } from "@/lib/translations";
 
+// Hero content stays opaque in the server-rendered HTML (crawlers, LCP); it only slides in.
 const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { y: 20 },
     visible: (i: number = 0) => ({
-        opacity: 1,
         y: 0,
         transition: { delay: i * 0.1, duration: 0.5, ease: "easeOut" },
     }),
@@ -478,32 +479,10 @@ function ProjectCard({
     index: number;
     lang: Lang;
 }) {
-    const [isDark, setIsDark] = useState(false);
-
-    useEffect(() => {
-        const getIsDark = () =>
-            document.documentElement.classList.contains("dark") ||
-            (window.matchMedia?.("(prefers-color-scheme: dark)").matches ??
-                false);
-
-        setIsDark(getIsDark());
-
-        const obs = new MutationObserver(() => setIsDark(getIsDark()));
-        obs.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ["class"],
-        });
-
-        const mql = window.matchMedia?.("(prefers-color-scheme: dark)");
-        const mqHandler = (event: MediaQueryListEvent) =>
-            setIsDark(event.matches);
-        if (mql) mql.addEventListener("change", mqHandler);
-
-        return () => {
-            obs.disconnect();
-            mql?.removeEventListener("change", mqHandler);
-        };
-    }, []);
+    const { resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+    const isDark = mounted && resolvedTheme === "dark";
 
     const logoSrc = isDark
         ? (project.logo?.dark ?? project.logo?.light)
@@ -725,6 +704,7 @@ function Contact({ t }: { t: (typeof translations)[Lang] }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
+    const [website, setWebsite] = useState(""); // honeypot, hidden from humans
     const [status, setStatus] = useState<
         "idle" | "loading" | "success" | "error"
     >("idle");
@@ -736,7 +716,7 @@ function Contact({ t }: { t: (typeof translations)[Lang] }) {
             const res = await fetch("/api/contact", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, email, message }),
+                body: JSON.stringify({ name, email, message, website }),
             });
             if (res.ok) {
                 setStatus("success");
@@ -781,11 +761,17 @@ function Contact({ t }: { t: (typeof translations)[Lang] }) {
                     className='flex-1 flex flex-col gap-4'
                 >
                     <div>
-                        <label className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>
+                        <label
+                            htmlFor='contact-name'
+                            className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>
                             {ct.nameLabel}
                         </label>
                         <input
+                            id='contact-name'
+                            name='name'
                             type='text'
+                            autoComplete='name'
+                            maxLength={100}
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
@@ -794,11 +780,17 @@ function Contact({ t }: { t: (typeof translations)[Lang] }) {
                         />
                     </div>
                     <div>
-                        <label className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>
+                        <label
+                            htmlFor='contact-email'
+                            className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>
                             {ct.emailLabel}
                         </label>
                         <input
+                            id='contact-email'
+                            name='email'
                             type='email'
+                            autoComplete='email'
+                            maxLength={200}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -807,10 +799,15 @@ function Contact({ t }: { t: (typeof translations)[Lang] }) {
                         />
                     </div>
                     <div>
-                        <label className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>
+                        <label
+                            htmlFor='contact-message'
+                            className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>
                             {ct.messageLabel}
                         </label>
                         <textarea
+                            id='contact-message'
+                            name='message'
+                            maxLength={5000}
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                             required
@@ -819,6 +816,16 @@ function Contact({ t }: { t: (typeof translations)[Lang] }) {
                             className='w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:focus:ring-neutral-600 transition resize-none'
                         />
                     </div>
+                    <input
+                        type='text'
+                        name='website'
+                        value={website}
+                        onChange={(e) => setWebsite(e.target.value)}
+                        tabIndex={-1}
+                        autoComplete='off'
+                        aria-hidden='true'
+                        className='hidden'
+                    />
                     <button
                         type='submit'
                         disabled={status === "loading" || status === "success"}

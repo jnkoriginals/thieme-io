@@ -18,10 +18,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             languages: {
                 de: "https://thieme.io/de/impressum",
                 en: "https://thieme.io/en/impressum",
+                "x-default": "https://thieme.io/de/impressum",
             },
         },
         robots: {
-            index: true,
+            index: false,
             follow: true,
         },
     };

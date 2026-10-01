@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
                 languages: {
                     de: "https://thieme.io/de",
                     en: "https://thieme.io/en",
+                    "x-default": "https://thieme.io/de",
                 },
             },
         },
@@ -19,26 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
                 languages: {
                     de: "https://thieme.io/de",
                     en: "https://thieme.io/en",
-                },
-            },
-        },
-        {
-            url: "https://thieme.io/de/impressum",
-            lastModified: new Date(),
-            alternates: {
-                languages: {
-                    de: "https://thieme.io/de/impressum",
-                    en: "https://thieme.io/en/impressum",
-                },
-            },
-        },
-        {
-            url: "https://thieme.io/en/impressum",
-            lastModified: new Date(),
-            alternates: {
-                languages: {
-                    de: "https://thieme.io/de/impressum",
-                    en: "https://thieme.io/en/impressum",
+                    "x-default": "https://thieme.io/de",
                 },
             },
         },
