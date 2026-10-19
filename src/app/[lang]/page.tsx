@@ -135,7 +135,7 @@ const projectStaticData = [
             { name: "NX", icon: SiNx },
             { name: "Vercel", icon: SiVercel },
         ] as ProjectTag[],
-        images: ["/simpli-main.png", "/simpli-dashboard.png", "/simpli-assistant.png"],
+        images: ["/simpli-home.png", "/simpli-editor.png", "/simpli-assistant.png"],
         mobile: false,
         url: "https://simpli.menu",
     },
@@ -394,16 +394,18 @@ type Slide =
 function MediaSlideshow({
     projectName,
     slides,
+    aspectClass = "aspect-video",
 }: {
     projectName: string;
     slides: Slide[];
+    aspectClass?: string;
 }) {
     const [index, setIndex] = useState(0);
 
     const goTo = (i: number) => setIndex((i + slides.length) % slides.length);
 
     return (
-        <div className='relative w-full aspect-video rounded-xl overflow-hidden bg-neutral-200 dark:bg-neutral-950 group'>
+        <div className={`relative w-full ${aspectClass} rounded-xl overflow-hidden bg-neutral-200 dark:bg-neutral-950 group`}>
             {slides.map((slide, i) => (
                 <div
                     key={i}
@@ -450,7 +452,7 @@ function MediaSlideshow({
                     >
                         <ChevronIcon direction='right' />
                     </button>
-                    <div className='absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2'>
+                    <div className='absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-full bg-black/40 px-2.5 py-1.5'>
                         {slides.map((_, i) => (
                             <button
                                 key={i}
@@ -537,6 +539,17 @@ function ProjectCard({
                                     videoId: project.video,
                                 },
                             ]}
+                        />
+                    </div>
+                ) : project.images.length > 1 ? (
+                    <div className='p-6'>
+                        {/* Several desktop screenshots: one at a time, as large as a single image. */}
+                        <MediaSlideshow
+                            projectName={project.name}
+                            aspectClass='aspect-[1324/1028]'
+                            slides={project.images.map(
+                                (src): Slide => ({ type: "image", src })
+                            )}
                         />
                     </div>
                 ) : (
