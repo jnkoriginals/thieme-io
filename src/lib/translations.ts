@@ -63,7 +63,7 @@ export const translations = {
             {
                 name: "Simpli",
                 description:
-                    "SaaS-Plattform für digitale Speisekarten — Restaurants erstellen in Minuten eine QR-Code-Karte, Gäste öffnen sie direkt im Browser ohne App. Mit KI-gestützter Übersetzung in 6 Sprachen, Echtzeit-Updates, Stripe-Abonnements und individuellem QR-Code-Generator.",
+                    "Entstanden bei einem Essen mit Freunden bei einem Italiener in Stuttgart: Hinter dem QR-Code auf dem Tisch steckte eine veraltete PDF-Karte. Mit Simpli laden Restaurants ihre bestehende Karte als PDF oder Foto hoch, die KI macht daraus in Minuten eine digitale Speisekarte, die Gäste direkt im Browser öffnen. Ein KI-Assistent im Dashboard setzt Änderungen per Chat um (Preise, Übersetzungen, Design) und übernimmt sie erst nach Bestätigung. Dazu 6 Sprachen, Echtzeit-Updates, Stripe-Abonnements und ein eigener QR-Code-Generator.",
                 type: "Eigenprojekt",
             },
             {
@@ -191,7 +191,7 @@ export const translations = {
             {
                 name: "Simpli",
                 description:
-                    "SaaS platform for digital menus — restaurants create a QR code menu in minutes, guests open it directly in the browser without an app. With AI-powered translation into 6 languages, real-time updates, Stripe subscriptions, and a custom QR code generator.",
+                    "Born over dinner with friends at an Italian restaurant in Stuttgart, where the QR code on the table led to an outdated PDF menu. With Simpli, restaurants upload their existing menu as a PDF or photo, and AI turns it into a digital menu in minutes that guests open right in the browser. An AI assistant in the dashboard makes changes through chat (prices, translations, design) and applies them only after confirmation. Plus 6 languages, real-time updates, Stripe subscriptions and a custom QR code generator.",
                 type: "Personal Project",
             },
             {
