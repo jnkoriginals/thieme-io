@@ -135,7 +135,7 @@ const projectStaticData = [
             { name: "NX", icon: SiNx },
             { name: "Vercel", icon: SiVercel },
         ] as ProjectTag[],
-        images: ["/simpli-home.png", "/simpli-editor.png", "/simpli-assistant.png"],
+        images: ["/simpli-home.webp", "/simpli-editor.webp", "/simpli-assistant.webp"],
         mobile: false,
         url: "https://simpli.menu",
     },
@@ -546,7 +546,7 @@ function ProjectCard({
                         {/* Several desktop screenshots: one at a time, as large as a single image. */}
                         <MediaSlideshow
                             projectName={project.name}
-                            aspectClass='aspect-[1324/1028]'
+                            aspectClass='aspect-[200/133]'
                             slides={project.images.map(
                                 (src): Slide => ({ type: "image", src })
                             )}
