@@ -1,42 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useTheme } from "next-themes";
+import { useState } from "react";
 import { useParams } from "next/navigation";
-import { motion } from "framer-motion";
+import { MotionConfig, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import {
-    SiReact,
-    SiNextdotjs,
-    SiAngular,
-    SiTypescript,
-    SiTailwindcss,
-    SiIonic,
-    SiAndroid,
-    SiSpring,
-    SiPython,
-    SiNodedotjs,
-    SiDocker,
-    SiKubernetes,
-    SiGithubactions,
-    SiGitlab,
-    SiFirebase,
-    SiVercel,
-    SiStripe,
-    SiMysql,
-    SiPostgresql,
-    SiMongodb,
-    SiJest,
-    SiJunit5,
-    SiSwift,
-    SiGooglecloud,
-    SiGooglegemini,
-    SiNx,
-    SiUnity,
-} from "react-icons/si";
-import { FaJava, FaAws } from "react-icons/fa";
-import type { IconType } from "react-icons";
+import { Footer } from "@/app/components/Footer";
 import { translations, type Lang } from "@/lib/translations";
 
 // Hero content stays opaque in the server-rendered HTML (crawlers, LCP); it only slides in.
@@ -48,134 +17,68 @@ const fadeUp = {
     }),
 };
 
-type SkillItem = { name: string; icon?: IconType; color?: string };
+// indigo-600 keeps white text above 4.5:1, so hover goes darker rather than lighter.
+const primaryButton =
+    "inline-flex h-11 items-center rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700";
 
-const skillGroups: { category: string; items: SkillItem[] }[] = [
+const skillGroups: { category: string; items: string[] }[] = [
     {
         category: "Frontend",
-        items: [
-            { name: "React", icon: SiReact, color: "#61DAFB" },
-            { name: "Next.js", icon: SiNextdotjs, color: "currentColor" },
-            { name: "Angular", icon: SiAngular, color: "#DD0031" },
-            { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
-            { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
-        ],
+        items: ["React", "Next.js", "Angular", "TypeScript"],
     },
     {
         category: "Mobile",
-        items: [
-            { name: "Ionic", icon: SiIonic, color: "#3880FF" },
-            { name: "React Native", icon: SiReact, color: "#61DAFB" },
-            { name: "Android", icon: SiAndroid, color: "#3DDC84" },
-            { name: "Swift", icon: SiSwift, color: "#F05138" },
-            { name: "Capacitor" },
-        ],
+        items: ["Swift", "Ionic", "Capacitor"],
     },
     {
         category: "Backend",
-        items: [
-            { name: "Java", icon: FaJava, color: "#F89820" },
-            { name: "Spring Boot", icon: SiSpring, color: "#6DB33F" },
-            { name: "C#" },
-            { name: "Python", icon: SiPython, color: "#3776AB" },
-            { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
-        ],
+        items: ["Node.js", "Spring Boot", "Python"],
     },
     {
-        category: "Cloud",
-        items: [
-            { name: "AWS", icon: FaAws, color: "#FF9900" },
-            { name: "Google Cloud", icon: SiGooglecloud, color: "#4285F4" },
-            { name: "Firebase", icon: SiFirebase, color: "#FFCA28" },
-        ],
-    },
-    {
-        category: "CI/CD & Containers",
-        items: [
-            { name: "Kubernetes", icon: SiKubernetes, color: "#326CE5" },
-            { name: "Docker", icon: SiDocker, color: "#2496ED" },
-            {
-                name: "GitHub Actions",
-                icon: SiGithubactions,
-                color: "currentColor",
-            },
-            { name: "GitLab CI", icon: SiGitlab, color: "#FC6D26" },
-        ],
-    },
-    {
-        category: "Databases",
-        items: [
-            { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
-            { name: "MySQL", icon: SiMysql, color: "#4479A1" },
-            { name: "Firestore", icon: SiFirebase, color: "#FFCA28" },
-            { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
-        ],
-    },
-    {
-        category: "Testing",
-        items: [
-            { name: "Jest", icon: SiJest, color: "#C21325" },
-            { name: "Playwright" },
-            { name: "JUnit", icon: SiJunit5, color: "#25A162" },
-        ],
+        category: "Infrastructure",
+        items: ["Firebase", "PostgreSQL", "AWS", "Docker", "Kubernetes"],
     },
 ];
-
-type ProjectTag = { name: string; icon?: IconType };
 
 const projectStaticData = [
     {
         name: "Simpli",
-        tags: [
-            { name: "Next.js 14", icon: SiNextdotjs },
-            { name: "React", icon: SiReact },
-            { name: "Firebase", icon: SiFirebase },
-            { name: "Gemini", icon: SiGooglegemini },
-            { name: "Stripe", icon: SiStripe },
-            { name: "NX", icon: SiNx },
-            { name: "Vercel", icon: SiVercel },
-        ] as ProjectTag[],
+        tags: ["Next.js 14", "React", "Firebase", "Gemini", "Stripe", "NX", "Vercel"],
+        logo: {
+            light: "/logo-simpli-dark.svg",
+            dark: "/logo-simpli-light.svg",
+        },
         images: ["/simpli-home.webp", "/simpli-editor.webp", "/simpli-assistant.webp"],
         mobile: false,
         url: "https://simpli.menu",
+        demoUrl: "https://dashboard.simpli.menu/demo",
+        caseStudyPath: "work/simpli",
     },
     {
         name: "Torga",
-        tags: [
-            { name: "Java 21", icon: FaJava },
-            { name: "Spring Boot 3.5", icon: SiSpring },
-            { name: "React 18", icon: SiReact },
-            { name: "MySQL", icon: SiMysql },
-            { name: "PostgreSQL", icon: SiPostgresql },
-            { name: "Docker", icon: SiDocker },
-        ] as ProjectTag[],
+        tags: ["Java 21", "Spring Boot 3.5", "React 18", "MySQL", "PostgreSQL", "Docker"],
         logo: { light: "/logo-torga.png", dark: "/logo-torga.png" },
         images: ["/torga.png"],
         mobile: false,
     },
     {
         name: "nearby",
-        tags: [
-            { name: "Ionic", icon: SiIonic },
-            { name: "React", icon: SiReact },
-            { name: "TypeScript", icon: SiTypescript },
-            { name: "Capacitor" },
-        ] as ProjectTag[],
+        tags: ["Ionic", "React", "TypeScript", "Capacitor"],
         logo: { light: "/logo-nearby.svg", dark: "/logo-nearby.svg" },
         images: ["/nearby-1.png", "/nearby-2.png", "/nearby-3.png"],
         mobile: true,
         pressUrl: "https://www.edit-magazin.de/tindern-fuer-cafes-co.html",
     },
     {
+        name: "Perky",
+        tags: ["Next.js", "TypeScript", "Express", "PostgreSQL", "Socket.IO", "Docker"],
+        images: ["/perky-1.webp", "/perky-2.webp", "/perky-3.webp"],
+        mobile: true,
+        framed: true,
+    },
+    {
         name: "Gaia Protocol",
-        tags: [
-            { name: "Unity", icon: SiUnity },
-            { name: "C#" },
-            { name: "Audio Implementation" },
-            { name: "Localization" },
-            { name: "VR" },
-            { name: "Sound Design" },
-        ] as ProjectTag[],
+        tags: ["Unity", "C#", "Audio Implementation", "Localization", "VR", "Sound Design"],
         logo: {
             light: "/logo-gaia-protocol.png",
             dark: "/logo-gaia-protocol.png",
@@ -209,32 +112,34 @@ export default function Home() {
     }));
 
     return (
-        <main className='min-h-screen bg-[var(--background)] text-[var(--foreground)]'>
-            <Hero t={t} />
-            <Experience t={t} />
-            <Projects
-                projects={projects}
-                sectionLabel={t.sections.projects}
-                lang={lang}
-            />
-            <Skills sectionLabel={t.sections.skills} />
-            <Contact t={t} />
-            <Footer footer={t.footer} lang={lang} />
-        </main>
+        <MotionConfig reducedMotion='user'>
+            <main className='min-h-screen'>
+                <Hero t={t} />
+                <Experience t={t} />
+                <Projects
+                    projects={projects}
+                    sectionLabel={t.sections.projects}
+                    lang={lang}
+                />
+                <Skills sectionLabel={t.sections.skills} />
+                <Contact t={t} />
+                <Footer footer={t.footer} lang={lang} />
+            </main>
+        </MotionConfig>
     );
 }
 
 function Hero({ t }: { t: (typeof translations)[Lang] }) {
     return (
-        <section className='min-h-[100dvh] flex flex-col justify-center pt-14 px-6 md:px-16 lg:px-24 max-w-5xl mx-auto'>
-            <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-12'>
-                <div className='flex-1'>
+        <section className='page-shell flex min-h-[92dvh] flex-col justify-center pb-16 pt-28'>
+            <div className='page-grid items-center gap-y-12'>
+                <div className='md:col-span-8'>
                     <motion.p
                         initial='hidden'
                         animate='visible'
                         variants={fadeUp}
                         custom={0}
-                        className='text-xs uppercase tracking-[0.2em] text-neutral-400 mb-8'
+                        className='mb-6 text-sm text-zinc-400 md:text-base'
                     >
                         {t.hero.subtitle}
                     </motion.p>
@@ -243,7 +148,7 @@ function Hero({ t }: { t: (typeof translations)[Lang] }) {
                         animate='visible'
                         variants={fadeUp}
                         custom={1}
-                        className='text-6xl md:text-7xl lg:text-[6rem] font-semibold tracking-tight leading-[1.05] mb-8'
+                        className='mb-8 text-6xl font-bold leading-[1] tracking-[-0.045em] text-zinc-50 md:text-8xl lg:text-[7.5rem]'
                     >
                         Jannik
                         <br />
@@ -254,7 +159,7 @@ function Hero({ t }: { t: (typeof translations)[Lang] }) {
                         animate='visible'
                         variants={fadeUp}
                         custom={2}
-                        className='text-base md:text-lg text-neutral-500 dark:text-neutral-400 max-w-md mb-12 leading-relaxed'
+                        className='mb-10 max-w-lg text-lg leading-relaxed text-zinc-300 md:text-xl'
                     >
                         {t.hero.description}
                     </motion.p>
@@ -265,15 +170,12 @@ function Hero({ t }: { t: (typeof translations)[Lang] }) {
                         custom={3}
                         className='flex flex-wrap gap-3'
                     >
-                        <a
-                            href='#projects'
-                            className='px-5 py-2.5 bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-medium rounded-full hover:opacity-75 transition-opacity'
-                        >
+                        <a href='#projects' className={primaryButton}>
                             {t.hero.ctaProjects}
                         </a>
                         <a
                             href='#contact'
-                            className='px-5 py-2.5 border border-neutral-300 dark:border-neutral-700 text-sm font-medium rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors'
+                            className='inline-flex h-11 items-center rounded-xl border border-zinc-700 px-5 text-sm font-semibold text-zinc-100 transition-colors hover:border-zinc-500 hover:bg-zinc-900'
                         >
                             {t.hero.ctaContact}
                         </a>
@@ -285,15 +187,15 @@ function Hero({ t }: { t: (typeof translations)[Lang] }) {
                     animate='visible'
                     variants={fadeUp}
                     custom={2}
-                    className='shrink-0 flex justify-center md:justify-end'
+                    className='md:col-span-4 md:justify-self-end'
                 >
-                    <div className='w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden border border-neutral-200 dark:border-neutral-800'>
+                    <div className='h-40 w-40 overflow-hidden rounded-3xl md:h-56 md:w-56 lg:h-72 lg:w-72'>
                         <Image
                             src='/avatar.png'
                             alt='Jannik Thieme'
-                            width={256}
-                            height={256}
-                            className='w-full h-full object-cover'
+                            width={288}
+                            height={288}
+                            className='h-full w-full object-cover'
                             priority
                         />
                     </div>
@@ -305,50 +207,56 @@ function Hero({ t }: { t: (typeof translations)[Lang] }) {
 
 function Experience({ t }: { t: (typeof translations)[Lang] }) {
     return (
-        <section
-            id='experience'
-            className='px-6 md:px-16 lg:px-24 max-w-5xl mx-auto py-24 md:py-32'
-        >
+        <section id='experience' className='page-shell py-20 md:py-28'>
             <SectionLabel label={t.sections.experience} />
-            <div className='flex flex-col gap-4'>
-                {t.experience.map((job, i) => (
-                    <motion.div
-                        key={`${job.company}-${job.role}`}
-                        initial={{ opacity: 0, y: 16 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-60px" }}
-                        transition={{ duration: 0.45, delay: i * 0.05 }}
-                        className='border border-neutral-200 dark:border-neutral-800 rounded-2xl p-8 md:p-10 bg-white dark:bg-neutral-900/30 shadow-sm'
-                    >
-                        <div className='flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4'>
-                            <div>
-                                <h3 className='text-xl font-semibold'>
+            <ol>
+                {t.experience.map((job, i) => {
+                    const current = /^(current|aktuell)$/i.test(job.period);
+                    const dot = `absolute top-1.5 h-2.5 w-2.5 rounded-full ring-4 ring-zinc-950 ${current ? "bg-indigo-400" : "bg-zinc-600"}`;
+                    const last = i === t.experience.length - 1;
+
+                    return (
+                        <motion.li
+                            key={`${job.company}-${job.role}`}
+                            initial={{ opacity: 0, y: 16 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-60px" }}
+                            transition={{ duration: 0.45, delay: i * 0.05 }}
+                            className={`page-grid relative border-l border-zinc-800 pl-6 md:border-l-0 md:pl-0 ${last ? "" : "pb-12 md:pb-0"}`}
+                        >
+                            <span
+                                aria-hidden='true'
+                                className={`${dot} -left-[5px] md:hidden`}
+                            />
+                            <p
+                                className={`mb-2 text-sm tabular-nums md:col-span-3 md:mb-0 md:pt-1 ${current ? "font-medium text-indigo-400" : "text-zinc-400"}`}
+                            >
+                                {job.period}
+                            </p>
+                            <div
+                                className={`relative md:col-span-9 md:border-l md:border-zinc-800 md:pl-10 ${last ? "" : "md:pb-16"}`}
+                            >
+                                <span
+                                    aria-hidden='true'
+                                    className={`${dot} -left-[5px] hidden md:block`}
+                                />
+                                <h3 className='text-xl font-semibold tracking-[-0.02em] text-zinc-50 md:text-2xl'>
                                     {job.role}
                                 </h3>
-                                <p className='text-neutral-500 dark:text-neutral-400 text-sm mt-1'>
+                                <p className='mt-1 text-sm text-zinc-400 md:text-base'>
                                     {job.company}
                                 </p>
+                                <p className='mt-4 max-w-2xl leading-relaxed text-zinc-300'>
+                                    {job.description}
+                                </p>
+                                <p className='mt-4 text-sm text-zinc-400'>
+                                    {job.tags.join(" · ")}
+                                </p>
                             </div>
-                            <span className='text-xs text-neutral-400 border border-neutral-200 dark:border-neutral-700 px-2.5 py-0.5 rounded-full self-start shrink-0'>
-                                {job.period}
-                            </span>
-                        </div>
-                        <p className='text-neutral-500 dark:text-neutral-400 text-sm md:text-base max-w-2xl mb-6 leading-relaxed'>
-                            {job.description}
-                        </p>
-                        <div className='flex flex-wrap gap-2'>
-                            {job.tags.map((tag) => (
-                                <span
-                                    key={tag}
-                                    className='text-xs bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 px-3 py-1 rounded-full'
-                                >
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
-                    </motion.div>
-                ))}
-            </div>
+                        </motion.li>
+                    );
+                })}
+            </ol>
         </section>
     );
 }
@@ -368,12 +276,9 @@ function Projects({
     lang: Lang;
 }) {
     return (
-        <section
-            id='projects'
-            className='px-6 md:px-16 lg:px-24 max-w-5xl mx-auto py-24 md:py-32'
-        >
+        <section id='projects' className='page-shell py-20 md:py-28'>
             <SectionLabel label={sectionLabel} />
-            <div className='flex flex-col gap-6'>
+            <div className='flex flex-col gap-20 md:gap-32'>
                 {projects.map((project, i) => (
                     <ProjectCard
                         key={project.name}
@@ -394,25 +299,25 @@ type Slide =
 function MediaSlideshow({
     projectName,
     slides,
-    aspectClass = "aspect-video",
 }: {
     projectName: string;
     slides: Slide[];
-    aspectClass?: string;
 }) {
     const [index, setIndex] = useState(0);
 
     const goTo = (i: number) => setIndex((i + slides.length) % slides.length);
+    const arrow =
+        "absolute top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-zinc-950/70 text-zinc-50 opacity-0 transition-opacity hover:bg-zinc-950 focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100";
 
     return (
-        <div className={`relative w-full ${aspectClass} rounded-xl overflow-hidden bg-neutral-200 dark:bg-neutral-950 group`}>
+        <div className='group absolute inset-0'>
             {slides.map((slide, i) => (
                 <div
                     key={i}
                     className={`absolute inset-0 transition-opacity duration-300 ${
                         i === index
-                            ? "opacity-100 z-10"
-                            : "opacity-0 pointer-events-none"
+                            ? "z-10 opacity-100"
+                            : "pointer-events-none opacity-0"
                     }`}
                 >
                     {slide.type === "image" ? (
@@ -420,13 +325,14 @@ function MediaSlideshow({
                             src={slide.src}
                             alt={`${projectName} screenshot ${i + 1}`}
                             fill
-                            className='object-contain'
+                            sizes='(max-width: 768px) 100vw, 1072px'
+                            className='object-cover object-top'
                         />
                     ) : (
                         <iframe
                             src={`https://www.youtube-nocookie.com/embed/${slide.videoId}`}
                             title={`${projectName} gameplay video`}
-                            className='absolute inset-0 w-full h-full'
+                            className='absolute inset-0 h-full w-full'
                             allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
                             allowFullScreen
                         />
@@ -440,7 +346,7 @@ function MediaSlideshow({
                         type='button'
                         onClick={() => goTo(index - 1)}
                         aria-label='Previous slide'
-                        className='absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-white opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity'
+                        className={`${arrow} left-3`}
                     >
                         <ChevronIcon direction='left' />
                     </button>
@@ -448,23 +354,28 @@ function MediaSlideshow({
                         type='button'
                         onClick={() => goTo(index + 1)}
                         aria-label='Next slide'
-                        className='absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-white opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity'
+                        className={`${arrow} right-3`}
                     >
                         <ChevronIcon direction='right' />
                     </button>
-                    <div className='absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-full bg-black/40 px-2.5 py-1.5'>
+                    <div className='absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center rounded-full bg-zinc-950/70 px-1'>
                         {slides.map((_, i) => (
                             <button
                                 key={i}
                                 type='button'
                                 onClick={() => goTo(i)}
                                 aria-label={`Go to slide ${i + 1}`}
-                                className={`w-2 h-2 rounded-full transition-colors ${
-                                    i === index
-                                        ? "bg-white"
-                                        : "bg-white/40 hover:bg-white/70"
-                                }`}
-                            />
+                                aria-current={i === index ? "true" : undefined}
+                                className='group/dot flex h-7 w-6 items-center justify-center rounded-full'
+                            >
+                                <span
+                                    className={`h-2 w-2 rounded-full transition-colors ${
+                                        i === index
+                                            ? "bg-zinc-50"
+                                            : "bg-zinc-50/40 group-hover/dot:bg-zinc-50/70"
+                                    }`}
+                                />
+                            </button>
                         ))}
                     </div>
                 </>
@@ -482,204 +393,167 @@ function ProjectCard({
     index: number;
     lang: Lang;
 }) {
-    const { resolvedTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
-    useEffect(() => setMounted(true), []);
-    const isDark = mounted && resolvedTheme === "dark";
+    const logoSrc = project.logo?.dark ?? project.logo?.light;
 
-    const logoSrc = isDark
-        ? (project.logo?.dark ?? project.logo?.light)
-        : (project.logo?.light ?? project.logo?.dark);
-
-    const liveLabel = lang === "de" ? "Live" : "Live";
-    const pressLabel = lang === "de" ? "Presse" : "Press";
-    const pageLabel = lang === "de" ? "Projektseite" : "Project Page";
-    const soundtrackLabel = "Soundtrack";
-    const gamescomLabel = "gamescom 2026";
+    const {
+        url,
+        demoUrl,
+        pressUrl,
+        pageUrl,
+        soundtrackUrl,
+        gamescomUrl,
+        caseStudyPath,
+    } =
+        project as Project &
+            Partial<
+                Record<
+                    | "caseStudyPath"
+                    | "url"
+                    | "demoUrl"
+                    | "pressUrl"
+                    | "pageUrl"
+                    | "soundtrackUrl"
+                    | "gamescomUrl",
+                    string
+                >
+            >;
+    const links = [
+        { href: url, label: "Live" },
+        { href: demoUrl, label: "Demo" },
+        { href: pressUrl, label: lang === "de" ? "Presse" : "Press" },
+        {
+            href: pageUrl,
+            label: lang === "de" ? "Projektseite" : "Project Page",
+        },
+        { href: soundtrackUrl, label: "Soundtrack" },
+        { href: gamescomUrl, label: "gamescom 2026" },
+    ].filter((link) => link.href);
+    const framed = "framed" in project && project.framed;
+    // The first project is the flagship and gets more visual weight.
+    const featured = index === 0;
+    const linkClass =
+        "group/link inline-flex items-center gap-1.5 py-1 text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300";
 
     return (
-        <motion.div
+        <motion.article
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.45, delay: index * 0.05 }}
-            className='border border-neutral-200 dark:border-neutral-800 rounded-2xl overflow-hidden shadow-sm bg-white dark:bg-neutral-900/30'
         >
-            <div className='bg-neutral-100 dark:bg-neutral-900'>
-                {project.mobile ? (
-                    <div className='px-6 pt-8 pb-8 flex gap-4 overflow-x-auto justify-start md:justify-center scrollbar-none'>
+            {/* Every project sits in the same media frame. */}
+            {project.mobile ? (
+                <div className='relative overflow-hidden rounded-2xl bg-zinc-900 md:aspect-[16/10]'>
+                    <div className='scrollbar-none flex h-full items-center justify-start gap-4 overflow-x-auto px-6 py-8 md:justify-center md:gap-8'>
                         {project.images?.map((src, i) => (
                             <div
                                 key={i}
-                                className='w-28 md:w-36 rounded-xl overflow-hidden shrink-0'
+                                className={`shrink-0 overflow-hidden ${framed ? "w-[98px] rounded-[1.5rem] border-[5px] border-neutral-700 bg-black md:w-[154px] md:rounded-[2rem] md:border-[6px] lg:w-[196px] lg:rounded-[2.5rem] lg:border-[8px]" : "w-28 rounded-xl md:w-44 lg:w-56"}`}
                             >
                                 <Image
                                     src={src}
                                     alt={`${project.name} screenshot ${i + 1}`}
-                                    width={144}
-                                    height={300}
-                                    className='w-full h-auto object-cover'
+                                    width={224}
+                                    height={466}
+                                    sizes='(max-width: 768px) 112px, 224px'
+                                    className='h-auto w-full object-cover'
                                 />
                             </div>
                         ))}
                     </div>
-                ) : "video" in project && project.video ? (
-                    <div className='p-6'>
-                        <MediaSlideshow
-                            projectName={project.name}
-                            slides={[
-                                ...(project.images?.map(
-                                    (src): Slide => ({
-                                        type: "image",
-                                        src,
-                                    })
-                                ) ?? []),
-                                {
-                                    type: "video",
-                                    videoId: project.video,
-                                },
-                            ]}
-                        />
-                    </div>
-                ) : project.images.length > 1 ? (
-                    <div className='p-6'>
-                        {/* Several desktop screenshots: one at a time, as large as a single image. */}
-                        <MediaSlideshow
-                            projectName={project.name}
-                            aspectClass='aspect-[200/133]'
-                            slides={project.images.map(
+                </div>
+            ) : (
+                <div className='relative aspect-[16/10] overflow-hidden rounded-2xl bg-zinc-900'>
+                    <MediaSlideshow
+                        projectName={project.name}
+                        slides={[
+                            ...project.images.map(
                                 (src): Slide => ({ type: "image", src })
-                            )}
-                        />
-                    </div>
-                ) : (
-                    <div className='p-6 flex gap-3 overflow-x-auto scrollbar-none'>
-                        {project.images?.map((src, i) => (
+                            ),
+                            ...("video" in project && project.video
+                                ? [
+                                      {
+                                          type: "video" as const,
+                                          videoId: project.video,
+                                      },
+                                  ]
+                                : []),
+                        ]}
+                    />
+                </div>
+            )}
+
+            <div className='page-grid mt-6 gap-y-5 md:mt-8'>
+                <div className='md:col-span-3'>
+                    <div className='flex items-center gap-3'>
+                        {logoSrc && (
                             <div
-                                key={i}
-                                className={`rounded-xl overflow-hidden shrink-0 ${project.images.length === 1 ? "w-full" : "w-4/5 md:flex-1 md:w-auto"}`}
+                                className={`relative shrink-0 ${featured ? "h-10 w-24" : "h-8 w-8"}`}
                             >
                                 <Image
-                                    src={src}
-                                    alt={`${project.name} screenshot ${i + 1}`}
-                                    width={800}
-                                    height={500}
-                                    className='w-full h-auto object-cover'
+                                    src={logoSrc}
+                                    alt={`${project.name} logo`}
+                                    fill
+                                    className='object-contain object-left'
                                 />
                             </div>
-                        ))}
-                    </div>
-                )}
-            </div>
-
-            <div className='p-8 md:p-10'>
-                <div className='flex items-center gap-3 mb-3'>
-                    {logoSrc && (
-                        <div className='w-7 h-7 relative shrink-0'>
-                            <Image
-                                src={logoSrc}
-                                alt={`${project.name} logo`}
-                                fill
-                                className='object-contain'
-                            />
-                        </div>
-                    )}
-                    <h3 className='text-xl md:text-2xl font-semibold'>
-                        {project.name}
-                    </h3>
-                    <span className='text-xs text-neutral-400 border border-neutral-200 dark:border-neutral-700 px-2.5 py-0.5 rounded-full'>
-                        {project.type}
-                    </span>
-                    {("url" in project ||
-                        "pressUrl" in project ||
-                        "pageUrl" in project ||
-                        "soundtrackUrl" in project ||
-                        "gamescomUrl" in project) && (
-                        <div className='ml-auto flex items-center gap-3'>
-                            {"url" in project && project.url && (
-                                <a
-                                    href={project.url as string}
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    className='inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors'
-                                >
-                                    {liveLabel} <ArrowUpRight />
-                                </a>
-                            )}
-                            {"pressUrl" in project && project.pressUrl && (
-                                <a
-                                    href={project.pressUrl as string}
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    className='inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors'
-                                >
-                                    {pressLabel} <ArrowUpRight />
-                                </a>
-                            )}
-                            {"pageUrl" in project && project.pageUrl && (
-                                <a
-                                    href={project.pageUrl as string}
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    className='inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors'
-                                >
-                                    {pageLabel} <ArrowUpRight />
-                                </a>
-                            )}
-                            {"soundtrackUrl" in project &&
-                                project.soundtrackUrl && (
-                                    <a
-                                        href={project.soundtrackUrl as string}
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        className='inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors'
-                                    >
-                                        {soundtrackLabel} <ArrowUpRight />
-                                    </a>
-                                )}
-                            {"gamescomUrl" in project &&
-                                project.gamescomUrl && (
-                                    <a
-                                        href={project.gamescomUrl as string}
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        className='inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors'
-                                    >
-                                        {gamescomLabel} <ArrowUpRight />
-                                    </a>
-                                )}
-                        </div>
-                    )}
-                </div>
-                <p className='text-neutral-500 dark:text-neutral-400 text-sm md:text-base max-w-2xl mb-6 leading-relaxed'>
-                    {project.description}
-                </p>
-                <div className='flex flex-wrap gap-2'>
-                    {project.tags.map((tag) => (
-                        <span
-                            key={tag.name}
-                            className='inline-flex items-center gap-1.5 text-xs bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 px-3 py-1.5 rounded-full'
+                        )}
+                        {/* Simpli's logo is a wordmark, so the name would repeat it. */}
+                        <h3
+                            className={
+                                featured
+                                    ? "sr-only"
+                                    : "text-2xl font-bold tracking-[-0.03em] text-zinc-50"
+                            }
                         >
-                            {tag.icon && (
-                                <tag.icon className='w-3 h-3 shrink-0' />
+                            {project.name}
+                        </h3>
+                    </div>
+                    <p className='mt-2 text-sm text-zinc-400'>{project.type}</p>
+                    {links.length > 0 && (
+                        <div className='mt-3 flex flex-wrap gap-x-4 md:flex-col md:items-start'>
+                            {caseStudyPath && (
+                                <Link
+                                    href={`/${lang}/${caseStudyPath}`}
+                                    className={linkClass}
+                                >
+                                    Case Study <ArrowUpRight />
+                                </Link>
                             )}
-                            {tag.name}
-                        </span>
-                    ))}
+                            {links.map((link) => (
+                                <a
+                                    key={link.label}
+                                    href={link.href}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    className={linkClass}
+                                >
+                                    {link.label} <ArrowUpRight />
+                                </a>
+                            ))}
+                        </div>
+                    )}
+                </div>
+                <div className='md:col-span-9'>
+                    <p
+                        className={`max-w-2xl leading-relaxed ${featured ? "text-lg text-zinc-100 md:text-xl" : "text-base text-zinc-300 md:text-lg"}`}
+                    >
+                        {project.description}
+                    </p>
+                    <p className='mt-4 text-sm text-zinc-400'>
+                        {project.tags.join(" · ")}
+                    </p>
                 </div>
             </div>
-        </motion.div>
+        </motion.article>
     );
 }
 
 function Skills({ sectionLabel }: { sectionLabel: string }) {
     return (
-        <section
-            id='skills'
-            className='px-6 md:px-16 lg:px-24 max-w-5xl mx-auto py-24 md:py-32'
-        >
+        <section id='skills' className='page-shell py-20 md:py-28'>
             <SectionLabel label={sectionLabel} />
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
+            <dl className='border-b border-zinc-800'>
                 {skillGroups.map((group, i) => (
                     <motion.div
                         key={group.category}
@@ -687,29 +561,17 @@ function Skills({ sectionLabel }: { sectionLabel: string }) {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-40px" }}
                         transition={{ duration: 0.4, delay: i * 0.08 }}
+                        className='page-grid gap-y-1 border-t border-zinc-800 py-5'
                     >
-                        <p className='text-xs font-semibold uppercase tracking-[0.15em] text-neutral-400 mb-4'>
+                        <dt className='text-sm text-zinc-400 md:col-span-3 md:pt-1'>
                             {group.category}
-                        </p>
-                        <div className='flex flex-wrap gap-2'>
-                            {group.items.map((skill) => (
-                                <div
-                                    key={skill.name}
-                                    className='inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/50 text-sm text-neutral-700 dark:text-neutral-300 shadow-sm'
-                                >
-                                    {skill.icon && (
-                                        <skill.icon
-                                            className='w-4 h-4 shrink-0'
-                                            style={{ color: skill.color }}
-                                        />
-                                    )}
-                                    {skill.name}
-                                </div>
-                            ))}
-                        </div>
+                        </dt>
+                        <dd className='text-lg text-zinc-100 md:col-span-9'>
+                            {group.items.join(", ")}
+                        </dd>
                     </motion.div>
                 ))}
-            </div>
+            </dl>
         </section>
     );
 }
@@ -745,26 +607,28 @@ function Contact({ t }: { t: (typeof translations)[Lang] }) {
     }
 
     const ct = t.contact;
+    const fieldClass =
+        "w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-sm text-zinc-50 placeholder-zinc-400 transition-colors hover:border-zinc-500";
+    const labelClass = "mb-2 block text-sm text-zinc-400";
 
     return (
-        <section
-            id='contact'
-            className='px-6 md:px-16 lg:px-24 max-w-5xl mx-auto py-24 md:py-32'
-        >
+        <section id='contact' className='page-shell py-20 md:py-28'>
             <SectionLabel label={t.sections.contact} />
-            <div className='flex flex-col md:flex-row md:items-start md:justify-between gap-12'>
-                <div className='md:max-w-sm'>
-                    <h2 className='text-3xl md:text-4xl font-semibold tracking-tight mb-4'>
+            <div className='page-grid gap-y-8'>
+                <div className='md:col-span-9 md:col-start-4 md:row-start-1'>
+                    <h3 className='mb-4 text-3xl font-bold tracking-[-0.03em] text-zinc-50 md:text-5xl'>
                         {ct.heading}
-                    </h2>
-                    <p className='text-neutral-500 dark:text-neutral-400 text-sm leading-relaxed mb-8'>
+                    </h3>
+                    <p className='max-w-xl leading-relaxed text-zinc-300'>
                         {ct.subtext}
                     </p>
+                </div>
+                <div className='md:col-span-3 md:col-start-1 md:row-start-1 md:pt-3'>
                     <a
                         href='https://www.linkedin.com/in/jannik-thieme-51878a354/'
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='text-sm font-medium underline underline-offset-4 decoration-neutral-300 dark:decoration-neutral-600 hover:decoration-neutral-900 dark:hover:decoration-neutral-100 transition-colors'
+                        className='py-1 text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300'
                     >
                         LinkedIn ↗
                     </a>
@@ -772,50 +636,46 @@ function Contact({ t }: { t: (typeof translations)[Lang] }) {
 
                 <form
                     onSubmit={handleSubmit}
-                    className='flex-1 flex flex-col gap-4'
+                    className='flex max-w-2xl flex-col gap-4 md:col-span-9 md:col-start-4'
                 >
-                    <div>
-                        <label
-                            htmlFor='contact-name'
-                            className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>
-                            {ct.nameLabel}
-                        </label>
-                        <input
-                            id='contact-name'
-                            name='name'
-                            type='text'
-                            autoComplete='name'
-                            maxLength={100}
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                            placeholder={ct.namePlaceholder}
-                            className='w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:focus:ring-neutral-600 transition'
-                        />
+                    <div className='grid gap-4 sm:grid-cols-2'>
+                        <div>
+                            <label htmlFor='contact-name' className={labelClass}>
+                                {ct.nameLabel}
+                            </label>
+                            <input
+                                id='contact-name'
+                                name='name'
+                                type='text'
+                                autoComplete='name'
+                                maxLength={100}
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                                placeholder={ct.namePlaceholder}
+                                className={fieldClass}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor='contact-email' className={labelClass}>
+                                {ct.emailLabel}
+                            </label>
+                            <input
+                                id='contact-email'
+                                name='email'
+                                type='email'
+                                autoComplete='email'
+                                maxLength={200}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                placeholder={ct.emailPlaceholder}
+                                className={fieldClass}
+                            />
+                        </div>
                     </div>
                     <div>
-                        <label
-                            htmlFor='contact-email'
-                            className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>
-                            {ct.emailLabel}
-                        </label>
-                        <input
-                            id='contact-email'
-                            name='email'
-                            type='email'
-                            autoComplete='email'
-                            maxLength={200}
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            placeholder={ct.emailPlaceholder}
-                            className='w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:focus:ring-neutral-600 transition'
-                        />
-                    </div>
-                    <div>
-                        <label
-                            htmlFor='contact-message'
-                            className='block text-xs uppercase tracking-[0.15em] text-neutral-400 mb-2'>
+                        <label htmlFor='contact-message' className={labelClass}>
                             {ct.messageLabel}
                         </label>
                         <textarea
@@ -827,7 +687,7 @@ function Contact({ t }: { t: (typeof translations)[Lang] }) {
                             required
                             rows={5}
                             placeholder={ct.messagePlaceholder}
-                            className='w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:focus:ring-neutral-600 transition resize-none'
+                            className={`${fieldClass} resize-none`}
                         />
                     </div>
                     <input
@@ -843,7 +703,7 @@ function Contact({ t }: { t: (typeof translations)[Lang] }) {
                     <button
                         type='submit'
                         disabled={status === "loading" || status === "success"}
-                        className='self-start px-6 py-3 bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-medium rounded-full hover:opacity-75 transition-opacity disabled:opacity-50'
+                        className={`${primaryButton} self-start disabled:opacity-60`}
                     >
                         {status === "loading"
                             ? ct.sending
@@ -852,31 +712,11 @@ function Contact({ t }: { t: (typeof translations)[Lang] }) {
                               : ct.send}
                     </button>
                     {status === "error" && (
-                        <p className='text-sm text-red-500'>{ct.error}</p>
+                        <p className='text-sm text-red-400'>{ct.error}</p>
                     )}
                 </form>
             </div>
         </section>
-    );
-}
-
-function Footer({
-    footer,
-    lang,
-}: {
-    footer: (typeof translations)[Lang]["footer"];
-    lang: Lang;
-}) {
-    return (
-        <footer className='px-6 md:px-16 lg:px-24 max-w-5xl mx-auto py-8 border-t border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3'>
-            <p className='text-xs text-neutral-400'>{footer.text}</p>
-            <Link
-                href={`/${lang}/impressum`}
-                className='text-xs text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors underline underline-offset-4 decoration-neutral-300 dark:decoration-neutral-600'
-            >
-                {footer.imprint}
-            </Link>
-        </footer>
     );
 }
 
@@ -891,6 +731,8 @@ function ArrowUpRight() {
             strokeWidth='1.5'
             strokeLinecap='round'
             strokeLinejoin='round'
+            aria-hidden='true'
+            className='transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5'
         >
             <path d='M2 8L8 2M8 2H3M8 2V7' />
         </svg>
@@ -908,6 +750,7 @@ function ChevronIcon({ direction }: { direction: "left" | "right" }) {
             strokeWidth='2'
             strokeLinecap='round'
             strokeLinejoin='round'
+            aria-hidden='true'
         >
             <path d={direction === "left" ? "M10 3L5 8L10 13" : "M6 3L11 8L6 13"} />
         </svg>
@@ -916,7 +759,7 @@ function ChevronIcon({ direction }: { direction: "left" | "right" }) {
 
 function SectionLabel({ label }: { label: string }) {
     return (
-        <h2 className='text-xs uppercase tracking-[0.2em] text-neutral-400 mb-12 font-normal'>
+        <h2 className='mb-10 text-3xl font-bold tracking-[-0.03em] text-zinc-50 md:mb-14 md:text-4xl'>
             {label}
         </h2>
     );
