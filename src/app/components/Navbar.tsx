@@ -15,10 +15,10 @@ export function Navbar({ lang }: { lang: Lang }) {
     const [menuOpen, setMenuOpen] = useState(false);
     const pathname = usePathname();
     // On the page with the large portrait, HeroAvatar drives this while scrolling.
-    const heroPage = pathname === `/${lang}/preview`;
+    const heroPage = pathname === `/${lang}`;
     const avatarProgress = `var(--avatar-progress, ${heroPage ? 0 : 1})`;
 
-    const isHome = pathname === `/${lang}` || pathname === `/${lang}/preview`;
+    const isHome = pathname === `/${lang}`;
     const sectionPrefix = isHome ? "" : `/${lang}`;
 
     const labels = navLabels[lang];
