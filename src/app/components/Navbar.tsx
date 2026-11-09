@@ -14,6 +14,8 @@ const navLabels: Record<Lang, { experience: string; projects: string; skills: st
 const SECTION_IDS = ["projects", "experience", "skills", "contact"] as const;
 type SectionId = (typeof SECTION_IDS)[number];
 
+const PRESSABLE = "hover:bg-white/10 active:bg-white/20";
+
 const GLASS =
     "bg-zinc-800/55 ring-1 ring-white/15 backdrop-blur-2xl backdrop-saturate-[1.8] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),inset_0_-1px_0_rgba(255,255,255,0.08),0_8px_32px_rgba(0,0,0,0.45)]";
 
@@ -93,7 +95,7 @@ export function Navbar({ lang }: { lang: Lang }) {
             <nav className="mx-auto grid h-14 max-w-3xl grid-cols-[1fr_auto] items-stretch gap-2 md:grid-cols-[1fr_auto_1fr]">
                 <Link
                     href={`/${lang}`}
-                    className={`flex items-center justify-self-start rounded-full pr-5 text-[15px] font-bold tracking-[-0.02em] text-zinc-50 ${GLASS}`}
+                    className={`flex items-center justify-self-start rounded-full pr-5 text-[15px] font-bold tracking-[-0.02em] text-zinc-50 transition-colors ${GLASS} hover:bg-zinc-700/60 active:bg-zinc-600/60`}
                     style={{ paddingLeft: `calc(20px - 12px * ${avatarProgress})` }}
                 >
                     <span
@@ -129,18 +131,18 @@ export function Navbar({ lang }: { lang: Lang }) {
                             href={link.href}
                             data-section={link.id}
                             aria-current={activeId === link.id ? "location" : undefined}
-                            className={`relative rounded-full px-4 py-2 text-[15px] transition-colors hover:text-white ${activeId === link.id ? "text-white" : "text-zinc-300"}`}
+                            className={`relative rounded-full px-4 py-2 text-[15px] transition-colors hover:text-white ${activeId === link.id ? "text-white" : `text-zinc-300 ${PRESSABLE}`}`}
                         >
                             {link.label}
                         </a>
                     ))}
                 </div>
 
-                <div className={`flex items-center justify-self-end gap-1 rounded-full px-2 ${GLASS}`}>
+                <div className={`flex items-center justify-self-end gap-1 rounded-full px-2 md:w-14 md:justify-center md:px-0 ${GLASS}`}>
                     {/* Language switcher */}
                     <Link
                         href={otherLangHref}
-                        className="text-sm font-medium text-zinc-200 hover:text-white transition-colors px-3 py-1.5 rounded-full hover:bg-zinc-700/60"
+                        className={`text-sm font-medium text-zinc-200 hover:text-white transition-colors px-3 py-1.5 rounded-full ${PRESSABLE} md:flex md:h-full md:w-full md:items-center md:justify-center md:p-0`}
                         aria-label={`Switch to ${otherLang === "en" ? "English" : "Deutsch"}`}
                     >
                         {otherLang.toUpperCase()}
@@ -149,7 +151,7 @@ export function Navbar({ lang }: { lang: Lang }) {
                     {/* Mobile menu button */}
                     <button
                         onClick={() => setMenuOpen((o) => !o)}
-                        className="md:hidden p-2 rounded-full hover:bg-zinc-700/60 transition-colors"
+                        className={`md:hidden p-2 rounded-full transition-colors ${PRESSABLE}`}
                         aria-label="Toggle menu"
                         aria-expanded={menuOpen}
                     >
