@@ -5,7 +5,7 @@ export const translations = {
         metadata: {
             title: "Jannik Thieme – Product Engineer",
             description:
-                "Product Engineer aus Stuttgart. Ich entwickle und betreibe Simpli, ein SaaS für Restaurants, und arbeite daneben als Softwareentwickler bei Mercedes-Benz.",
+                "Product Engineer aus Stuttgart. Gerade arbeite ich an Simpli, einer Plattform für digitale Speisekarten. Außerdem entwickle ich Software bei Mercedes-Benz.",
         },
         nav: {
             experience: "Erfahrung",
