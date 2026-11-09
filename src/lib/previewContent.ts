@@ -56,7 +56,7 @@ export const previewContent: Record<Lang, PreviewContent> = {
             simpli: "Simpli",
             middle: ", a menu platform for restaurants, alongside software engineering at ",
             mercedes: "Mercedes-Benz",
-            after: ", where I led the German-market go-live of an internal application.",
+            after: ".",
             note: "Mobile Media Student at HdM Stuttgart, graduating 2027",
         },
         simpli: {
