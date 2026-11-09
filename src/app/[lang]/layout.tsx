@@ -85,7 +85,7 @@ export default async function LangLayout({ children, params }: Props) {
         "@type": "Person",
         name: "Jannik Thieme",
         url: "https://thieme.io",
-        jobTitle: "Full-Stack Developer",
+        jobTitle: "Product Engineer",
         description: translations[lang].metadata.description,
         image: "https://thieme.io/avatar.png",
         address: {

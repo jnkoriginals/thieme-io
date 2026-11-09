@@ -3,9 +3,9 @@ export type Lang = "de" | "en";
 export const translations = {
     de: {
         metadata: {
-            title: "Jannik Thieme – Full-Stack Developer für Web & Mobile",
+            title: "Jannik Thieme – Product Engineer",
             description:
-                "Full-Stack Developer aus Stuttgart: Web- und Mobile-Apps mit React, Next.js, Angular und Spring Boot sowie DevOps mit AWS und Kubernetes.",
+                "Product Engineer aus Stuttgart. Ich entwickle und betreibe Simpli, ein SaaS für Restaurants, und arbeite daneben als Softwareentwickler bei Mercedes-Benz.",
         },
         nav: {
             experience: "Erfahrung",
@@ -14,9 +14,9 @@ export const translations = {
             contact: "Kontakt",
         },
         hero: {
-            subtitle: "Mobile-Medien · HdM Stuttgart",
+            subtitle: "Product Engineer · Studium an der HdM Stuttgart",
             description:
-                "Full-Stack Developer mit Fokus auf Web und Mobile — von der Idee bis zur fertigen App.",
+                "Ich entwickle und betreibe Simpli, ein SaaS für Restaurants, und arbeite daneben als Softwareentwickler bei Mercedes-Benz.",
             ctaProjects: "Projekte",
             ctaContact: "Kontakt",
         },
@@ -32,7 +32,7 @@ export const translations = {
                 company: "Mercedes-Benz AG",
                 period: "aktuell",
                 description:
-                    "Fullstack-Entwicklung einer internen Angular-Anwendung mit Python-Backend. Verantwortlich für den Großteil der DevOps-Infrastruktur: GitHub Actions, AWS (Setup & Betrieb), Docker und Kubernetes.",
+                    "Fullstack-Entwicklung einer internen Angular-Anwendung mit Python-Backend. Verantwortlich für den Großteil der DevOps-Infrastruktur: GitHub Actions, AWS (Setup & Betrieb), Docker und Kubernetes. Eingestiegen über ein halbjähriges Praktikum in der Softwareentwicklung.",
                 tags: [
                     "Angular",
                     "Python",
@@ -41,14 +41,6 @@ export const translations = {
                     "Docker",
                     "GitHub Actions",
                 ],
-            },
-            {
-                role: "Pflichtpraktikum",
-                company: "Mercedes-Benz AG",
-                period: "½ Jahr",
-                description:
-                    "Praktikum im Bereich Softwareentwicklung — direkter Einstieg in die gleiche technische Umgebung, die später zur Werkstudentenstelle geführt hat.",
-                tags: ["Angular", "Python", "Docker"],
             },
             {
                 role: "Werkstudent Softwareentwicklung",
@@ -63,7 +55,7 @@ export const translations = {
             {
                 name: "Simpli",
                 description:
-                    "Entstanden bei einem Essen mit Freunden bei einem Italiener in Stuttgart: Hinter dem QR-Code auf dem Tisch steckte eine veraltete PDF-Karte. Mit Simpli laden Restaurants ihre bestehende Karte als PDF oder Foto hoch, die KI macht daraus in Minuten eine digitale Speisekarte, die Gäste direkt im Browser öffnen. Ein KI-Assistent im Dashboard setzt Änderungen per Chat um (Preise, Übersetzungen, Design) und übernimmt sie erst nach Bestätigung. Dazu 6 Sprachen, Echtzeit-Updates, Stripe-Abonnements und ein eigener QR-Code-Generator.",
+                    "Entstanden bei einem Essen mit Freunden bei einem Italiener in Stuttgart: Hinter dem QR-Code auf dem Tisch steckte eine veraltete PDF-Karte. Mit Simpli laden Restaurants ihre bestehende Karte als PDF oder Foto hoch, KI macht daraus in Minuten eine digitale Speisekarte, die Gäste direkt im Browser öffnen. Ein KI-Assistent im Dashboard setzt Änderungen per Chat um (Preise, Übersetzungen, Design) und übernimmt sie erst nach Bestätigung. Dazu 6 Sprachen, Echtzeit-Updates, Stripe-Abonnements und ein eigener QR-Code-Generator.",
                 type: "Eigenprojekt",
             },
             {
@@ -75,19 +67,25 @@ export const translations = {
             {
                 name: "nearby",
                 description:
-                    "Mobile App gegen die Entscheidungslähmung: Statt langer Listen wird immer nur ein Ort angezeigt — per Swipe (wie bei Tinder) weitergehen oder direkt loslaufen. Für Touristen und Einheimische, nativ auf iOS & Android.",
+                    "Mobile App gegen die Entscheidungslähmung: Statt langer Listen wird immer nur ein Ort angezeigt — per Swipe (wie bei Tinder) weitergehen oder direkt loslaufen. Für Touristen und Einheimische, plattformübergreifend für iOS & Android.",
+                type: "Studienprojekt",
+            },
+            {
+                name: "Perky",
+                description:
+                    "Digitale Stempelkarten für Cafés und Restaurants — ohne Papier und ohne App-Installation. Im Sechserteam an der HdM entwickelt, mein Part war die QR-Scan-Logik.",
                 type: "Studienprojekt",
             },
             {
                 name: "Gaia Protocol",
                 description:
-                    "Kooperatives 2-Spieler-VR-Survival-Game — verlassene Raketensilos, feindliche KI-Roboter und eine Menschheit auf der Flucht vor einer außer Kontrolle geratenen KI. Mitentwicklung in Unity/C# mit Fokus auf Audio-Systeme und Sprachlokalisierung, sowie vollständiges Sounddesign und Original-Score. Wird 2026 über RAW Talent auf der gamescom ausgestellt.",
+                    "Kooperatives 2-Spieler-VR-Survival-Game — verlassene Raketensilos, feindliche KI-Roboter und eine Menschheit auf der Flucht vor einer außer Kontrolle geratenen KI. Mitentwicklung in Unity/C# mit Fokus auf Audio-Systeme und Sprachlokalisierung, sowie vollständiges Sounddesign und Original-Score. 2026 über RAW Talent auf der gamescom ausgestellt.",
                 type: "Team-Projekt · Dendree",
             },
         ],
         contact: {
-            heading: "Let's work together.",
-            subtext: "Schreib mir — ich melde mich schnellstmöglich zurück.",
+            heading: "Lass uns zusammenarbeiten.",
+            subtext: "Schreib mir, ich melde mich so schnell wie möglich.",
             nameLabel: "Name",
             namePlaceholder: "Dein Name",
             emailLabel: "E-Mail",
@@ -131,9 +129,9 @@ export const translations = {
     },
     en: {
         metadata: {
-            title: "Jannik Thieme – Full-Stack Developer for Web & Mobile",
+            title: "Jannik Thieme – Product Engineer",
             description:
-                "Full-stack developer based in Stuttgart, building web and mobile apps with React, Next.js, Angular and Spring Boot, plus DevOps with AWS and Kubernetes.",
+                "Product engineer based in Stuttgart. I build and run Simpli, a SaaS for restaurants, alongside software engineering work at Mercedes-Benz.",
         },
         nav: {
             experience: "Experience",
@@ -142,9 +140,9 @@ export const translations = {
             contact: "Contact",
         },
         hero: {
-            subtitle: "Mobile Media · HdM Stuttgart",
+            subtitle: "Product Engineer · Student at HdM Stuttgart",
             description:
-                "Full-Stack Developer focused on Web and Mobile — from idea to finished app.",
+                "I build and run Simpli, a SaaS for restaurants, alongside software engineering work at Mercedes-Benz.",
             ctaProjects: "Projects",
             ctaContact: "Contact",
         },
@@ -156,11 +154,11 @@ export const translations = {
         },
         experience: [
             {
-                role: "Working Student Software Development",
+                role: "Software Engineering Working Student",
                 company: "Mercedes-Benz AG",
                 period: "current",
                 description:
-                    "Fullstack development of an internal Angular application with a Python backend. Responsible for the majority of the DevOps infrastructure: GitHub Actions, AWS (setup & operations), Docker and Kubernetes.",
+                    "Full-stack development of an internal Angular application with a Python backend. Responsible for the majority of the DevOps infrastructure: GitHub Actions, AWS (setup & operations), Docker and Kubernetes. Joined through a six-month software engineering internship.",
                 tags: [
                     "Angular",
                     "Python",
@@ -169,14 +167,6 @@ export const translations = {
                     "Docker",
                     "GitHub Actions",
                 ],
-            },
-            {
-                role: "Mandatory Internship",
-                company: "Mercedes-Benz AG",
-                period: "½ year",
-                description:
-                    "Software development internship — direct entry into the same technical environment that later led to the working student position.",
-                tags: ["Angular", "Python", "Docker"],
             },
             {
                 role: "Working Student Software Development",
@@ -203,13 +193,19 @@ export const translations = {
             {
                 name: "nearby",
                 description:
-                    "Mobile app against decision paralysis: instead of long lists, only one place is shown at a time — swipe (like Tinder) to move on or navigate there directly. For tourists and locals alike, native on iOS & Android.",
+                    "Mobile app against decision paralysis: instead of long lists, only one place is shown at a time — swipe (like Tinder) to move on or navigate there directly. For tourists and locals alike, cross-platform on iOS & Android.",
+                type: "University Project",
+            },
+            {
+                name: "Perky",
+                description:
+                    "Digital stamp cards for cafés and restaurants — no paper, no app to install. Built in a team of six at HdM, where I worked on the QR scan logic.",
                 type: "University Project",
             },
             {
                 name: "Gaia Protocol",
                 description:
-                    "Cooperative 2-player VR survival game — abandoned rocket silos, hostile AI-controlled robots, and humanity's last stand against a rogue AI. Contributed to development in Unity/C#, focused on audio systems and localization, alongside full sound design and the original score. Being exhibited at gamescom 2026 via RAW Talent.",
+                    "Cooperative 2-player VR survival game — abandoned rocket silos, hostile AI-controlled robots, and humanity's last stand against a rogue AI. Contributed to development in Unity/C#, focused on audio systems and localization, alongside full sound design and the original score. Exhibited at gamescom 2026 via RAW Talent.",
                 type: "Team Project · Dendree",
             },
         ],

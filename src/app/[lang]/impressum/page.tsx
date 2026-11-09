@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ClosingFooter } from "@/app/components/home/ClosingFooter";
 import { translations, type Lang } from "@/lib/translations";
 
 type Props = {
@@ -86,6 +87,7 @@ export default async function ImpressumPage({ params }: Props) {
                     {l.backHome}
                 </Link>
             </div>
+            <ClosingFooter lang={validLang} />
         </main>
     );
 }

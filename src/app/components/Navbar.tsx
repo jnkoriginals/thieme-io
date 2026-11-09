@@ -1,8 +1,7 @@
 "use client";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
-import { HiSun, HiMoon } from "react-icons/hi2";
+import { useState } from "react";
 import { HiBars3, HiXMark } from "react-icons/hi2";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Lang } from "@/lib/translations";
@@ -13,12 +12,11 @@ const navLabels: Record<Lang, { experience: string; projects: string; skills: st
 };
 
 export function Navbar({ lang }: { lang: Lang }) {
-    const { resolvedTheme, setTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
     const pathname = usePathname();
-
-    useEffect(() => setMounted(true), []);
+    // On the page with the large portrait, HeroAvatar drives this while scrolling.
+    const heroPage = pathname === `/${lang}`;
+    const avatarProgress = `var(--avatar-progress, ${heroPage ? 0 : 1})`;
 
     const isHome = pathname === `/${lang}`;
     const sectionPrefix = isHome ? "" : `/${lang}`;
@@ -34,9 +32,26 @@ export function Navbar({ lang }: { lang: Lang }) {
     const otherLangHref = `/${otherLang}${pathname?.replace(new RegExp(`^/${lang}`), "") ?? ""}`;
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 border-b border-neutral-200/80 dark:border-neutral-800/80 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md">
-            <nav className="max-w-5xl mx-auto px-6 md:px-16 lg:px-24 h-14 flex items-center justify-between">
-                <Link href={`/${lang}`} className="text-sm font-semibold tracking-tight">
+        <header className="fixed inset-x-0 top-3 z-50 px-3">
+            <nav
+                className="mx-auto flex h-12 max-w-3xl items-center justify-between rounded-full pr-3 bg-zinc-800/55 ring-1 ring-white/15 backdrop-blur-2xl backdrop-saturate-[1.8] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),inset_0_-1px_0_rgba(255,255,255,0.08),0_8px_32px_rgba(0,0,0,0.45)]"
+                style={{ paddingLeft: `calc(20px - 12px * ${avatarProgress})` }}
+            >
+                <Link href={`/${lang}`} className="flex items-center text-sm font-bold tracking-[-0.02em] text-zinc-50">
+                    <span
+                        className="shrink-0 overflow-hidden"
+                        style={{ width: `calc(42px * ${avatarProgress})` }}
+                    >
+                        {!heroPage && (
+                            <Image
+                                src="/avatar.png"
+                                alt=""
+                                width={64}
+                                height={64}
+                                className="h-8 w-8 max-w-none rounded-full object-cover"
+                            />
+                        )}
+                    </span>
                     Jannik Thieme
                 </Link>
 
@@ -46,7 +61,7 @@ export function Navbar({ lang }: { lang: Lang }) {
                         <a
                             key={link.href}
                             href={link.href}
-                            className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+                            className="text-sm text-zinc-200 hover:text-white transition-colors"
                         >
                             {link.label}
                         </a>
@@ -57,38 +72,23 @@ export function Navbar({ lang }: { lang: Lang }) {
                     {/* Language switcher */}
                     <Link
                         href={otherLangHref}
-                        className="text-xs font-medium text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                        className="text-xs font-medium text-zinc-200 hover:text-white transition-colors px-3 py-1.5 rounded-full hover:bg-zinc-800"
                         aria-label={`Switch to ${otherLang === "en" ? "English" : "Deutsch"}`}
                     >
                         {otherLang.toUpperCase()}
                     </Link>
 
-                    <button
-                        onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-                        className="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-                        aria-label="Toggle theme"
-                    >
-                        {mounted ? (
-                            resolvedTheme === "dark" ? (
-                                <HiSun className="w-4 h-4" />
-                            ) : (
-                                <HiMoon className="w-4 h-4" />
-                            )
-                        ) : (
-                            <div className="w-4 h-4" />
-                        )}
-                    </button>
-
                     {/* Mobile menu button */}
                     <button
                         onClick={() => setMenuOpen((o) => !o)}
-                        className="md:hidden p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                        className="md:hidden p-2 rounded-full hover:bg-zinc-800 transition-colors"
                         aria-label="Toggle menu"
+                        aria-expanded={menuOpen}
                     >
                         {menuOpen ? (
-                            <HiXMark className="w-4 h-4" />
+                            <HiXMark className="w-5 h-5" />
                         ) : (
-                            <HiBars3 className="w-4 h-4" />
+                            <HiBars3 className="w-5 h-5" />
                         )}
                     </button>
                 </div>
@@ -96,14 +96,14 @@ export function Navbar({ lang }: { lang: Lang }) {
 
             {/* Mobile dropdown */}
             {menuOpen && (
-                <div className="md:hidden border-t border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md">
-                    <div className="max-w-5xl mx-auto px-6 py-4 flex flex-col gap-4">
+                <div className="md:hidden mx-auto mt-2 max-w-3xl rounded-3xl bg-zinc-800/55 ring-1 ring-white/15 backdrop-blur-2xl backdrop-saturate-[1.8] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),inset_0_-1px_0_rgba(255,255,255,0.08),0_8px_32px_rgba(0,0,0,0.45)]">
+                    <div className="px-5 py-3 flex flex-col">
                         {navLinks.map((link) => (
                             <a
                                 key={link.href}
                                 href={link.href}
                                 onClick={() => setMenuOpen(false)}
-                                className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors py-1"
+                                className="text-base text-zinc-300 hover:text-zinc-50 transition-colors py-2.5"
                             >
                                 {link.label}
                             </a>
