@@ -2,9 +2,10 @@
 
 import { useState, type FormEvent } from "react";
 import { translations, type Lang } from "@/lib/translations";
+import { BODY, SHELL, TITLE } from "./designTokens";
 
 const fieldClass =
-    "w-full rounded-xl border-0 bg-zinc-900 px-4 py-3.5 text-base text-zinc-100 placeholder-zinc-400 outline-none transition-colors hover:bg-zinc-800/70 focus:bg-zinc-800 focus-visible:outline-none";
+    "w-full border-0 bg-transparent px-5 py-4 text-base text-zinc-100 placeholder-zinc-400 outline-none focus-visible:outline-none";
 
 export function ContactSection({ lang }: { lang: Lang }) {
     const text = translations[lang].contact;
@@ -40,24 +41,26 @@ export function ContactSection({ lang }: { lang: Lang }) {
     return (
         <section
             id='contact'
-            className='mx-auto w-full max-w-3xl scroll-mt-20 px-6 py-14 md:py-20'
+            className={`${SHELL} grid scroll-mt-24 gap-8`}
         >
-            <h2 className='text-3xl md:text-4xl font-semibold tracking-tight text-zinc-100'>
+            <div>
+            <h2 className={TITLE}>
                 {text.heading}
             </h2>
-            <p className='mt-3 text-lg text-zinc-300'>
+            <p className={`mt-4 ${BODY}`}>
                 {text.subtext}{" "}
                 <a
                     href='https://www.linkedin.com/in/jannik-thieme-51878a354/'
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='text-indigo-400 underline underline-offset-4 decoration-1 transition-colors hover:text-indigo-300'
+                    className='font-medium text-indigo-400 transition-colors hover:text-indigo-300'
                 >
                     LinkedIn ↗
                 </a>
             </p>
-            <form onSubmit={submit} className='mt-8 flex flex-col gap-3'>
-                <div className='flex flex-col gap-3'>
+            </div>
+            <form onSubmit={submit} className='overflow-hidden rounded-3xl bg-zinc-900 ring-1 ring-white/10 transition-shadow focus-within:ring-white/30'>
+                <div className='grid divide-y divide-white/10 border-b border-white/10 sm:grid-cols-2 sm:divide-x sm:divide-y-0'>
                     <input
                         name='name'
                         type='text'
@@ -104,22 +107,22 @@ export function ContactSection({ lang }: { lang: Lang }) {
                     onChange={(event) => setWebsite(event.target.value)}
                     className='hidden'
                 />
-                <div className='mt-2 flex items-center gap-4'>
+                <div className='flex items-center justify-end gap-4 px-3 pb-3'>
                     <button
                         type='submit'
                         disabled={
                             status === "loading" || status === "success"
                         }
-                        className='rounded-full bg-zinc-100 px-6 py-2.5 text-sm font-medium text-zinc-950 transition-opacity hover:opacity-80 disabled:opacity-50'
+                        className='order-2 rounded-full bg-zinc-100 px-5 py-2.5 text-sm font-medium text-zinc-950 transition-opacity hover:opacity-80 disabled:opacity-50'
                     >
                         {status === "loading"
                             ? text.sending
                             : status === "success"
                               ? text.sent
-                              : text.send}
+                              : `${text.send} →`}
                     </button>
                     {status === "error" && (
-                        <p className='text-sm text-red-400'>{text.error}</p>
+                        <p role='alert' className='order-1 mr-auto pl-2 text-sm text-red-400'>{text.error}</p>
                     )}
                 </div>
             </form>

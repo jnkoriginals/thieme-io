@@ -2,43 +2,25 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { previewMore, type WorkItem } from "@/lib/previewMore";
 import type { Lang } from "@/lib/translations";
+import { BODY, DIVIDER, ITEM, LEAD, SHELL, SMALL, TITLE } from "./designTokens";
+import { Reveal } from "./Reveal";
 
-const heading =
-    "text-3xl md:text-4xl font-semibold tracking-tight text-zinc-100";
+const rowGrid = "grid gap-1 md:grid-cols-[10rem_1fr] md:gap-6";
 
-function WorkRow({ item }: { item: WorkItem }) {
+const ACCENTS: Record<string, string> = {
+    Perky: "text-amber-300",
+    Torga: "text-sky-400",
+    "Gaia Protocol": "text-red-400",
+};
+
+function WorkTile({ item, wide }: { item: WorkItem; wide: boolean }) {
     return (
-        <li className='grid gap-5 py-8 md:grid-cols-2 md:items-center md:gap-10'>
-            <div className='md:order-2'>
-                <div className='flex flex-wrap items-baseline gap-x-3'>
-                    <h3 className='text-xl font-semibold tracking-tight text-zinc-100'>
-                        {item.name}
-                    </h3>
-                    <p className='text-sm text-zinc-400'>{item.type}</p>
-                </div>
-                <p className='mt-2 text-base leading-relaxed text-zinc-300'>
-                    {item.body}
-                </p>
-                <p className='mt-2 text-sm text-zinc-400'>{item.stack}</p>
-                {item.links.length > 0 && (
-                    <div className='mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm'>
-                        {item.links.map((link) => (
-                            <a
-                                key={link.href}
-                                href={link.href}
-                                target='_blank'
-                                rel='noopener noreferrer'
-                                className='text-zinc-300 underline underline-offset-4 decoration-1 transition-colors hover:text-zinc-100'
-                            >
-                                {link.label} ↗
-                            </a>
-                        ))}
-                    </div>
-                )}
-            </div>
-            <div className='relative aspect-[16/10] overflow-hidden rounded-xl bg-zinc-900 md:order-1'>
+        <li className={wide ? "md:col-span-2" : ""}>
+            <div
+                className={`relative overflow-hidden rounded-3xl bg-zinc-900 ring-1 ring-white/10 ${wide ? "aspect-[16/10] md:aspect-[21/9]" : "aspect-[16/10]"}`}
+            >
                 {item.phoneScreens ? (
-                    <div className='absolute inset-0 flex items-center justify-center gap-4 p-4'>
+                    <div className='absolute inset-0 flex items-center justify-center gap-4 p-5'>
                         {item.phoneScreens.map((screen) => (
                             <Image
                                 key={screen.src}
@@ -56,10 +38,32 @@ function WorkRow({ item }: { item: WorkItem }) {
                         src={item.image}
                         alt={item.alt}
                         fill
-                        sizes='(max-width: 768px) 100vw, 400px'
-                        className='object-cover object-top'
+                        sizes={wide ? "(max-width: 768px) 100vw, 1000px" : "(max-width: 768px) 100vw, 500px"}
+                        className={`object-cover ${wide ? "object-center" : "object-top"}`}
                     />
                 )}
+            </div>
+            <div className='mt-4 max-w-2xl'>
+                <h3 className={`text-lg font-medium tracking-[-0.01em] ${ACCENTS[item.name] ?? "text-zinc-100"}`}>
+                    {item.name}
+                </h3>
+                <p className={`mt-1 ${BODY}`}>{item.body}</p>
+                <p className={`mt-2 ${SMALL}`}>
+                    {item.type}
+                    {item.links.map((link) => (
+                        <span key={link.href}>
+                            {" · "}
+                            <a
+                                href={link.href}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                className={`font-medium transition-opacity hover:opacity-80 ${ACCENTS[item.name] ?? "text-zinc-100"}`}
+                            >
+                                {link.label} ↗
+                            </a>
+                        </span>
+                    ))}
+                </p>
             </div>
         </li>
     );
@@ -67,43 +71,42 @@ function WorkRow({ item }: { item: WorkItem }) {
 
 function AboutGroup({
     label,
+    id,
     children,
 }: {
     label: string;
+    id?: string;
     children: ReactNode;
 }) {
     return (
-        <div className='grid gap-3 py-6 md:grid-cols-[9rem_1fr] md:gap-6'>
-            <h3 className='text-base font-medium text-zinc-400'>{label}</h3>
-            <div>{children}</div>
+        <div id={id} className='mt-10 scroll-mt-24'>
+            <h3 className={LEAD}>{label}</h3>
+            <div className='mt-4 flex flex-col gap-5'>{children}</div>
         </div>
     );
 }
 
-function AboutEntry({
+function AboutRow({
     title,
     place,
     period,
     detail,
-    tags,
 }: (typeof previewMore)[Lang]["education"][number]) {
     return (
-        <div>
-            <div className='flex items-baseline justify-between gap-4'>
-                <p className='text-base font-medium text-zinc-100'>{title}</p>
-                <p className='shrink-0 text-sm text-zinc-400'>{period}</p>
+        <div className={rowGrid}>
+            <p className={`${SMALL} leading-6`}>{period}</p>
+            <div>
+                <p className={ITEM}>
+                    {title}
+                    <span className='font-normal text-zinc-400'>
+                        {" · "}
+                        {place}
+                    </span>
+                </p>
+                {detail && (
+                    <p className={`mt-1 ${BODY}`}>{detail.join(" ")}</p>
+                )}
             </div>
-            <p className='text-sm text-zinc-400'>{place}</p>
-            {detail && (
-                <ul className='mt-2 flex list-disc flex-col gap-1.5 pl-4 text-base leading-relaxed text-zinc-300 marker:text-zinc-600'>
-                    {detail.map((point) => (
-                        <li key={point.slice(0, 32)}>{point}</li>
-                    ))}
-                </ul>
-            )}
-            {tags && (
-                <p className='mt-2 text-sm text-zinc-400'>{tags.join(" · ")}</p>
-            )}
         </div>
     );
 }
@@ -113,53 +116,56 @@ export function MoreSections({ lang }: { lang: Lang }) {
 
     return (
         <>
-            <section className='mx-auto w-full max-w-3xl px-6 py-14 md:py-20'>
-                <h2 className={heading}>{more.workHeading}</h2>
-                <ul className='mt-3 divide-y divide-zinc-800'>
-                    {more.work.map((item) => (
-                        <WorkRow key={item.name} item={item} />
-                    ))}
-                </ul>
+            <hr className={DIVIDER} />
+            <section>
+                <Reveal>
+                    <div className={SHELL}>
+                        <h2 className={TITLE}>{more.workHeading}</h2>
+                    </div>
+                    <ul className='mx-auto mt-8 grid w-full max-w-5xl gap-10 px-6 md:grid-cols-2 md:gap-8'>
+                        {more.work.map((item, index) => (
+                            <WorkTile
+                                key={item.name}
+                                item={item}
+                                wide={index === more.work.length - 1}
+                            />
+                        ))}
+                    </ul>
+                </Reveal>
             </section>
 
-            <section className='mx-auto w-full max-w-3xl px-6 py-14 md:py-20'>
-                <h2 className={heading}>{more.aboutHeading}</h2>
-                <p className='mt-4 text-lg leading-relaxed text-zinc-300'>
-                    {more.about}
-                </p>
-                <div className='mt-4 divide-y divide-zinc-800'>
-                    <AboutGroup label={more.experienceLabel}>
-                        <div className='flex flex-col gap-6'>
-                            {more.experience.map((entry) => (
-                                <AboutEntry
-                                    key={`${entry.place}-${entry.title}`}
-                                    {...entry}
-                                />
-                            ))}
-                        </div>
-                    </AboutGroup>
-                    <AboutGroup label={more.educationLabel}>
-                        <div className='flex flex-col gap-4'>
-                            {more.education.map((entry) => (
-                                <AboutEntry key={entry.title} {...entry} />
-                            ))}
-                        </div>
-                    </AboutGroup>
-                    <AboutGroup label={more.skillsLabel}>
-                        <dl className='flex flex-col gap-3'>
-                            {more.skills.map((group) => (
-                                <div key={group.category}>
-                                    <dt className='text-base font-medium text-zinc-100'>
-                                        {group.category}
-                                    </dt>
-                                    <dd className='text-base text-zinc-300'>
-                                        {group.items}
-                                    </dd>
-                                </div>
-                            ))}
-                        </dl>
-                    </AboutGroup>
-                </div>
+            <hr className={DIVIDER} />
+            <section
+                id='experience'
+                className={`${SHELL} scroll-mt-24`}
+            >
+                <h2 className={TITLE}>{more.aboutHeading}</h2>
+                <p className={`mt-4 ${BODY}`}>{more.about}</p>
+                <AboutGroup label={more.experienceLabel}>
+                    {more.experience.map((entry) => (
+                        <AboutRow
+                            key={`${entry.place}-${entry.title}`}
+                            {...entry}
+                        />
+                    ))}
+                </AboutGroup>
+                <AboutGroup label={more.educationLabel}>
+                    {more.education.map((entry) => (
+                        <AboutRow key={entry.title} {...entry} />
+                    ))}
+                </AboutGroup>
+                <AboutGroup label={more.skillsLabel} id='skills'>
+                    <dl className='flex flex-col gap-2'>
+                        {more.skills.map((group) => (
+                            <div key={group.category} className={rowGrid}>
+                                <dt className={`${SMALL} leading-6`}>
+                                    {group.category}
+                                </dt>
+                                <dd className={BODY}>{group.items}</dd>
+                            </div>
+                        ))}
+                    </dl>
+                </AboutGroup>
             </section>
         </>
     );

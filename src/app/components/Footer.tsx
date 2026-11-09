@@ -4,13 +4,19 @@ import type { Lang } from "@/lib/translations";
 export function Footer({
     footer,
     lang,
+    shellClass = "page-shell",
+    lineClass = "border-t border-zinc-800",
 }: {
     footer: { text: string; imprint: string };
     lang: Lang;
+    shellClass?: string;
+    lineClass?: string;
 }) {
     return (
-        <footer className='page-shell'>
-            <div className='py-8 border-t border-zinc-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3'>
+        <footer className={shellClass}>
+            <div
+                className={`py-8 ${lineClass} flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3`}
+            >
                 <p className='text-sm text-zinc-400'>{footer.text}</p>
                 <Link
                     href={`/${lang}/impressum`}

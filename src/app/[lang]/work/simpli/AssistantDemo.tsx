@@ -35,7 +35,7 @@ function TapArea({
             aria-label={label}
             onClick={onClick}
             style={box}
-            className='absolute z-10 rounded-full animate-pulse ring-4 ring-indigo-400/70'
+            className='absolute z-10 rounded-full animate-pulse ring-4 ring-indigo-400/70 motion-reduce:animate-none'
         />
     );
 }
@@ -106,7 +106,7 @@ export function AssistantDemo({ lang }: { lang: Lang }) {
                         />
                     )}
                     {live && (
-                        <span className='absolute left-[2.5%] top-[55%] h-[4.8%] w-[18%] rounded-lg ring-2 ring-indigo-500 animate-pulse' />
+                        <span className='absolute left-[2.5%] top-[55%] h-[4.8%] w-[18%] rounded-lg ring-2 ring-indigo-500 animate-pulse motion-reduce:animate-none' />
                     )}
                 </div>
             </PhoneFrame>
@@ -123,6 +123,7 @@ export function AssistantDemo({ lang }: { lang: Lang }) {
                         {text.restart}
                     </button>
                 )}
+                <p className='text-center text-zinc-400'>{text.replayNote}</p>
             </div>
         </div>
     );

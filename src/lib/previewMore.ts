@@ -22,6 +22,7 @@ type AboutEntry = {
 
 type PreviewMore = {
     website: string;
+    music: { play: string; spotify: string; title: string; close: string };
     workHeading: string;
     work: WorkItem[];
     aboutHeading: string;
@@ -36,7 +37,6 @@ type PreviewMore = {
 
 const SOUNDTRACK =
     "https://soundcloud.com/jnkoriginals/sets/gaia-protocol-original-game";
-const GAIA_PAGE = "https://dendree.de/de/products/gaia-protocol";
 const GAMESCOM = "https://www.gamescom.global/de/product/gaiaprotocol";
 const MERCEDES_TAGS = [
     "Angular",
@@ -50,6 +50,12 @@ const MERCEDES_TAGS = [
 export const previewMore: Record<Lang, PreviewMore> = {
     en: {
         website: "simpli.menu",
+        music: {
+            play: "I also make music. Play “Mission Success” from Gaia Protocol",
+            spotify: "My music on Spotify",
+            title: "Mission Success from the Gaia Protocol score on SoundCloud",
+            close: "Close player",
+        },
         workHeading: "More work",
         work: [
             {
@@ -89,7 +95,6 @@ export const previewMore: Record<Lang, PreviewMore> = {
                 alt: "Gaia Protocol game poster",
                 links: [
                     { label: "Listen to the score", href: SOUNDTRACK },
-                    { label: "Project page", href: GAIA_PAGE },
                     { label: "gamescom", href: GAMESCOM },
                 ],
             },
@@ -135,7 +140,7 @@ export const previewMore: Record<Lang, PreviewMore> = {
             {
                 title: "B.A. Mobile Media",
                 place: "Hochschule der Medien Stuttgart",
-                period: "Since Sep 2023",
+                period: "Sep 2023 – expected 2027",
             },
             {
                 title: "Medical Engineering, 1 year before switching programs",
@@ -155,6 +160,12 @@ export const previewMore: Record<Lang, PreviewMore> = {
     },
     de: {
         website: "simpli.menu",
+        music: {
+            play: "Ich mache auch Musik. Hör dir „Mission Success“ aus Gaia Protocol an",
+            spotify: "Meine Musik auf Spotify",
+            title: "Mission Success aus dem Gaia-Protocol-Score auf SoundCloud",
+            close: "Player schließen",
+        },
         workHeading: "Weitere Projekte",
         work: [
             {
@@ -194,7 +205,6 @@ export const previewMore: Record<Lang, PreviewMore> = {
                 alt: "Poster des Spiels Gaia Protocol",
                 links: [
                     { label: "Score anhören", href: SOUNDTRACK },
-                    { label: "Projektseite", href: GAIA_PAGE },
                     { label: "gamescom", href: GAMESCOM },
                 ],
             },
@@ -240,7 +250,7 @@ export const previewMore: Record<Lang, PreviewMore> = {
             {
                 title: "B.A. Mobile Medien",
                 place: "Hochschule der Medien Stuttgart",
-                period: "Seit Sep. 2023",
+                period: "Sep. 2023 – voraussichtlich 2027",
             },
             {
                 title: "Medizintechnik, 1 Jahr vor dem Studienwechsel",

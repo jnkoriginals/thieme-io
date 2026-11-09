@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { Footer } from "@/app/components/Footer";
 import { AssistantDemo } from "./AssistantDemo";
@@ -9,6 +8,8 @@ import { translations, type Lang } from "@/lib/translations";
 type Props = {
     params: Promise<{ lang: string }>;
 };
+
+const SHELL = "mx-auto w-full max-w-3xl px-6";
 
 const resolveLang = (lang: string): Lang =>
     lang in translations ? (lang as Lang) : "de";
@@ -37,102 +38,94 @@ export default async function SimpliCaseStudy({ params }: Props) {
 
     return (
         <main>
-            <article className='page-shell pb-20 pt-28 md:pb-28 md:pt-36'>
+            <article className={`${SHELL} pb-20 pt-32 md:pb-28 md:pt-40`}>
                 <Link
                     href={`/${lang}#projects`}
-                    className='py-1 text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300'
+                    className='text-sm text-zinc-400 transition-colors hover:text-zinc-100'
                 >
                     {content.back}
                 </Link>
 
-                <header className='mb-20 mt-8 md:mb-28'>
-                    <h1 className='mb-10 text-6xl font-bold leading-[1] tracking-[-0.045em] text-zinc-50 md:mb-14 md:text-8xl'>
+                <header className='mb-16 mt-8 md:mb-20'>
+                    <h1 className='text-4xl font-medium tracking-[-0.035em] text-zinc-50 md:text-[3.25rem]'>
                         {content.title}
                     </h1>
-                    <div className='page-grid gap-y-5'>
-                        <div className='md:col-span-9 md:col-start-4 md:row-start-1'>
-                            <p className='max-w-2xl text-lg leading-relaxed text-zinc-100 md:text-xl'>
-                                {content.intro}
-                            </p>
-                            <p className='mt-4 text-sm text-zinc-400'>
-                                {content.stackLabel}: {content.stack}
-                            </p>
-                        </div>
-                        <div className='flex flex-wrap gap-x-4 text-sm font-medium md:col-span-3 md:col-start-1 md:row-start-1 md:flex-col md:items-start md:pt-1'>
-                            <a
-                                href='https://simpli.menu'
-                                target='_blank'
-                                rel='noopener noreferrer'
-                                className='py-1 text-indigo-400 transition-colors hover:text-indigo-300'
-                            >
-                                {content.live} ↗
-                            </a>
-                            <a
-                                href={`https://www.dashboard.simpli.menu/demo.html?lng=${lang}`}
-                                target='_blank'
-                                rel='noopener noreferrer'
-                                className='py-1 text-indigo-400 transition-colors hover:text-indigo-300'
-                            >
-                                {content.demo} ↗
-                            </a>
-                        </div>
+                    <p className='mt-6 text-lg leading-relaxed text-zinc-300'>
+                        {content.intro}
+                    </p>
+                    <p className='mt-3 text-base leading-relaxed text-zinc-400'>
+                        {content.story}
+                    </p>
+                    <p className='mt-3 text-sm text-zinc-400'>
+                        {content.stackLabel}: {content.stack}
+                    </p>
+                    <div className='mt-5 flex flex-wrap gap-x-6 gap-y-2 text-base'>
+                        <a
+                            href='https://simpli.menu'
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='font-medium text-zinc-100 transition-colors hover:text-indigo-300'
+                        >
+                            {content.live} ↗
+                        </a>
+                        <a
+                            href={`https://www.dashboard.simpli.menu/demo.html?lng=${lang}`}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='text-zinc-400 transition-colors hover:text-zinc-100'
+                        >
+                            {content.demo} ↗
+                        </a>
                     </div>
                 </header>
 
-                <div className='flex flex-col gap-20 md:gap-28'>
+                <div className='flex flex-col gap-16 md:gap-20'>
                     {content.sections.map((section) => (
                         <section key={section.heading}>
-                            <div className='page-grid gap-y-4'>
-                                <h2 className='text-2xl font-bold tracking-[-0.03em] text-zinc-50 md:col-span-3'>
-                                    {section.heading}
-                                </h2>
-                                <div className='md:col-span-9'>
-                                    <div className='flex max-w-2xl flex-col gap-4'>
-                                        {section.paragraphs.map((paragraph) => (
-                                            <p
-                                                key={paragraph.slice(0, 32)}
-                                                className='leading-relaxed text-zinc-300 md:text-lg'
-                                            >
-                                                {paragraph}
-                                            </p>
-                                        ))}
-                                    </div>
-                                    {section.facts && (
-                                        <dl className='mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3'>
-                                            {section.facts.map((fact) => (
-                                                <div key={fact.label}>
-                                                    <dt className='text-3xl font-bold tracking-[-0.03em] text-zinc-50'>
-                                                        {fact.value}
-                                                    </dt>
-                                                    <dd className='mt-1 text-sm text-zinc-400'>
-                                                        {fact.label}
-                                                    </dd>
-                                                </div>
-                                            ))}
-                                        </dl>
-                                    )}
-                                    {section.assistantDemo && (
-                                        <div className='mt-12 flex justify-center md:justify-start'>
-                                            <AssistantDemo lang={lang} />
-                                        </div>
-                                    )}
-                                </div>
+                            <h2 className='text-2xl font-medium tracking-[-0.02em] text-zinc-100'>
+                                {section.heading}
+                            </h2>
+                            <div className='mt-4 flex flex-col gap-4'>
+                                {section.paragraphs.map((paragraph) => (
+                                    <p
+                                        key={paragraph.slice(0, 32)}
+                                        className='text-base leading-relaxed text-zinc-300 md:text-lg'
+                                    >
+                                        {paragraph}
+                                    </p>
+                                ))}
                             </div>
-                            {section.image && (
-                                <Image
-                                    src={section.image.src}
-                                    alt={section.image.alt}
-                                    width={2000}
-                                    height={1330}
-                                    sizes='(max-width: 768px) 100vw, 1072px'
-                                    className='mt-10 h-auto w-full rounded-2xl md:mt-14'
-                                />
+                            {section.facts && (
+                                <dl className='mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3'>
+                                    {section.facts.map((fact) => (
+                                        <div
+                                            key={fact.label}
+                                            className='flex flex-col-reverse gap-1'
+                                        >
+                                            <dt className='text-sm text-zinc-400'>
+                                                {fact.label}
+                                            </dt>
+                                            <dd className='text-2xl font-medium tracking-[-0.02em] text-zinc-100'>
+                                                {fact.value}
+                                            </dd>
+                                        </div>
+                                    ))}
+                                </dl>
+                            )}
+                            {section.assistantDemo && (
+                                <div className='mt-10 flex justify-center'>
+                                    <AssistantDemo lang={lang} />
+                                </div>
                             )}
                         </section>
                     ))}
                 </div>
             </article>
-            <Footer footer={translations[lang].footer} lang={lang} />
+            <Footer
+                footer={translations[lang].footer}
+                lang={lang}
+                shellClass={SHELL}
+            />
         </main>
     );
 }

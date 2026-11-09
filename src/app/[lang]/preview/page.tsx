@@ -1,13 +1,26 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Footer } from "@/app/components/Footer";
 import { previewContent } from "@/lib/previewContent";
 import { previewMore } from "@/lib/previewMore";
 import { translations, type Lang } from "@/lib/translations";
+import { ClosingFooter } from "./ClosingFooter";
 import { ContactSection } from "./ContactSection";
+import { HeroAvatar } from "./HeroAvatar";
 import { MoreSections } from "./MoreSections";
+import { MusicPlayer } from "./MusicPlayer";
 import { NearbyStack } from "./NearbyStack";
+import {
+    BODY,
+    DIVIDER,
+    ITEM,
+    LEAD,
+    SECONDARY_LINK,
+    SHELL,
+    SMALL,
+    TITLE,
+} from "./designTokens";
+import { Reveal } from "./Reveal";
 import { SimpliShowcase } from "./SimpliShowcase";
 
 export const metadata: Metadata = {
@@ -19,29 +32,29 @@ type Props = {
     params: Promise<{ lang: string }>;
 };
 
-const linkClass = "underline underline-offset-4 decoration-1 transition-colors";
+const NEARBY_BODY = "text-base leading-relaxed text-white/85";
 
 export default async function PreviewPage({ params }: Props) {
     const { lang: rawLang } = await params;
     const lang: Lang = rawLang in translations ? (rawLang as Lang) : "de";
     const content = previewContent[lang];
 
+    // The name is the heading now, so the greeting sentence is dropped.
+    const introStart = content.intro.before
+        .slice(content.intro.before.indexOf(". ") + 2);
+
     return (
         <main>
-            <section className='mx-auto w-full max-w-3xl px-6 pt-36 md:pt-44 pb-20 md:pb-24'>
-                <Image
-                    src='/avatar.png'
-                    alt='Jannik Thieme'
-                    width={144}
-                    height={144}
-                    priority
-                    className='h-16 w-16 rounded-full object-cover'
-                />
-                <p className='mt-8 text-3xl md:text-[2.75rem] font-medium tracking-tight leading-[1.2] text-zinc-100'>
-                    {content.intro.before}
+            <section className={`${SHELL} pt-36 md:pt-44`}>
+                <HeroAvatar />
+                <h1 className='mt-8 text-5xl md:text-7xl font-semibold leading-[1.05] tracking-[-0.04em] text-zinc-50'>
+                    Jannik Thieme
+                </h1>
+                <p className='mt-6 text-2xl leading-snug tracking-[-0.015em] text-zinc-300'>
+                    {introStart}
                     <a
-                        href='#simpli'
-                        className={`${linkClass} text-indigo-400 hover:text-indigo-300`}
+                        href='#projects'
+                        className='text-zinc-50 underline decoration-indigo-400 decoration-2 underline-offset-4 transition-colors hover:text-indigo-300'
                     >
                         {content.intro.simpli}
                     </a>
@@ -49,60 +62,73 @@ export default async function PreviewPage({ params }: Props) {
                     {content.intro.mercedes}
                     {content.intro.after}
                 </p>
-                <p className='mt-6 text-base text-zinc-400'>
+                <p className={`mt-6 ${SMALL}`}>
                     {content.intro.note}
                 </p>
+                <MusicPlayer lang={lang} />
             </section>
 
-            <section id='simpli' className='scroll-mt-20'>
-                <div className='mx-auto w-full max-w-3xl px-6'>
-                    <h2 className='sr-only'>Simpli</h2>
-                    <Image
-                        src='/logo-simpli-light.svg'
-                        alt=''
-                        width={441}
-                        height={215}
-                        className='-ml-1 h-14 w-auto'
-                    />
-                    <p className='mt-4 text-2xl font-medium leading-snug tracking-tight text-zinc-100'>
-                        {content.simpli.headline}
-                    </p>
-                    <p className='mt-5 text-lg leading-relaxed text-zinc-300'>
-                        {content.simpli.body}
-                    </p>
-                    <div className='mt-4 flex flex-wrap gap-x-6 gap-y-2 text-base'>
-                        <Link
-                            href={`/${lang}/work/simpli`}
-                            className={`${linkClass} font-medium text-indigo-400 hover:text-indigo-300`}
-                        >
-                            {content.simpli.caseStudy}
-                        </Link>
-                        <a
-                            href={`https://www.dashboard.simpli.menu/demo.html?lng=${lang}`}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            className={`${linkClass} text-zinc-300 hover:text-zinc-100`}
-                        >
-                            {content.simpli.demo} ↗
-                        </a>
-                        <a
-                            href='https://simpli.menu'
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            className={`${linkClass} text-zinc-300 hover:text-zinc-100`}
-                        >
-                            {previewMore[lang].website} ↗
-                        </a>
+            <hr className={DIVIDER} />
+
+            <section id='projects' className='scroll-mt-24'>
+                <Reveal>
+                    <div className={SHELL}>
+                        <h2 className='sr-only'>Simpli</h2>
+                        <Image
+                            src='/logo-simpli-light.svg'
+                            alt=''
+                            width={441}
+                            height={215}
+                            className='-ml-1 h-16 w-auto'
+                        />
+                        <p className={`mt-4 ${LEAD}`}>
+                            {content.simpli.headline}
+                        </p>
+                        <p className={`mt-3 ${BODY}`}>
+                            {content.simpli.body}
+                        </p>
+                        <p className={`mt-3 ${BODY}`}>
+                            {content.simpli.story}
+                        </p>
+                        <div className='mt-4 flex flex-wrap gap-x-6 gap-y-2'>
+                            <Link
+                                href={`/${lang}/work/simpli`}
+                                className='text-base font-medium text-indigo-400 transition-colors hover:text-indigo-300'
+                            >
+                                {content.simpli.caseStudy} →
+                            </Link>
+                            <a
+                                href={`https://www.dashboard.simpli.menu/demo.html?lng=${lang}`}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                className={SECONDARY_LINK}
+                            >
+                                {content.simpli.demo} ↗
+                            </a>
+                            <a
+                                href='https://simpli.menu'
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                className={SECONDARY_LINK}
+                            >
+                                {previewMore[lang].website} ↗
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div className='mx-auto mt-10 w-full max-w-6xl px-6 md:mt-14'>
-                    <SimpliShowcase lang={lang} />
+                </Reveal>
+                <div className='mx-auto mt-10 w-full max-w-5xl px-6'>
+                    <Reveal>
+                        <SimpliShowcase lang={lang} />
+                    </Reveal>
                 </div>
             </section>
 
-            <div className='mx-auto w-full max-w-3xl px-6'>
-                <section className='mt-16 md:mt-24 py-14 md:py-20 overflow-x-clip'>
-                    <div className='grid gap-10 md:grid-cols-[1fr_18rem] md:gap-16 md:items-start'>
+            <hr className={DIVIDER} />
+
+            <section className='mx-auto w-full max-w-5xl overflow-x-clip px-3 md:px-6'>
+                <div className='rounded-3xl bg-[#341274] px-6 py-10 md:px-14 md:py-14'>
+                <Reveal>
+                    <div className='grid gap-10 md:grid-cols-[minmax(0,1fr)_18rem] md:gap-16 md:items-start'>
                         <div>
                             <div className='flex items-center gap-3'>
                                 <Image
@@ -110,54 +136,52 @@ export default async function PreviewPage({ params }: Props) {
                                     alt=''
                                     width={56}
                                     height={56}
-                                    className='h-12 w-12 md:h-14 md:w-14'
+                                    className='h-12 w-12'
                                 />
-                                <h2 className='text-3xl md:text-4xl font-semibold tracking-tight text-zinc-100'>
+                                <h2 className={TITLE}>
                                     nearby
                                 </h2>
                             </div>
-                            <p className='mt-6 text-2xl font-medium leading-snug tracking-tight text-zinc-100'>
+                            <p className={`mt-4 ${LEAD}`}>
                                 {content.nearby.tagline}
                             </p>
-                            <div className='mt-5 flex flex-col gap-4'>
-                                {content.nearby.paragraphs.map((paragraph) => (
+                            <div className='mt-3 flex flex-col gap-3'>
+                                {content.nearby.paragraphs.map((text) => (
                                     <p
-                                        key={paragraph.slice(0, 32)}
-                                        className='text-base md:text-lg leading-relaxed text-zinc-300'
+                                        key={text.slice(0, 32)}
+                                        className={NEARBY_BODY}
                                     >
-                                        {paragraph}
+                                        {text}
                                     </p>
                                 ))}
                             </div>
-                        </div>
-                        <NearbyStack lang={lang} />
-                    </div>
-
-                    <div className='mt-8 md:mt-10'>
-                        <h3 className='text-xl font-semibold tracking-tight text-zinc-100'>
-                            {content.nearby.storyHeading}
-                        </h3>
-                        <p className='mt-3 text-base md:text-lg leading-relaxed text-zinc-300'>
-                            {content.nearby.story}
-                        </p>
-                        <div className='mt-4 text-base'>
+                            <h3 className={`mt-6 ${ITEM}`}>
+                                {content.nearby.storyHeading}
+                            </h3>
+                            <p className={`mt-1 ${NEARBY_BODY}`}>
+                                {content.nearby.story}
+                            </p>
                             <a
                                 href='https://www.edit-magazin.de/tindern-fuer-cafes-co.html'
                                 target='_blank'
                                 rel='noopener noreferrer'
-                                className={`${linkClass} text-zinc-300 hover:text-zinc-100`}
+                                className='mt-4 inline-block text-base font-medium text-white transition-opacity hover:opacity-80'
                             >
                                 {content.nearby.press} ↗
                             </a>
                         </div>
+                        <div className='md:mt-[4.2rem]'>
+                            <NearbyStack lang={lang} />
+                        </div>
                     </div>
-                </section>
-            </div>
+                </Reveal>
+                </div>
+            </section>
+
             <MoreSections lang={lang} />
+            <hr className={DIVIDER} />
             <ContactSection lang={lang} />
-            <div className='mt-8'>
-                <Footer footer={translations[lang].footer} lang={lang} />
-            </div>
+            <ClosingFooter lang={lang} />
         </main>
     );
 }

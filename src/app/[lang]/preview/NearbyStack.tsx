@@ -82,7 +82,7 @@ function Card({ place, saved }: { place: Place; saved: boolean }) {
             {"capture" in place && place.capture ? (
                 <Image
                     src={place.capture}
-                    alt=''
+                    alt={place.name}
                     fill
                     draggable={false}
                     sizes='740px'
@@ -288,7 +288,7 @@ export function NearbyStack({ lang }: { lang: Lang }) {
             </PhoneFrame>
             <p
                 aria-live='polite'
-                className='mt-4 text-center text-sm text-zinc-400'
+                className='mt-4 text-center text-sm text-white/80'
             >
                 {status || text.hint}
             </p>
