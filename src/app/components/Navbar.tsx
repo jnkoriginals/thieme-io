@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { HiBars3, HiXMark } from "react-icons/hi2";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,6 +10,9 @@ const navLabels: Record<Lang, { experience: string; projects: string; skills: st
     de: { experience: "Erfahrung", projects: "Projekte", skills: "Skills", contact: "Kontakt" },
     en: { experience: "Experience", projects: "Projects", skills: "Skills", contact: "Contact" },
 };
+
+const SECTION_IDS = ["projects", "experience", "skills", "contact"] as const;
+type SectionId = (typeof SECTION_IDS)[number];
 
 const GLASS =
     "bg-zinc-800/55 ring-1 ring-white/15 backdrop-blur-2xl backdrop-saturate-[1.8] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),inset_0_-1px_0_rgba(255,255,255,0.08),0_8px_32px_rgba(0,0,0,0.45)]";
@@ -25,12 +28,63 @@ export function Navbar({ lang }: { lang: Lang }) {
     const sectionPrefix = isHome ? "" : `/${lang}`;
 
     const labels = navLabels[lang];
-    const navLinks = [
-        { href: `${sectionPrefix}#experience`, label: labels.experience },
-        { href: `${sectionPrefix}#projects`, label: labels.projects },
-        { href: `${sectionPrefix}#skills`, label: labels.skills },
-        { href: `${sectionPrefix}#contact`, label: labels.contact },
-    ];
+    // In page order, so the active marker only ever moves to a neighbour.
+    const navLinks = SECTION_IDS.map((id) => ({
+        id,
+        href: `${sectionPrefix}#${id}`,
+        label: labels[id],
+    }));
+
+    const [activeId, setActiveId] = useState<SectionId | null>(null);
+    const linksRef = useRef<HTMLDivElement>(null);
+    const [marker, setMarker] = useState({ left: 0, width: 0 });
+
+    // The active section is the last one whose top has passed this line.
+    useEffect(() => {
+        if (!isHome) {
+            setActiveId(null);
+            return;
+        }
+        let frame = 0;
+        const update = () => {
+            frame = 0;
+            const line = window.innerHeight * 0.35;
+            let current: SectionId | null = null;
+            for (const id of SECTION_IDS) {
+                const section = document.getElementById(id);
+                if (section && section.getBoundingClientRect().top <= line) {
+                    current = id;
+                }
+            }
+            setActiveId(current);
+        };
+        const schedule = () => {
+            if (!frame) frame = requestAnimationFrame(update);
+        };
+        update();
+        window.addEventListener("scroll", schedule, { passive: true });
+        window.addEventListener("resize", schedule);
+        return () => {
+            cancelAnimationFrame(frame);
+            window.removeEventListener("scroll", schedule);
+            window.removeEventListener("resize", schedule);
+        };
+    }, [isHome]);
+
+    useLayoutEffect(() => {
+        const measure = () => {
+            const link = linksRef.current?.querySelector<HTMLElement>(
+                `[data-section="${activeId}"]`
+            );
+            if (link) {
+                setMarker({ left: link.offsetLeft, width: link.offsetWidth });
+            }
+        };
+        measure();
+        window.addEventListener("resize", measure);
+        void document.fonts?.ready.then(measure);
+        return () => window.removeEventListener("resize", measure);
+    }, [activeId, lang]);
     const otherLang: Lang = lang === "de" ? "en" : "de";
     const otherLangHref = `/${otherLang}${pathname?.replace(new RegExp(`^/${lang}`), "") ?? ""}`;
 
@@ -60,12 +114,22 @@ export function Navbar({ lang }: { lang: Lang }) {
                 </Link>
 
                 {/* Desktop links */}
-                <div className={`hidden md:flex items-center gap-7 rounded-full px-7 ${GLASS}`}>
+                <div
+                    ref={linksRef}
+                    className={`relative hidden md:flex items-center rounded-full px-2 ${GLASS}`}
+                >
+                    <span
+                        aria-hidden="true"
+                        className={`absolute top-2 bottom-2 rounded-full bg-white/15 transition-[left,width,opacity] duration-300 ease-out motion-reduce:transition-none ${activeId ? "opacity-100" : "opacity-0"}`}
+                        style={{ left: marker.left, width: marker.width }}
+                    />
                     {navLinks.map((link) => (
                         <a
                             key={link.href}
                             href={link.href}
-                            className="text-[15px] text-zinc-200 hover:text-white transition-colors"
+                            data-section={link.id}
+                            aria-current={activeId === link.id ? "location" : undefined}
+                            className={`relative rounded-full px-4 py-2 text-[15px] transition-colors hover:text-white ${activeId === link.id ? "text-white" : "text-zinc-300"}`}
                         >
                             {link.label}
                         </a>
@@ -107,7 +171,8 @@ export function Navbar({ lang }: { lang: Lang }) {
                                 key={link.href}
                                 href={link.href}
                                 onClick={() => setMenuOpen(false)}
-                                className="text-base text-zinc-300 hover:text-zinc-50 transition-colors py-2.5"
+                                aria-current={activeId === link.id ? "location" : undefined}
+                                className={`text-base hover:text-zinc-50 transition-colors py-2.5 ${activeId === link.id ? "font-medium text-white" : "text-zinc-300"}`}
                             >
                                 {link.label}
                             </a>
