@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { HandIcon } from "@/app/components/HandIcon";
 import { PhoneFrame } from "@/app/components/PhoneFrame";
 import { previewContent } from "@/lib/previewContent";
 import { previewMore } from "@/lib/previewMore";
@@ -66,7 +67,7 @@ export function SimpliShowcase({ lang }: { lang: Lang }) {
                         label={previewMore[lang].tryIt}
                         className='text-indigo-400'
                     />
-                    <PhoneFrame screenClass='bg-[#fbf3ea] pt-5'>
+                    <PhoneFrame screenClass='relative bg-[#fbf3ea] pt-5'>
                         <div
                             ref={screen}
                             className='relative overflow-hidden'
@@ -82,30 +83,34 @@ export function SimpliShowcase({ lang }: { lang: Lang }) {
                                 className='object-cover object-top'
                             />
                             {showMenu && (
-                            <iframe
-                                src={`https://www.simpli.menu/${lang}/${MENU_PATH}`}
-                                title={text.menuTitle}
-                                loading='lazy'
-                                sandbox='allow-scripts allow-same-origin'
-                                onLoad={() => setMenuLoaded(true)}
-                                className={`absolute left-0 top-0 border-0 transition-opacity duration-300 ${menuLoaded ? "opacity-100" : "opacity-0"}`}
-                                style={{
-                                    width: MENU_WIDTH,
-                                    height: MENU_HEIGHT,
-                                    transform: `scale(${scale})`,
-                                    transformOrigin: "top left",
-                                }}
-                            />
-                            )}
-                            {!menuActive && (
-                                <button
-                                    type='button'
-                                    aria-label={text.menuActivate}
-                                    onClick={() => setMenuActive(true)}
-                                    className='absolute inset-0 z-10 md:hidden'
+                                <iframe
+                                    src={`https://www.simpli.menu/${lang}/${MENU_PATH}`}
+                                    title={text.menuTitle}
+                                    loading='lazy'
+                                    sandbox='allow-scripts allow-same-origin'
+                                    onLoad={() => setMenuLoaded(true)}
+                                    className={`absolute left-0 top-0 border-0 transition-opacity duration-300 ${menuLoaded ? "opacity-100" : "opacity-0"}`}
+                                    style={{
+                                        width: MENU_WIDTH,
+                                        height: MENU_HEIGHT,
+                                        transform: `scale(${scale})`,
+                                        transformOrigin: "top left",
+                                    }}
                                 />
                             )}
                         </div>
+                        {!menuActive && (
+                            <button
+                                type='button'
+                                onClick={() => setMenuActive(true)}
+                                className='absolute inset-0 z-10 flex items-center justify-center bg-zinc-950/25 md:hidden'
+                            >
+                                <span className='flex flex-col items-center gap-2 text-xs font-medium text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]'>
+                                    <HandIcon className='h-10 w-10' />
+                                    {text.menuActivate}
+                                </span>
+                            </button>
+                        )}
                     </PhoneFrame>
                 </div>
             </div>

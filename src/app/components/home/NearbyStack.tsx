@@ -3,14 +3,17 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
+    AnimatePresence,
     animate,
     motion,
+    useInView,
     useMotionValue,
     useReducedMotion,
     useTransform,
 } from "framer-motion";
 import { previewContent } from "@/lib/previewContent";
 import type { Lang } from "@/lib/translations";
+import { HandIcon } from "@/app/components/HandIcon";
 import { PhoneFrame } from "@/app/components/PhoneFrame";
 
 // Positions of the real screen's card and buttons, in percent of the 804x1748 capture.
@@ -158,14 +161,18 @@ function StackCard({
     layer,
     saved,
     leaving,
+    nudge,
     onSwipe,
+    onTouch,
     onLeft,
 }: {
     place: Place;
     layer: Layer;
     saved: boolean;
     leaving: Direction | null;
+    nudge: boolean;
     onSwipe: (direction: Direction) => void;
+    onTouch: () => void;
     onLeft: (direction: Direction) => void;
 }) {
     const reduceMotion = useReducedMotion();
@@ -192,6 +199,17 @@ function StackCard({
         return () => animation.stop();
     }, [isTop, leaving, reduceMotion, x]);
 
+    // One small wiggle to show the card can be swiped.
+    useEffect(() => {
+        if (!isTop || !nudge || reduceMotion) return;
+        const animation = animate(x, [0, -28, 20, 0], {
+            duration: 1.1,
+            delay: 0.4,
+            ease: "easeInOut",
+        });
+        return () => animation.stop();
+    }, [isTop, nudge, reduceMotion, x]);
+
     // Back to the centre once it is out of sight, ready for its next turn.
     useLayoutEffect(() => {
         if (layer === "hidden") x.set(0);
@@ -203,6 +221,7 @@ function StackCard({
             drag={isTop && !leaving ? "x" : false}
             dragSnapToOrigin
             dragElastic={0.7}
+            onDragStart={onTouch}
             style={{ x, rotate, touchAction: "pan-y" }}
             onDragEnd={(_, info) => {
                 if (Math.abs(info.offset.x) > SWIPE_DISTANCE) {
@@ -223,6 +242,11 @@ export function NearbyStack({ lang }: { lang: Lang }) {
     const [saved, setSaved] = useState<string[]>([]);
     const [status, setStatus] = useState("");
     const [leaving, setLeaving] = useState<Direction | null>(null);
+    // The swipe hint shows until the stack is first used.
+    const [touched, setTouched] = useState(false);
+    const screen = useRef<HTMLDivElement>(null);
+    const inView = useInView(screen, { once: true, amount: 0.6 });
+    const showHint = inView && !touched;
 
     const topIndex = index % PLACES.length;
     const nextIndex = (index + 1) % PLACES.length;
@@ -230,6 +254,7 @@ export function NearbyStack({ lang }: { lang: Lang }) {
     const isSaved = saved.includes(current.name);
 
     const leave = (direction: Direction) => {
+        setTouched(true);
         if (!leaving) setLeaving(direction);
     };
     const finishLeaving = (direction: Direction) => {
@@ -241,7 +266,10 @@ export function NearbyStack({ lang }: { lang: Lang }) {
     return (
         <div className='mx-auto w-full max-w-[18rem]'>
             <PhoneFrame>
-                <div className='relative aspect-[804/1748] touch-pan-y'>
+                <div
+                    ref={screen}
+                    className='relative aspect-[804/1748] touch-pan-y'
+                >
                     <Image
                         src='/real/nearby-app-screen.webp'
                         alt={text.screenAlt}
@@ -263,10 +291,40 @@ export function NearbyStack({ lang }: { lang: Lang }) {
                                 }
                                 saved={saved.includes(place.name)}
                                 leaving={leaving}
+                                nudge={showHint}
                                 onSwipe={leave}
+                                onTouch={() => setTouched(true)}
                                 onLeft={finishLeaving}
                             />
                         ))}
+                        <AnimatePresence>
+                            {showHint && (
+                                <motion.div
+                                    aria-hidden='true'
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    className='pointer-events-none absolute inset-0 z-30 flex items-center justify-center text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]'
+                                >
+                                    <motion.span
+                                        animate={
+                                            reduceMotion
+                                                ? undefined
+                                                : { x: [0, -14, 10, 0] }
+                                        }
+                                        transition={{
+                                            duration: 1.1,
+                                            delay: 0.4,
+                                            ease: "easeInOut",
+                                            repeat: Infinity,
+                                            repeatDelay: 1.6,
+                                        }}
+                                    >
+                                        <HandIcon className='h-10 w-10' />
+                                    </motion.span>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
                     <button
                         type='button'
@@ -286,15 +344,16 @@ export function NearbyStack({ lang }: { lang: Lang }) {
                         type='button'
                         aria-label={text.save}
                         aria-pressed={isSaved}
-                        onClick={() =>
+                        onClick={() => {
+                            setTouched(true);
                             setSaved((names) =>
                                 names.includes(current.name)
                                     ? names.filter(
                                           (name) => name !== current.name
                                       )
                                     : [...names, current.name]
-                            )
-                        }
+                            );
+                        }}
                         style={circle(716, 1548, 56)}
                         className='absolute rounded-full'
                     >
