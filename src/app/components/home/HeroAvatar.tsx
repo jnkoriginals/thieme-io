@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 
-const END_SIZE = 32;
+const END_SIZE = 40;
 // The picture ends 8px inside the floating navigation pill.
 const NAV_INSET = 8;
 // Gap the picture keeps below the pill while the text squashes it.
@@ -67,6 +67,8 @@ export function HeroAvatar() {
             pictureElement.style.height = `${startSize}px`;
             pictureElement.style.transformOrigin = "top left";
             pictureElement.style.transform = `translate3d(${left}px, ${top}px, 0) scale(${size / startSize})`;
+            // Stays under the header until it docks, so the open menu covers it.
+            pictureElement.style.zIndex = entering > 0 ? "60" : "40";
             root.style.setProperty("--avatar-progress", String(entering));
         };
 
@@ -89,7 +91,7 @@ export function HeroAvatar() {
         <div ref={slot} className='h-24 w-24 md:h-28 md:w-28'>
             <div
                 ref={picture}
-                className='pointer-events-none relative z-[60] h-full w-full'
+                className='pointer-events-none relative h-full w-full'
             >
                 <Image
                     src='/avatar.png'

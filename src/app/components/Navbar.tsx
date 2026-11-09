@@ -11,6 +11,9 @@ const navLabels: Record<Lang, { experience: string; projects: string; skills: st
     en: { experience: "Experience", projects: "Projects", skills: "Skills", contact: "Contact" },
 };
 
+const GLASS =
+    "bg-zinc-800/55 ring-1 ring-white/15 backdrop-blur-2xl backdrop-saturate-[1.8] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),inset_0_-1px_0_rgba(255,255,255,0.08),0_8px_32px_rgba(0,0,0,0.45)]";
+
 export function Navbar({ lang }: { lang: Lang }) {
     const [menuOpen, setMenuOpen] = useState(false);
     const pathname = usePathname();
@@ -33,14 +36,15 @@ export function Navbar({ lang }: { lang: Lang }) {
 
     return (
         <header className="fixed inset-x-0 top-3 z-50 px-3">
-            <nav
-                className="mx-auto flex h-12 max-w-3xl items-center justify-between rounded-full pr-3 bg-zinc-800/55 ring-1 ring-white/15 backdrop-blur-2xl backdrop-saturate-[1.8] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),inset_0_-1px_0_rgba(255,255,255,0.08),0_8px_32px_rgba(0,0,0,0.45)]"
-                style={{ paddingLeft: `calc(20px - 12px * ${avatarProgress})` }}
-            >
-                <Link href={`/${lang}`} className="flex items-center text-sm font-bold tracking-[-0.02em] text-zinc-50">
+            <nav className="mx-auto grid h-14 max-w-3xl grid-cols-[1fr_auto] items-stretch gap-2 md:grid-cols-[1fr_auto_1fr]">
+                <Link
+                    href={`/${lang}`}
+                    className={`flex items-center justify-self-start rounded-full pr-5 text-[15px] font-bold tracking-[-0.02em] text-zinc-50 ${GLASS}`}
+                    style={{ paddingLeft: `calc(20px - 12px * ${avatarProgress})` }}
+                >
                     <span
                         className="shrink-0 overflow-hidden"
-                        style={{ width: `calc(42px * ${avatarProgress})` }}
+                        style={{ width: `calc(50px * ${avatarProgress})` }}
                     >
                         {!heroPage && (
                             <Image
@@ -48,7 +52,7 @@ export function Navbar({ lang }: { lang: Lang }) {
                                 alt=""
                                 width={64}
                                 height={64}
-                                className="h-8 w-8 max-w-none rounded-full object-cover"
+                                className="h-10 w-10 max-w-none rounded-full object-cover"
                             />
                         )}
                     </span>
@@ -56,23 +60,23 @@ export function Navbar({ lang }: { lang: Lang }) {
                 </Link>
 
                 {/* Desktop links */}
-                <div className="hidden md:flex items-center gap-8">
+                <div className={`hidden md:flex items-center gap-7 rounded-full px-7 ${GLASS}`}>
                     {navLinks.map((link) => (
                         <a
                             key={link.href}
                             href={link.href}
-                            className="text-sm text-zinc-200 hover:text-white transition-colors"
+                            className="text-[15px] text-zinc-200 hover:text-white transition-colors"
                         >
                             {link.label}
                         </a>
                     ))}
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className={`flex items-center justify-self-end gap-1 rounded-full px-2 ${GLASS}`}>
                     {/* Language switcher */}
                     <Link
                         href={otherLangHref}
-                        className="text-xs font-medium text-zinc-200 hover:text-white transition-colors px-3 py-1.5 rounded-full hover:bg-zinc-800"
+                        className="text-sm font-medium text-zinc-200 hover:text-white transition-colors px-3 py-1.5 rounded-full hover:bg-zinc-700/60"
                         aria-label={`Switch to ${otherLang === "en" ? "English" : "Deutsch"}`}
                     >
                         {otherLang.toUpperCase()}
@@ -81,7 +85,7 @@ export function Navbar({ lang }: { lang: Lang }) {
                     {/* Mobile menu button */}
                     <button
                         onClick={() => setMenuOpen((o) => !o)}
-                        className="md:hidden p-2 rounded-full hover:bg-zinc-800 transition-colors"
+                        className="md:hidden p-2 rounded-full hover:bg-zinc-700/60 transition-colors"
                         aria-label="Toggle menu"
                         aria-expanded={menuOpen}
                     >
@@ -96,7 +100,7 @@ export function Navbar({ lang }: { lang: Lang }) {
 
             {/* Mobile dropdown */}
             {menuOpen && (
-                <div className="md:hidden mx-auto mt-2 max-w-3xl rounded-3xl bg-zinc-800/55 ring-1 ring-white/15 backdrop-blur-2xl backdrop-saturate-[1.8] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),inset_0_-1px_0_rgba(255,255,255,0.08),0_8px_32px_rgba(0,0,0,0.45)]">
+                <div className={`md:hidden mx-auto mt-2 max-w-3xl rounded-3xl ${GLASS}`}>
                     <div className="px-5 py-3 flex flex-col">
                         {navLinks.map((link) => (
                             <a
