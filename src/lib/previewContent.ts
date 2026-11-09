@@ -110,30 +110,30 @@ export const previewContent: Record<Lang, PreviewContent> = {
     de: {
         intro: {
             role: "Product Engineer · Stuttgart",
-            before: "Hi, ich bin Jannik. Ich entwickle Produkte von der ersten Idee bis zum Launch. Aktuell ist das ",
+            before: "Hi, ich bin Jannik. Ich entwickle Produkte von der ersten Idee bis zum Launch. Gerade arbeite ich an ",
             simpli: "Simpli",
-            middle: ", eine Plattform für digitale Speisekarten. Daneben arbeite ich als Softwareentwickler bei ",
+            middle: ", einer Plattform für digitale Speisekarten. Außerdem entwickle ich Software bei ",
             mercedes: "Mercedes-Benz",
-            after: ", wo ich den Go-live einer internen Anwendung für den deutschen Markt geleitet habe.",
+            after: ".",
             note: "Mobile-Medien-Studium an der HdM Stuttgart, Abschluss 2027",
         },
         simpli: {
-            headline: "Speisekarten in 3 Minuten digital.",
-            body: "Restaurants laden ihre bestehende Speisekarte hoch, KI macht daraus eine digitale Karte, und Gäste öffnen sie per QR-Code. Änderungen gehen danach einfach per Chat mit einem Assistenten.",
-            story: "Ein Soloprojekt. Die Idee entstand 2023, der erste Prototyp war nur die digitale Karte, danach habe ich daraus ein vollständiges SaaS entwickelt.",
+            headline: "In 3 Minuten zur digitalen Speisekarte.",
+            body: "Restaurants laden ihre Speisekarte einfach hoch, die KI macht daraus eine digitale Version und Gäste rufen sie per QR-Code auf. Änderungen erledigt man danach im Chat mit dem Assistenten.",
+            story: "Ein Soloprojekt: Die Idee entstand 2023, der erste Prototyp bestand nur aus der digitalen Karte. Anschließend habe ich daraus ein vollständiges SaaS-Produkt gemacht.",
             caseStudy: "Case Study lesen",
             demo: "Editor-Demo öffnen",
             text: {
                 editorAlt:
-                    "Der Simpli-Karteneditor mit Live-Vorschau der Gästekarte",
-                menuTitle: "Live-Demokarte von Simpli",
+                    "Der Simpli-Editor mit Live-Vorschau der Speisekarte",
+                menuTitle: "Live-Demo der Simpli-Speisekarte",
                 skipMenu: "Live-Karte überspringen",
-                menuActivate: "Tippen, um die Karte zu benutzen",
+                menuActivate: "Zum Ausprobieren tippen",
                 replayNote:
-                    "Eine geskriptete Wiedergabe des Assistenten-Ablaufs, aufgenommen von simpli.menu.",
+                    "Aufzeichnung eines vorbereiteten Ablaufs mit dem Assistenten auf simpli.menu.",
                 menuHint:
-                    "Das ist die echte Karte, die auch Gäste sehen. Scroll durch, öffne ein Gericht oder wechsle die Sprache.",
-                scenesLabel: "Beispiele des Assistenten",
+                    "Genau diese Karte sehen auch die Gäste. Scroll durch, öffne ein Gericht oder wechsle die Sprache.",
+                scenesLabel: "Das kann der Assistent",
                 scenes: {
                     prices: "Preise",
                     soldout: "Ausverkauft",
@@ -146,21 +146,21 @@ export const previewContent: Record<Lang, PreviewContent> = {
         nearby: {
             tagline: "Was sich gerade lohnt, nur ein paar Schritte entfernt.",
             paragraphs: [
-                "Ein Café oder eine Bar in der Nähe zu finden heißt meist: durch eine Karte voller Pins scrollen, bis man aufgibt. nearby setzt genau da an und zeigt immer nur einen Ort. Nach links geht es zum nächsten, nach rechts direkt los.",
-                "Jede Karte zeigt Entfernung, Bewertung und ob gerade geöffnet ist. Mit einem Tipp startest du die Navigation oder merkst dir den Ort.",
-                "Entwickelt mit Ionic und React, mit Capacitor als App für iOS und Android.",
+                "Sucht man ein Café oder eine Bar in der Nähe, scrollt man meist durch eine Karte voller Pins, bis man aufgibt. nearby macht es anders und zeigt immer nur einen Ort. Ein Wisch nach links zeigt den nächsten, ein Wisch nach rechts startet den Weg dorthin.",
+                "Auf jeder Karte siehst du Entfernung, Bewertung und ob gerade geöffnet ist. Mit einem Tipp startest du die Navigation oder merkst dir den Ort.",
+                "Gebaut mit Ionic und React, per Capacitor als App für iOS und Android verpackt.",
             ],
-            storyHeading: "Wie es entstand",
-            story: "nearby entstand im vierten Semester an der HdM Stuttgart, von April bis Juli 2025 im Fünferteam. Wir haben die App an der Hochschule präsentiert, und das edit.Magazin hat darüber berichtet. 2026 habe ich die App überarbeitet: ein neues Kartendesign mit dem Foto im Mittelpunkt, flüssigere Swipe-Animationen mit haptischem Feedback, ein neues Onboarding und ein eigenes Backend, das den Google-API-Schlüssel vom Gerät fernhält und die Kosten pro Gerät und Tag begrenzt.",
+            storyHeading: "Wie alles anfing",
+            story: "nearby begann als Projekt im vierten Semester an der HdM Stuttgart: zu fünft, von April bis Juli 2025. Wir haben die App an der Hochschule präsentiert, und das edit.Magazin hat darüber berichtet. 2026 habe ich sie überarbeitet: ein neues Kartendesign mit dem Foto im Mittelpunkt, flüssigere Swipe-Animationen mit haptischem Feedback, ein neues Onboarding und ein eigenes Backend. Es hält den Google-API-Schlüssel vom Gerät fern und begrenzt die Kosten pro Gerät und Tag.",
             press: "Presseartikel lesen",
             text: {
                 screenAlt:
-                    "Echter nearby-Bildschirm mit Standort, Filtern und Swipe-Aktionen",
+                    "Screenshot der nearby-App mit Standort, Filtern und Swipe-Aktionen",
                 save: "Für später merken",
                 skip: "Nächster Ort",
                 go: "Auf geht's",
                 hint: "Wisch die Karte zur Seite.",
-                going: (place) => `Auf dem Weg zu ${place}.`,
+                going: (place) => `Auf zu ${place}!`,
             },
         },
     },

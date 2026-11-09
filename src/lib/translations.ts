@@ -84,8 +84,8 @@ export const translations = {
             },
         ],
         contact: {
-            heading: "Lass uns sprechen.",
-            subtext: "Schreib mir, ich melde mich so schnell wie möglich.",
+            heading: "Lass uns reden.",
+            subtext: "Schreib mir einfach, ich melde mich so schnell wie möglich.",
             nameLabel: "Name",
             namePlaceholder: "Dein Name",
             emailLabel: "E-Mail",
@@ -93,9 +93,9 @@ export const translations = {
             messageLabel: "Nachricht",
             messagePlaceholder: "Wie kann ich dir helfen?",
             send: "Senden",
-            sending: "Senden...",
+            sending: "Wird gesendet …",
             sent: "Gesendet ✓",
-            error: "Etwas ist schiefgelaufen. Bitte versuch es erneut.",
+            error: "Das hat leider nicht geklappt. Bitte versuch es noch einmal.",
         },
         footer: {
             text: "© 2026 Jannik Thieme",
