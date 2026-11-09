@@ -20,6 +20,18 @@ export function SimpliShowcase({ lang }: { lang: Lang }) {
     // Mounted after hydration so its load event can't be missed.
     const [showMenu, setShowMenu] = useState(false);
     const [menuLoaded, setMenuLoaded] = useState(false);
+    // Phones: the page keeps scrolling over the menu until it is tapped.
+    const [menuActive, setMenuActive] = useState(false);
+
+    useEffect(() => {
+        const element = screen.current;
+        if (!element) return;
+        const observer = new IntersectionObserver(([entry]) => {
+            if (!entry.isIntersecting) setMenuActive(false);
+        });
+        observer.observe(element);
+        return () => observer.disconnect();
+    }, []);
 
     useEffect(() => {
         setShowMenu(true);
@@ -85,6 +97,14 @@ export function SimpliShowcase({ lang }: { lang: Lang }) {
                                 }}
                             />
                             )}
+                            {!menuActive && (
+                                <button
+                                    type='button'
+                                    aria-label={text.menuActivate}
+                                    onClick={() => setMenuActive(true)}
+                                    className='absolute inset-0 z-10 md:hidden'
+                                />
+                            )}
                         </div>
                     </PhoneFrame>
                 </div>
@@ -92,7 +112,7 @@ export function SimpliShowcase({ lang }: { lang: Lang }) {
             <p
                 id='after-simpli-menu'
                 tabIndex={-1}
-                className='mt-5 text-center text-sm text-zinc-300 md:mt-6 md:max-w-[60%] md:text-left'
+                className='mt-5 text-center text-xs text-zinc-500 md:mt-6 md:max-w-[60%] md:text-left'
             >
                 {text.menuHint}
             </p>

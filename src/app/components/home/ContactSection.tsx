@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { translations, type Lang } from "@/lib/translations";
 import { BODY, SHELL, TITLE } from "./designTokens";
+import { ExternalIcon } from "@/app/components/ExternalIcon";
 
 const fieldClass =
     "w-full border-0 bg-transparent px-5 py-4 text-base text-zinc-100 placeholder-zinc-400 outline-none focus-visible:outline-none";
@@ -55,7 +56,7 @@ export function ContactSection({ lang }: { lang: Lang }) {
                     rel='noopener noreferrer'
                     className='font-medium text-indigo-400 transition-colors hover:text-indigo-300'
                 >
-                    LinkedIn ↗
+                    LinkedIn<ExternalIcon />
                 </a>
             </p>
             </div>

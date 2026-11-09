@@ -4,6 +4,7 @@ import { previewMore, type WorkItem } from "@/lib/previewMore";
 import type { Lang } from "@/lib/translations";
 import { BODY, DIVIDER, ITEM, LEAD, SHELL, SMALL, TITLE } from "./designTokens";
 import { Reveal } from "./Reveal";
+import { ExternalIcon } from "@/app/components/ExternalIcon";
 
 const rowGrid = "grid gap-1 md:grid-cols-[10rem_1fr] md:gap-6";
 
@@ -67,7 +68,7 @@ function WorkTile({ item }: { item: WorkItem }) {
                             rel='noopener noreferrer'
                             className={`font-medium transition-opacity hover:opacity-80 ${style.accent}`}
                         >
-                            {link.label} ↗
+                            {link.label}<ExternalIcon />
                         </a>
                     </span>
                 ))}
@@ -160,11 +161,17 @@ export function MoreSections({ lang }: { lang: Lang }) {
                 <AboutGroup label={more.skillsLabel} id='skills'>
                     <dl className='flex flex-col gap-2'>
                         {more.skills.map((group) => (
-                            <div key={group.category} className={rowGrid}>
-                                <dt className={`${SMALL} leading-6`}>
+                            <div
+                                key={group.category}
+                                className='md:grid md:grid-cols-[10rem_1fr] md:gap-6'
+                            >
+                                <dt className={`${SMALL} inline leading-6 md:block`}>
                                     {group.category}
+                                    <span className='md:hidden'>: </span>
                                 </dt>
-                                <dd className={BODY}>{group.items}</dd>
+                                <dd className={`${BODY} inline md:block`}>
+                                    {group.items}
+                                </dd>
                             </div>
                         ))}
                     </dl>

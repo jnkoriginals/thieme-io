@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
     animate,
@@ -9,7 +9,7 @@ import {
     useReducedMotion,
     useTransform,
 } from "framer-motion";
-import { previewContent, type NearbyText } from "@/lib/previewContent";
+import { previewContent } from "@/lib/previewContent";
 import type { Lang } from "@/lib/translations";
 import { PhoneFrame } from "@/app/components/PhoneFrame";
 
@@ -86,6 +86,7 @@ function Card({ place, saved }: { place: Place; saved: boolean }) {
                     fill
                     draggable={false}
                     sizes='740px'
+                    loading='eager'
                     className='object-cover pointer-events-none'
                 />
             ) : (
@@ -97,6 +98,7 @@ function Card({ place, saved }: { place: Place; saved: boolean }) {
                             fill
                             draggable={false}
                             sizes='1020px'
+                            loading='eager'
                             className='object-cover object-[30%_center] pointer-events-none'
                         />
                         <div className='absolute inset-0 bg-[linear-gradient(to_top,rgba(8,4,20,0.9)_0%,rgba(8,4,20,0.55)_32%,rgba(8,4,20,0)_60%)]' />
@@ -142,105 +144,99 @@ function Card({ place, saved }: { place: Place; saved: boolean }) {
     );
 }
 
-function ActiveCard({
+type Layer = "top" | "next" | "hidden";
+
+const LAYER_CLASS: Record<Layer, string> = {
+    top: "z-20 cursor-grab active:cursor-grabbing",
+    next: "z-10 pointer-events-none",
+    hidden: "z-0 opacity-0 pointer-events-none",
+};
+
+// Every card stays mounted and only changes layer, so no photo reloads after a swipe.
+function StackCard({
     place,
-    text,
+    layer,
     saved,
-    behind,
-    onToggleSave,
-    onLeave,
+    leaving,
+    onSwipe,
+    onLeft,
 }: {
     place: Place;
-    text: NearbyText;
+    layer: Layer;
     saved: boolean;
-    behind: ReactNode;
-    onToggleSave: () => void;
-    onLeave: (direction: Direction) => void;
+    leaving: Direction | null;
+    onSwipe: (direction: Direction) => void;
+    onLeft: (direction: Direction) => void;
 }) {
     const reduceMotion = useReducedMotion();
     const x = useMotionValue(0);
     const rotate = useTransform(x, [-300, 300], [-10, 10]);
+    const isTop = layer === "top";
 
-    const leave = (direction: Direction) => {
+    const latestOnLeft = useRef(onLeft);
+    useEffect(() => {
+        latestOnLeft.current = onLeft;
+    }, [onLeft]);
+
+    useEffect(() => {
+        if (!isTop || !leaving) return;
         if (reduceMotion) {
-            onLeave(direction);
+            latestOnLeft.current(leaving);
             return;
         }
-        animate(x, direction === "right" ? 460 : -460, {
+        const animation = animate(x, leaving === "right" ? 460 : -460, {
             duration: 0.28,
             ease: "easeOut",
-            onComplete: () => onLeave(direction),
+            onComplete: () => latestOnLeft.current(leaving),
         });
-    };
+        return () => animation.stop();
+    }, [isTop, leaving, reduceMotion, x]);
+
+    // Back to the centre once it is out of sight, ready for its next turn.
+    useLayoutEffect(() => {
+        if (layer === "hidden") x.set(0);
+    }, [layer, x]);
 
     return (
-        <>
-            <div className='absolute' style={CARD_AREA}>
-                {behind}
-                <motion.div
-                    drag='x'
-                    dragSnapToOrigin
-                    dragElastic={0.7}
-                    style={{ x, rotate, touchAction: "pan-y" }}
-                    onDragEnd={(_, info) => {
-                        if (Math.abs(info.offset.x) > SWIPE_DISTANCE) {
-                            leave(info.offset.x > 0 ? "right" : "left");
-                        }
-                    }}
-                    className='absolute inset-0 cursor-grab active:cursor-grabbing'
-                >
-                    <Card place={place} saved={saved} />
-                </motion.div>
-            </div>
-            <button
-                type='button'
-                aria-label={text.skip}
-                onClick={() => leave("left")}
-                style={circle(88, 1548, 56)}
-                className='absolute rounded-full'
-            />
-            <button
-                type='button'
-                aria-label={text.go}
-                onClick={() => leave("right")}
-                style={GO_BUTTON}
-                className='absolute rounded-full'
-            />
-            <button
-                type='button'
-                aria-label={text.save}
-                aria-pressed={saved}
-                onClick={onToggleSave}
-                style={circle(716, 1548, 56)}
-                className='absolute rounded-full'
-            >
-                {saved && (
-                    <motion.span
-                        initial={{ scale: reduceMotion ? 1 : 0.6 }}
-                        animate={{ scale: 1 }}
-                        transition={{
-                            type: "spring",
-                            stiffness: 500,
-                            damping: 16,
-                        }}
-                        className='flex h-full w-full items-center justify-center rounded-full bg-[#f3f1f7] text-[#341274]'
-                    >
-                        <BookmarkIcon className='h-1/2 w-1/2' />
-                    </motion.span>
-                )}
-            </button>
-        </>
+        <motion.div
+            aria-hidden={!isTop}
+            drag={isTop && !leaving ? "x" : false}
+            dragSnapToOrigin
+            dragElastic={0.7}
+            style={{ x, rotate, touchAction: "pan-y" }}
+            onDragEnd={(_, info) => {
+                if (Math.abs(info.offset.x) > SWIPE_DISTANCE) {
+                    onSwipe(info.offset.x > 0 ? "right" : "left");
+                }
+            }}
+            className={`absolute inset-0 ${LAYER_CLASS[layer]}`}
+        >
+            <Card place={place} saved={saved} />
+        </motion.div>
     );
 }
 
 export function NearbyStack({ lang }: { lang: Lang }) {
     const text = previewContent[lang].nearby.text;
+    const reduceMotion = useReducedMotion();
     const [index, setIndex] = useState(0);
     const [saved, setSaved] = useState<string[]>([]);
     const [status, setStatus] = useState("");
+    const [leaving, setLeaving] = useState<Direction | null>(null);
 
-    const current = PLACES[index % PLACES.length];
-    const next = PLACES[(index + 1) % PLACES.length];
+    const topIndex = index % PLACES.length;
+    const nextIndex = (index + 1) % PLACES.length;
+    const current = PLACES[topIndex];
+    const isSaved = saved.includes(current.name);
+
+    const leave = (direction: Direction) => {
+        if (!leaving) setLeaving(direction);
+    };
+    const finishLeaving = (direction: Direction) => {
+        setStatus(direction === "right" ? text.going(current.name) : "");
+        setIndex((value) => value + 1);
+        setLeaving(null);
+    };
 
     return (
         <div className='mx-auto w-full max-w-[18rem]'>
@@ -253,20 +249,44 @@ export function NearbyStack({ lang }: { lang: Lang }) {
                         sizes='804px'
                         className='object-cover'
                     />
-                    <ActiveCard
-                        key={index}
-                        place={current}
-                        text={text}
-                        saved={saved.includes(current.name)}
-                        behind={
-                            <div aria-hidden='true' className='absolute inset-0'>
-                                <Card
-                                    place={next}
-                                    saved={saved.includes(next.name)}
-                                />
-                            </div>
-                        }
-                        onToggleSave={() =>
+                    <div className='absolute' style={CARD_AREA}>
+                        {PLACES.map((place, i) => (
+                            <StackCard
+                                key={place.name}
+                                place={place}
+                                layer={
+                                    i === topIndex
+                                        ? "top"
+                                        : i === nextIndex
+                                          ? "next"
+                                          : "hidden"
+                                }
+                                saved={saved.includes(place.name)}
+                                leaving={leaving}
+                                onSwipe={leave}
+                                onLeft={finishLeaving}
+                            />
+                        ))}
+                    </div>
+                    <button
+                        type='button'
+                        aria-label={text.skip}
+                        onClick={() => leave("left")}
+                        style={circle(88, 1548, 56)}
+                        className='absolute rounded-full'
+                    />
+                    <button
+                        type='button'
+                        aria-label={text.go}
+                        onClick={() => leave("right")}
+                        style={GO_BUTTON}
+                        className='absolute rounded-full'
+                    />
+                    <button
+                        type='button'
+                        aria-label={text.save}
+                        aria-pressed={isSaved}
+                        onClick={() =>
                             setSaved((names) =>
                                 names.includes(current.name)
                                     ? names.filter(
@@ -275,20 +295,29 @@ export function NearbyStack({ lang }: { lang: Lang }) {
                                     : [...names, current.name]
                             )
                         }
-                        onLeave={(direction) => {
-                            setStatus(
-                                direction === "right"
-                                    ? text.going(current.name)
-                                    : ""
-                            );
-                            setIndex((value) => value + 1);
-                        }}
-                    />
+                        style={circle(716, 1548, 56)}
+                        className='absolute rounded-full'
+                    >
+                        {isSaved && (
+                            <motion.span
+                                initial={{ scale: reduceMotion ? 1 : 0.6 }}
+                                animate={{ scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 500,
+                                    damping: 16,
+                                }}
+                                className='flex h-full w-full items-center justify-center rounded-full bg-[#f3f1f7] text-[#341274]'
+                            >
+                                <BookmarkIcon className='h-1/2 w-1/2' />
+                            </motion.span>
+                        )}
+                    </button>
                 </div>
             </PhoneFrame>
             <p
                 aria-live='polite'
-                className='mt-4 text-center text-sm text-white/80'
+                className='mt-4 text-center text-xs text-white/60'
             >
                 {status || text.hint}
             </p>

@@ -53,23 +53,6 @@ export function AssistantScenes({ lang }: { lang: Lang }) {
 
     return (
         <div>
-            <div
-                role='group'
-                aria-label={text.scenesLabel}
-                className='mb-4 flex flex-wrap gap-x-5 gap-y-2'
-            >
-                {SCENES.map((id, i) => (
-                    <button
-                        key={id}
-                        type='button'
-                        aria-pressed={i === index}
-                        onClick={() => setIndex(i)}
-                        className={`text-base transition-colors ${i === index ? "font-medium text-indigo-400" : "text-zinc-400 hover:text-zinc-100"}`}
-                    >
-                        {text.scenes[id]}
-                    </button>
-                ))}
-            </div>
             <video
                 ref={video}
                 src={`${file}.mp4`}
@@ -84,7 +67,24 @@ export function AssistantScenes({ lang }: { lang: Lang }) {
                 }}
                 className={`w-full rounded-2xl bg-white ${narrow ? "mx-auto aspect-[350/763] max-w-[22rem]" : "aspect-[960/742]"}`}
             />
-            <p className='mt-3 text-sm text-zinc-400'>{text.replayNote}</p>
+            <div
+                role='group'
+                aria-label={text.scenesLabel}
+                className='mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2'
+            >
+                {SCENES.map((id, i) => (
+                    <button
+                        key={id}
+                        type='button'
+                        aria-pressed={i === index}
+                        onClick={() => setIndex(i)}
+                        className={`text-base transition-colors ${i === index ? "font-medium text-indigo-400" : "text-zinc-400 hover:text-zinc-100"}`}
+                    >
+                        {text.scenes[id]}
+                    </button>
+                ))}
+            </div>
+            <p className='mt-3 text-center text-xs text-zinc-500'>{text.replayNote}</p>
         </div>
     );
 }
