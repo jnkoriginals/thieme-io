@@ -143,7 +143,7 @@ export function Navbar({ lang }: { lang: Lang }) {
                     <Link
                         href={otherLangHref}
                         className={`text-sm font-medium text-zinc-200 hover:text-white transition-colors px-3 py-1.5 rounded-full ${PRESSABLE} md:flex md:h-full md:w-full md:items-center md:justify-center md:p-0`}
-                        aria-label={`Switch to ${otherLang === "en" ? "English" : "Deutsch"}`}
+                        aria-label={lang === "de" ? "Zu Englisch wechseln" : "Switch to German"}
                     >
                         {otherLang.toUpperCase()}
                     </Link>
@@ -152,7 +152,7 @@ export function Navbar({ lang }: { lang: Lang }) {
                     <button
                         onClick={() => setMenuOpen((o) => !o)}
                         className={`md:hidden p-2 rounded-full transition-colors ${PRESSABLE}`}
-                        aria-label="Toggle menu"
+                        aria-label={lang === "de" ? "Menü öffnen oder schließen" : "Toggle menu"}
                         aria-expanded={menuOpen}
                     >
                         {menuOpen ? (
