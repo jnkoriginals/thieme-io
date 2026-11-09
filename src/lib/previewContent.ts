@@ -87,12 +87,12 @@ export const previewContent: Record<Lang, PreviewContent> = {
             tagline:
                 "What's worth going to, within walking distance, right now.",
             paragraphs: [
-                "Picking a café or bar nearby usually means scrolling a map full of pins until you give up. nearby works against that: it shows one place at a time as a card. Swipe left for the next one, right to go. A compact list is there when you want the overview.",
+                "Picking a café or bar nearby usually means scrolling a map full of pins until you give up. nearby works against that: it shows one place at a time as a card. Swipe left for the next one, right to go.",
                 "Each card shows distance, rating and whether it's open right now, with one tap to navigate or save it.",
                 "Built with Ionic and React and wrapped with Capacitor for iOS and Android.",
             ],
             storyHeading: "How it started",
-            story: "nearby began as a fourth-semester project at HdM Stuttgart, built by a team of five from April to July 2025. We presented it at the university, and it was featured in edit.Magazin. In 2026 I refined the card design and animations and improved the app logic.",
+            story: "nearby began as a fourth-semester project at HdM Stuttgart, built by a team of five from April to July 2025. We presented it at the university, and it was featured in edit.Magazin. In 2026 I reworked the app: a photo-first card design, smoother swipe animations with haptic feedback, a new onboarding, and my own backend that keeps the Google API key off the device and limits costs per device and day.",
             press: "Read the press article",
             text: {
                 screenAlt:
@@ -143,12 +143,12 @@ export const previewContent: Record<Lang, PreviewContent> = {
         nearby: {
             tagline: "Was sich gerade lohnt, nur ein paar Schritte entfernt.",
             paragraphs: [
-                "Ein Café oder eine Bar in der Nähe zu finden heißt meist: durch eine Karte voller Pins scrollen, bis man aufgibt. nearby setzt genau da an und zeigt immer nur einen Ort. Nach links geht es zum nächsten, nach rechts direkt los. Für den Überblick gibt es eine kompakte Liste.",
+                "Ein Café oder eine Bar in der Nähe zu finden heißt meist: durch eine Karte voller Pins scrollen, bis man aufgibt. nearby setzt genau da an und zeigt immer nur einen Ort. Nach links geht es zum nächsten, nach rechts direkt los.",
                 "Jede Karte zeigt Entfernung, Bewertung und ob gerade geöffnet ist. Mit einem Tipp startest du die Navigation oder merkst dir den Ort.",
                 "Entwickelt mit Ionic und React, mit Capacitor als App für iOS und Android.",
             ],
             storyHeading: "Wie es entstand",
-            story: "nearby entstand im vierten Semester an der HdM Stuttgart, von April bis Juli 2025 im Fünferteam. Wir haben die App an der Hochschule präsentiert, und das edit.Magazin hat darüber berichtet. 2026 habe ich Kartendesign und Animationen verfeinert und die App-Logik verbessert.",
+            story: "nearby entstand im vierten Semester an der HdM Stuttgart, von April bis Juli 2025 im Fünferteam. Wir haben die App an der Hochschule präsentiert, und das edit.Magazin hat darüber berichtet. 2026 habe ich die App überarbeitet: ein neues Kartendesign mit dem Foto im Mittelpunkt, flüssigere Swipe-Animationen mit haptischem Feedback, ein neues Onboarding und ein eigenes Backend, das den Google-API-Schlüssel vom Gerät fernhält und die Kosten pro Gerät und Tag begrenzt.",
             press: "Presseartikel lesen",
             text: {
                 screenAlt:
