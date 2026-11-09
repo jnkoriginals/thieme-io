@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { previewMore } from "@/lib/previewMore";
 import type { Lang } from "@/lib/translations";
+import { ExternalIcon } from "@/app/components/ExternalIcon";
 
 const SPOTIFY_URL = "https://open.spotify.com/artist/7MABHmoRroJdBAYLz0OQSj";
 const TRACK_URL = "https://soundcloud.com/jnkoriginals/mission-success-6";
@@ -20,7 +21,7 @@ export function MusicPlayer({ lang }: { lang: Lang }) {
             rel='noopener noreferrer'
             className='text-sm font-medium text-emerald-400 transition-colors hover:text-emerald-300'
         >
-            {text.spotify} ↗
+            {text.spotify}<ExternalIcon />
         </a>
     );
 

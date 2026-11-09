@@ -4,6 +4,7 @@ export type SimpliDemoText = {
     editorAlt: string;
     menuTitle: string;
     skipMenu: string;
+    menuActivate: string;
     replayNote: string;
     menuHint: string;
     scenesLabel: string;
@@ -55,7 +56,7 @@ export const previewContent: Record<Lang, PreviewContent> = {
             simpli: "Simpli",
             middle: ", a menu platform for restaurants, alongside software engineering at ",
             mercedes: "Mercedes-Benz",
-            after: ".",
+            after: ", where I led the German-market go-live of an internal application.",
             note: "Mobile Media Student at HdM Stuttgart, graduating 2027",
         },
         simpli: {
@@ -69,6 +70,7 @@ export const previewContent: Record<Lang, PreviewContent> = {
                     "The Simpli menu editor with a live preview of the guest menu",
                 menuTitle: "Live Simpli demo menu",
                 skipMenu: "Skip the live menu",
+                menuActivate: "Tap to use the menu",
                 replayNote:
                     "A scripted replay of the assistant flow, recorded from simpli.menu.",
                 menuHint:
@@ -112,7 +114,7 @@ export const previewContent: Record<Lang, PreviewContent> = {
             simpli: "Simpli",
             middle: ", eine Plattform für digitale Speisekarten. Daneben arbeite ich als Softwareentwickler bei ",
             mercedes: "Mercedes-Benz",
-            after: ".",
+            after: ", wo ich den Go-live einer internen Anwendung für den deutschen Markt geleitet habe.",
             note: "Mobile-Medien-Studium an der HdM Stuttgart, Abschluss 2027",
         },
         simpli: {
@@ -126,6 +128,7 @@ export const previewContent: Record<Lang, PreviewContent> = {
                     "Der Simpli-Karteneditor mit Live-Vorschau der Gästekarte",
                 menuTitle: "Live-Demokarte von Simpli",
                 skipMenu: "Live-Karte überspringen",
+                menuActivate: "Tippen, um die Karte zu benutzen",
                 replayNote:
                     "Eine geskriptete Wiedergabe des Assistenten-Ablaufs, aufgenommen von simpli.menu.",
                 menuHint:

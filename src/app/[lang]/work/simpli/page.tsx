@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ClosingFooter } from "@/app/components/home/ClosingFooter";
 import { AssistantScenes } from "./AssistantScenes";
+import { FlowDiagram } from "./FlowDiagram";
 import { simpliCaseStudy } from "@/lib/caseStudies";
 import { translations, type Lang } from "@/lib/translations";
+import { ExternalIcon } from "@/app/components/ExternalIcon";
 
 type Props = {
     params: Promise<{ lang: string }>;
@@ -66,7 +68,7 @@ export default async function SimpliCaseStudy({ params }: Props) {
                             rel='noopener noreferrer'
                             className='font-medium text-zinc-100 transition-colors hover:text-indigo-300'
                         >
-                            {content.live} ↗
+                            {content.live}<ExternalIcon />
                         </a>
                         <a
                             href={`https://www.dashboard.simpli.menu/demo.html?lng=${lang}`}
@@ -74,7 +76,7 @@ export default async function SimpliCaseStudy({ params }: Props) {
                             rel='noopener noreferrer'
                             className='text-zinc-400 transition-colors hover:text-zinc-100'
                         >
-                            {content.demo} ↗
+                            {content.demo}<ExternalIcon />
                         </a>
                     </div>
                 </header>
@@ -100,7 +102,7 @@ export default async function SimpliCaseStudy({ params }: Props) {
                                     {section.facts.map((fact) => (
                                         <div
                                             key={fact.label}
-                                            className='flex flex-col-reverse gap-1'
+                                            className='flex flex-col-reverse justify-end gap-1'
                                         >
                                             <dt className='text-sm text-zinc-400'>
                                                 {fact.label}
@@ -111,6 +113,9 @@ export default async function SimpliCaseStudy({ params }: Props) {
                                         </div>
                                     ))}
                                 </dl>
+                            )}
+                            {section.diagram && (
+                                <FlowDiagram content={section.diagram} />
                             )}
                             {section.assistantDemo && (
                                 <div className='mt-10'>

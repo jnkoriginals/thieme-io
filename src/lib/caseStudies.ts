@@ -1,3 +1,4 @@
+import type { FlowDiagramContent } from "@/app/[lang]/work/simpli/FlowDiagram";
 import type { Lang } from "@/lib/translations";
 
 type CaseStudySection = {
@@ -5,6 +6,7 @@ type CaseStudySection = {
     paragraphs: string[];
     facts?: { value: string; label: string }[];
     assistantDemo?: boolean;
+    diagram?: FlowDiagramContent;
 };
 
 type CaseStudy = {
@@ -61,6 +63,7 @@ export const simpliCaseStudy: Record<Lang, CaseStudy> = {
                     "Then came the first setback: my first registered customers didn't renew their subscription. When I looked for the reason, it turned out they had never finished setting up their menu. The barrier was right at the start.",
                     "So I rethought the setup. An onboarding flow now guides new users step by step to their first published menu, and AI import cuts creating a menu from around 30 minutes to under 3, depending on the menu.",
                     "And since nobody wants to dig through submenus for the right setting in the age of ChatGPT, I added an AI assistant that helps with any question or change across the account and its menus, and carries them out where possible.",
+                    "All of this is live now, but without new customers there's no proof yet that it removes the barrier. The number I'll watch is how many sign-ups reach a published menu.",
                 ],
                 facts: [
                     { value: "30 → under 3 min", label: "to create a menu, depending on the menu" },
@@ -73,18 +76,28 @@ export const simpliCaseStudy: Record<Lang, CaseStudy> = {
                     "So the Cloud Function only talks to the model. Every tool call goes back to the dashboard, which validates it against the real menu and shows it as a proposal. Nothing is written until the owner confirms. Writes then go through the owner's normal permissions, which Firestore rules enforce on the server, and each change can be undone. Account, billing and imprint settings aren't changeable through chat at all, the assistant can only link to them.",
                     "The trade-off is one extra click per change, which I accepted on purpose. A bad suggestion can still appear, but only as a visible before and after that the owner has to approve. Each turn is also capped at 4 model rounds and 8 tool calls per message, so a looping model can't run up costs.",
                 ],
+                diagram: {
+                    propose: "The model proposes",
+                    execute: "The dashboard executes",
+                    toolCalls: "tool calls",
+                    confirm: "owner confirms",
+                    model: { title: "Gemini", text: "Suggests changes" },
+                    fn: { title: "Cloud Function", text: "Only talks to the model" },
+                    dashboard: { title: "Dashboard", text: "Validates and shows a proposal" },
+                    store: { title: "Firestore", text: "Rules check every write" },
+                },
                 assistantDemo: true,
             },
             {
                 heading: "The request nobody sees",
                 paragraphs: [
                     "A scanned code hits a redirect before any of the menu loads, so the guest looks at nothing until it answers. Measured against production it took about 370 ms to first byte, roughly double the menu page it redirects to, for a response the guest never sees.",
-                    "It was doing four sequential Firestore round-trips, including a blocking analytics write. The write now runs after the response through waitUntil, because a plain floating promise dies with the serverless function. The two remaining reads run in parallel and are cached, reusing the cache tags the menu page already has, so deactivating a restaurant still stops its codes on the next scan. It now takes about 215 ms once warm.",
+                    "It was doing four sequential Firestore round-trips, including a blocking analytics write. The write now runs after the response through waitUntil, because a plain floating promise dies with the serverless function. The two remaining reads run in parallel and are cached, reusing the cache tags the menu page already has, so deactivating a restaurant still stops its codes on the next scan. It now takes about 215 ms.",
                 ],
                 facts: [
                     {
                         value: "370 → 215 ms",
-                        label: "QR redirect, time to first byte (warm)",
+                        label: "QR redirect, time to first byte",
                     },
                 ],
             },
@@ -111,6 +124,12 @@ export const simpliCaseStudy: Record<Lang, CaseStudy> = {
                 paragraphs: [
                     "AI calls cost real money per request, so usage is reserved in a Firestore transaction before the model runs and released again if the request fails with an error. Concurrent requests can't slip past a plan's limit, and a failed request doesn't use up the quota.",
                     "A trial is limited to one per payment method, so a new account doesn't mean a new trial. One-off purchases are confirmed right after payment, with a scheduled job as a backstop for customers who never make it back from the bank's verification page.",
+                ],
+            },
+            {
+                heading: "What I've already changed",
+                paragraphs: [
+                    "Simpli has already been through changes I'd make again. I completely redesigned and reworked the landing page once to fit the target audience better. And the dashboard used to follow the structure of the data, so I rebuilt its flow around what users are actually trying to do.",
                 ],
             },
         ],
@@ -154,6 +173,7 @@ export const simpliCaseStudy: Record<Lang, CaseStudy> = {
                     "Dann kam der erste Rückschlag: Meine ersten registrierten Kunden verlängerten ihr Abo nicht. Als ich nach dem Grund suchte, zeigte sich, dass sie ihre Karte nie fertig eingerichtet hatten. Die Hürde lag also gleich am Anfang.",
                     "Deshalb habe ich die Einrichtung neu gedacht. Ein Onboarding-Flow führt neue Nutzer jetzt Schritt für Schritt bis zur ersten veröffentlichten Karte, und der KI-Import verkürzt das Anlegen einer Karte je nach Umfang von rund 30 Minuten auf unter 3 Minuten.",
                     "Und weil zu Zeiten von ChatGPT niemand mehr in Untermenüs nach der richtigen Einstellung suchen möchte, kam ein KI-Assistent dazu, der bei jeder Frage und Änderung rund um Account und Karten hilft und diese je nach Möglichkeit direkt durchführt.",
+                    "Das alles ist jetzt live, aber ohne neue Kunden gibt es noch keinen Beweis, dass es die Hürde beseitigt. Die Zahl, auf die ich achte: wie viele Registrierungen bis zur veröffentlichten Karte kommen.",
                 ],
                 facts: [
                     { value: "30 → unter 3 Min.", label: "zum Anlegen einer Karte, je nach Umfang" },
@@ -166,18 +186,28 @@ export const simpliCaseStudy: Record<Lang, CaseStudy> = {
                     "Deshalb spricht die Cloud Function nur mit dem Modell. Jeder Tool-Aufruf geht zurück ans Dashboard, wird dort gegen die echte Karte geprüft und als Vorschlag angezeigt. Geschrieben wird erst nach der Bestätigung, und zwar mit den normalen Rechten des Betriebs, die Firestore-Regeln auf dem Server durchsetzen. Jede Änderung lässt sich rückgängig machen. Konto, Abrechnung und Impressum lassen sich per Chat gar nicht ändern, der Assistent kann nur dorthin verlinken.",
                     "Das kostet einen zusätzlichen Klick pro Änderung, und den nehme ich bewusst in Kauf. Ein schlechter Vorschlag kann weiterhin auftauchen, aber nur als sichtbares Vorher und Nachher, das der Betrieb bestätigen muss. Außerdem ist jeder Durchlauf auf 4 Modell-Runden und 8 Tool-Aufrufe pro Nachricht begrenzt, damit ein Modell in einer Schleife keine Kosten hochtreibt.",
                 ],
+                diagram: {
+                    propose: "Das Modell schlägt vor",
+                    execute: "Das Dashboard führt aus",
+                    toolCalls: "Tool-Aufrufe",
+                    confirm: "Betrieb bestätigt",
+                    model: { title: "Gemini", text: "Schlägt Änderungen vor" },
+                    fn: { title: "Cloud Function", text: "Spricht nur mit dem Modell" },
+                    dashboard: { title: "Dashboard", text: "Prüft und zeigt den Vorschlag" },
+                    store: { title: "Firestore", text: "Rules prüfen jede Änderung" },
+                },
                 assistantDemo: true,
             },
             {
                 heading: "Die Anfrage, die niemand sieht",
                 paragraphs: [
                     "Ein gescannter Code trifft zuerst auf eine Weiterleitung, bevor irgendetwas von der Karte lädt, und so lange sehen Gäste nichts. In Produktion dauerte das rund 370 ms bis zum ersten Byte, etwa doppelt so lange wie die Kartenseite dahinter, für eine Antwort, die sie nie zu sehen bekommen.",
-                    "Dahinter steckten vier aufeinanderfolgende Firestore-Zugriffe, darunter ein blockierender Analytics-Schreibvorgang. Der läuft jetzt per waitUntil nach der Antwort, denn ein nicht abgewartetes Promise würde mit der Serverless-Funktion abgebrochen. Die beiden übrigen Lesezugriffe laufen parallel und aus dem Cache. Sie nutzen die Cache-Tags der Kartenseite mit, sodass die Codes eines deaktivierten Restaurants weiterhin ab dem nächsten Scan nicht mehr funktionieren. Ohne Kaltstart dauert es jetzt rund 215 ms.",
+                    "Dahinter steckten vier aufeinanderfolgende Firestore-Zugriffe, darunter ein blockierender Analytics-Schreibvorgang. Der läuft jetzt per waitUntil nach der Antwort, denn ein nicht abgewartetes Promise würde mit der Serverless-Funktion abgebrochen. Die beiden übrigen Lesezugriffe laufen parallel und aus dem Cache. Sie nutzen die Cache-Tags der Kartenseite mit, sodass die Codes eines deaktivierten Restaurants weiterhin ab dem nächsten Scan nicht mehr funktionieren. Jetzt dauert es rund 215 ms.",
                 ],
                 facts: [
                     {
                         value: "370 → 215 ms",
-                        label: "QR-Weiterleitung, Zeit bis zum ersten Byte (ohne Kaltstart)",
+                        label: "QR-Weiterleitung, Zeit bis zum ersten Byte",
                     },
                 ],
             },
@@ -207,6 +237,12 @@ export const simpliCaseStudy: Record<Lang, CaseStudy> = {
                 paragraphs: [
                     "KI-Aufrufe kosten pro Anfrage echtes Geld. Deshalb wird die Nutzung vor dem Modellaufruf in einer Firestore-Transaktion reserviert und bei einem Fehler wieder freigegeben. So kommen parallele Anfragen nicht am Limit vorbei, und eine fehlgeschlagene Anfrage verbraucht kein Kontingent.",
                     "Pro Zahlungsmittel gibt es nur eine Testphase, ein neues Konto bringt also keine neue. Einmalkäufe werden direkt nach der Zahlung bestätigt, und ein geplanter Job fängt alle auf, die von der Bankverifizierung nicht mehr zurückkommen.",
+                ],
+            },
+            {
+                heading: "Was ich schon anders gemacht habe",
+                paragraphs: [
+                    "Simpli hat schon Änderungen hinter sich, die ich wieder so machen würde. Die Landingpage habe ich einmal komplett neu gestaltet und überarbeitet, um sie besser an die Zielgruppe anzupassen. Und das Dashboard folgte früher dem Aufbau der Daten, deshalb habe ich seinen Ablauf neu an dem ausgerichtet, was Nutzer tatsächlich erledigen wollen.",
                 ],
             },
         ],

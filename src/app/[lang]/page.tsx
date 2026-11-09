@@ -22,6 +22,7 @@ import {
 import { Reveal } from "@/app/components/home/Reveal";
 import { SimpliShowcase } from "@/app/components/home/SimpliShowcase";
 import { TrySketch } from "@/app/components/home/TrySketch";
+import { ExternalIcon } from "@/app/components/ExternalIcon";
 
 type Props = {
     params: Promise<{ lang: string }>;
@@ -102,7 +103,7 @@ export default async function PreviewPage({ params }: Props) {
                                 rel='noopener noreferrer'
                                 className={SECONDARY_LINK}
                             >
-                                {content.simpli.demo} ↗
+                                {content.simpli.demo}<ExternalIcon />
                             </a>
                             <a
                                 href='https://simpli.menu'
@@ -110,7 +111,7 @@ export default async function PreviewPage({ params }: Props) {
                                 rel='noopener noreferrer'
                                 className={SECONDARY_LINK}
                             >
-                                {previewMore[lang].website} ↗
+                                {previewMore[lang].website}<ExternalIcon />
                             </a>
                         </div>
                     </div>
@@ -178,7 +179,7 @@ export default async function PreviewPage({ params }: Props) {
                                 rel='noopener noreferrer'
                                 className='mt-4 inline-block text-base font-medium text-white transition-opacity hover:opacity-80'
                             >
-                                {content.nearby.press} ↗
+                                {content.nearby.press}<ExternalIcon />
                             </a>
                         </div>
                     </div>

@@ -84,7 +84,7 @@ export const translations = {
             },
         ],
         contact: {
-            heading: "Lass uns zusammenarbeiten.",
+            heading: "Lass uns sprechen.",
             subtext: "Schreib mir, ich melde mich so schnell wie möglich.",
             nameLabel: "Name",
             namePlaceholder: "Dein Name",
@@ -210,7 +210,7 @@ export const translations = {
             },
         ],
         contact: {
-            heading: "Let's work together.",
+            heading: "Let's talk.",
             subtext: "Write to me — I'll get back to you as soon as possible.",
             nameLabel: "Name",
             namePlaceholder: "Your name",

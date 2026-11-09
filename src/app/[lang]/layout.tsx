@@ -52,18 +52,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             alternateLocale: lang === "de" ? "en_US" : "de_DE",
             images: [
                 {
-                    url: "/avatar.png",
-                    width: 640,
-                    height: 640,
+                    url: "/og.png",
+                    width: 1200,
+                    height: 630,
                     alt: "Jannik Thieme",
                 },
             ],
         },
         twitter: {
-            card: "summary",
+            card: "summary_large_image",
             title: t.metadata.title,
             description: t.metadata.description,
-            images: ["/avatar.png"],
+            images: ["/og.png"],
         },
         robots: {
             index: true,

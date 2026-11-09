@@ -116,9 +116,9 @@ export const previewMore: Record<Lang, PreviewMore> = {
                 place: "Mercedes-Benz AG, Stuttgart",
                 period: "Mar 2026 – Present",
                 detail: [
+                    "Worked directly with international markets during the worldwide rollout, including live demos.",
                     "Full-stack development of an internal web application with Angular and Python.",
                     "Responsible for a large part of its DevOps setup on AWS, Docker and Kubernetes.",
-                    "Worked directly with international markets during the worldwide rollout, including live demos.",
                 ],
                 tags: MERCEDES_TAGS,
             },
@@ -127,9 +127,9 @@ export const previewMore: Record<Lang, PreviewMore> = {
                 place: "Mercedes-Benz AG, Stuttgart",
                 period: "Sep 2025 – Feb 2026",
                 detail: [
+                    "Planned and led the German-market go-live and supported the worldwide rollout.",
                     "Developed new features for an internal web application.",
                     "Built and operated its production environment.",
-                    "Planned and led the German-market go-live and supported the worldwide rollout.",
                 ],
                 tags: ["Angular", "TypeScript", "Python", "Docker", "Kubernetes", "AWS"],
             },
@@ -231,9 +231,9 @@ export const previewMore: Record<Lang, PreviewMore> = {
                 place: "Mercedes-Benz AG, Stuttgart",
                 period: "März 2026 – heute",
                 detail: [
+                    "Direkter Austausch mit internationalen Märkten beim weltweiten Rollout, inklusive Live-Demos.",
                     "Full-Stack-Entwicklung einer internen Webanwendung mit Angular und Python.",
                     "Verantwortung für einen großen Teil des DevOps-Setups auf AWS, Docker und Kubernetes.",
-                    "Direkter Austausch mit internationalen Märkten beim weltweiten Rollout, inklusive Live-Demos.",
                 ],
                 tags: MERCEDES_TAGS,
             },
@@ -242,9 +242,9 @@ export const previewMore: Record<Lang, PreviewMore> = {
                 place: "Mercedes-Benz AG, Stuttgart",
                 period: "Sep. 2025 – Feb. 2026",
                 detail: [
+                    "Den Go-live für den deutschen Markt geplant und geleitet und den weltweiten Rollout begleitet.",
                     "Neue Features für eine interne Webanwendung entwickelt.",
                     "Die Produktivumgebung aufgebaut und betrieben.",
-                    "Den Go-live für den deutschen Markt geplant und geleitet und den weltweiten Rollout begleitet.",
                 ],
                 tags: ["Angular", "TypeScript", "Python", "Docker", "Kubernetes", "AWS"],
             },
