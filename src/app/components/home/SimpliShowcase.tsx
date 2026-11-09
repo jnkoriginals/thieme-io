@@ -4,7 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { PhoneFrame } from "@/app/components/PhoneFrame";
 import { previewContent } from "@/lib/previewContent";
+import { previewMore } from "@/lib/previewMore";
 import type { Lang } from "@/lib/translations";
+import { TrySketch } from "./TrySketch";
 
 // The public demo menu, rendered at a real phone width and scaled to the mockup.
 const MENU_PATH = "m/6YsieOfuFFpclvEPQmIc/ck7eYSZYpl0Ey2iYsGYf";
@@ -47,7 +49,11 @@ export function SimpliShowcase({ lang }: { lang: Lang }) {
                 >
                     {text.skipMenu}
                 </a>
-                <div className='mx-auto w-full max-w-[18rem] md:absolute md:-bottom-8 md:right-0 md:mx-0 md:w-[17rem]'>
+                <div className='relative mx-auto mt-28 w-full max-w-[18rem] md:absolute md:-bottom-8 md:right-0 md:mx-0 md:mt-0 md:w-[17rem]'>
+                    <TrySketch
+                        label={previewMore[lang].tryIt}
+                        className='text-indigo-400'
+                    />
                     <PhoneFrame screenClass='bg-[#faf1e6]'>
                         <div
                             ref={screen}
@@ -86,7 +92,7 @@ export function SimpliShowcase({ lang }: { lang: Lang }) {
             <p
                 id='after-simpli-menu'
                 tabIndex={-1}
-                className='mt-5 text-center text-sm text-zinc-300 md:mt-6 md:text-left'
+                className='mt-5 text-center text-sm text-zinc-300 md:mt-6 md:max-w-[60%] md:text-left'
             >
                 {text.menuHint}
             </p>

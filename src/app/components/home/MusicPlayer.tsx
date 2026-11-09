@@ -48,13 +48,13 @@ export function MusicPlayer({ lang }: { lang: Lang }) {
     }
 
     return (
-        <div className='mt-6 flex flex-wrap items-center gap-x-5 gap-y-2'>
-        <button
-            type='button'
-            onClick={() => setOpen(true)}
-            className='group inline-flex items-center gap-3 text-left text-sm text-zinc-300 transition-colors hover:text-zinc-50'
-        >
-            <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-950 transition-transform group-hover:scale-105 motion-reduce:transform-none'>
+        <div className='mt-6 flex items-center gap-3 text-sm'>
+            <button
+                type='button'
+                onClick={() => setOpen(true)}
+                aria-label={text.play}
+                className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-950 transition-transform hover:scale-105 motion-reduce:transform-none'
+            >
                 <svg
                     viewBox='0 0 24 24'
                     fill='currentColor'
@@ -63,10 +63,22 @@ export function MusicPlayer({ lang }: { lang: Lang }) {
                 >
                     <path d='M7 4.5v15l13-7.5z' />
                 </svg>
-            </span>
-            {text.play}
-        </button>
-        {spotifyLink}
+            </button>
+            <div>
+                <p className='text-zinc-100'>
+                    {text.intro}
+                    <span className='text-zinc-500'> · </span>
+                    {spotifyLink}
+                </p>
+                <button
+                    type='button'
+                    tabIndex={-1}
+                    onClick={() => setOpen(true)}
+                    className='text-left text-zinc-400 transition-colors hover:text-zinc-100'
+                >
+                    {text.track}
+                </button>
+            </div>
         </div>
     );
 }

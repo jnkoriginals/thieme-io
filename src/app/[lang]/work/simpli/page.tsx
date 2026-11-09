@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Footer } from "@/app/components/Footer";
-import { AssistantDemo } from "./AssistantDemo";
+import { ClosingFooter } from "@/app/components/home/ClosingFooter";
+import { AssistantScenes } from "./AssistantScenes";
 import { simpliCaseStudy } from "@/lib/caseStudies";
 import { translations, type Lang } from "@/lib/translations";
 
@@ -38,7 +38,7 @@ export default async function SimpliCaseStudy({ params }: Props) {
 
     return (
         <main>
-            <article className={`${SHELL} pb-20 pt-32 md:pb-28 md:pt-40`}>
+            <article className={`${SHELL} pt-32 md:pt-40`}>
                 <Link
                     href={`/${lang}#projects`}
                     className='text-sm text-zinc-400 transition-colors hover:text-zinc-100'
@@ -113,19 +113,15 @@ export default async function SimpliCaseStudy({ params }: Props) {
                                 </dl>
                             )}
                             {section.assistantDemo && (
-                                <div className='mt-10 flex justify-center'>
-                                    <AssistantDemo lang={lang} />
+                                <div className='mt-10'>
+                                    <AssistantScenes lang={lang} />
                                 </div>
                             )}
                         </section>
                     ))}
                 </div>
             </article>
-            <Footer
-                footer={translations[lang].footer}
-                lang={lang}
-                shellClass={SHELL}
-            />
+            <ClosingFooter lang={lang} />
         </main>
     );
 }

@@ -21,6 +21,7 @@ import {
 } from "@/app/components/home/designTokens";
 import { Reveal } from "@/app/components/home/Reveal";
 import { SimpliShowcase } from "@/app/components/home/SimpliShowcase";
+import { TrySketch } from "@/app/components/home/TrySketch";
 
 type Props = {
     params: Promise<{ lang: string }>;
@@ -32,6 +33,7 @@ export default async function PreviewPage({ params }: Props) {
     const { lang: rawLang } = await params;
     const lang: Lang = rawLang in translations ? (rawLang as Lang) : "de";
     const content = previewContent[lang];
+    const [firstParagraph, ...moreParagraphs] = content.nearby.paragraphs;
 
     // The name is the heading now, so the greeting sentence is dropped.
     const introStart = content.intro.before
@@ -44,6 +46,9 @@ export default async function PreviewPage({ params }: Props) {
                 <h1 className='mt-8 text-5xl md:text-7xl font-semibold leading-[1.05] tracking-[-0.04em] text-zinc-50'>
                     Jannik Thieme
                 </h1>
+                <p className='mt-3 text-xl font-medium tracking-[-0.015em] text-zinc-400'>
+                    {content.intro.role}
+                </p>
                 <p className='mt-6 text-2xl leading-snug tracking-[-0.015em] text-zinc-300'>
                     {introStart}
                     <a
@@ -122,7 +127,7 @@ export default async function PreviewPage({ params }: Props) {
             <section className='mx-auto w-full max-w-5xl overflow-x-clip px-3 md:px-6'>
                 <div className='rounded-3xl bg-[#341274] px-6 py-10 md:px-14 md:py-14'>
                 <Reveal>
-                    <div className='grid gap-10 md:grid-cols-[minmax(0,1fr)_18rem] md:gap-16 md:items-start'>
+                    <div className='grid md:grid-cols-[minmax(0,1fr)_18rem] md:grid-rows-[auto_1fr] md:gap-x-16'>
                         <div>
                             <div className='flex items-center gap-3'>
                                 <Image
@@ -132,15 +137,27 @@ export default async function PreviewPage({ params }: Props) {
                                     height={56}
                                     className='h-12 w-12'
                                 />
-                                <h2 className={TITLE}>
-                                    nearby
-                                </h2>
+                                <h2 className={TITLE}>nearby</h2>
                             </div>
-                            <p className={`mt-4 ${LEAD}`}>
+                            <p className={`mt-6 ${LEAD}`}>
                                 {content.nearby.tagline}
                             </p>
-                            <div className='mt-3 flex flex-col gap-3'>
-                                {content.nearby.paragraphs.map((text) => (
+                            <p className={`mt-3 ${NEARBY_BODY}`}>
+                                {firstParagraph}
+                            </p>
+                        </div>
+                        {/* On phones the demo comes right after the pitch. */}
+                        <div className='relative mx-auto mt-24 w-full max-w-[18rem] md:col-start-2 md:row-span-2 md:row-start-1 md:mt-[4.7rem]'>
+                            <TrySketch
+                                label={previewMore[lang].swipeIt}
+                                className='text-white'
+                                loop
+                            />
+                            <NearbyStack lang={lang} />
+                        </div>
+                        <div className='mt-8 md:col-start-1 md:row-start-2 md:mt-3'>
+                            <div className='flex flex-col gap-3'>
+                                {moreParagraphs.map((text) => (
                                     <p
                                         key={text.slice(0, 32)}
                                         className={NEARBY_BODY}
@@ -163,9 +180,6 @@ export default async function PreviewPage({ params }: Props) {
                             >
                                 {content.nearby.press} ↗
                             </a>
-                        </div>
-                        <div className='md:mt-[4.2rem]'>
-                            <NearbyStack lang={lang} />
                         </div>
                     </div>
                 </Reveal>

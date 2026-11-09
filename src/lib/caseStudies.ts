@@ -25,26 +25,51 @@ export const simpliCaseStudy: Record<Lang, CaseStudy> = {
     en: {
         metaTitle: "Simpli case study — Jannik Thieme",
         metaDescription:
-            "How I built Simpli: an AI assistant that can only propose changes, a faster QR scan path and a server-rendered guest menu.",
+            "How Simpli grew from a menu filter idea into a full platform, why the first customers left, and what I built because of it.",
         back: "← Back to projects",
         title: "Simpli",
-        intro: "A digital menu platform for restaurants. Owners upload the menu they already have, AI turns it into a digital one, and guests open it by QR code. This is about the decisions behind it that you can't see from the outside.",
-        story: "Solo project. The idea started in 2023, a first prototype covered only the digital menu, and after that I built it as a full SaaS. It's live.",
-        live: "Live",
+        intro: "A digital menu platform for restaurants. Owners upload the menu they already have, AI turns it into a digital one, and guests open it by QR code. This is how it got there, and the decisions behind it that you can't see from the outside.",
+        story: "Solo project. The idea started in 2023, a first prototype covered only the digital menu, and after that I developed it into a full SaaS.",
+        live: "Visit Simpli",
         demo: "Try the editor",
         stackLabel: "Stack",
         stack: "Next.js · React · Firebase · Gemini · Stripe · Nx · Vercel",
         sections: [
             {
-                heading: "The problem",
+                heading: "A PDF on a phone",
                 paragraphs: [
-                    "Simpli started at dinner with friends in Stuttgart, where the QR code on the table led to an outdated PDF menu. Prices and dishes change constantly, but a PDF means going back to whoever made it. So the product has two jobs: getting a menu online has to take minutes, and changing it afterwards has to be effortless.",
+                    "Simpli started at dinner with friends in Stuttgart. We were looking for something vegetarian and wanted to see the drinks first, but that meant digging through a PDF on our phones that was never made for such a small screen. Why can't you just filter this? That question became Simpli.",
+                ],
+            },
+            {
+                heading: "From prototype to platform",
+                paragraphs: [
+                    "It began as nothing more than a prototype of the digital menu. Then I realised restaurants also need a dashboard to set up their menu quickly and easily, so I rebuilt everything from scratch.",
+                    "It was never only about the technology, though. Going to a restaurant is always a bit like stepping into another world, and that world shouldn't get lost on the menu. So Simpli offers different themes and further customization, such as own colours, fonts, header layouts and backgrounds, that let each restaurant keep its corporate identity.",
+                    "I also deliberately separated QR codes from menus. Every code lives on its own and can be assigned any menu, automatically if you like: one menu at lunchtime, another in the evening.",
+                ],
+            },
+            {
+                heading: "Then came AI",
+                paragraphs: [
+                    "The better AI became, the more it could take off restaurants' hands. Translations and suggestions for allergens and tags came first, followed later by spell-checking.",
+                ],
+            },
+            {
+                heading: "Why the first customers left",
+                paragraphs: [
+                    "Then came the first setback: my first registered customers didn't renew their subscription. When I looked for the reason, it turned out they had never finished setting up their menu. The barrier was right at the start.",
+                    "So I rethought the setup. An onboarding flow now guides new users step by step to their first published menu, and AI import cuts creating a menu from around 30 minutes to under 3, depending on the menu.",
+                    "And since nobody wants to dig through submenus for the right setting in the age of ChatGPT, I added an AI assistant that helps with any question or change across the account and its menus, and carries them out where possible.",
+                ],
+                facts: [
+                    { value: "30 → under 3 min", label: "to create a menu, depending on the menu" },
                 ],
             },
             {
                 heading: "The model proposes, the dashboard executes",
                 paragraphs: [
-                    "Owners can change their menu by chatting with an assistant, for example raising every starter by 5%. The obvious build gives the model write access. I didn't want that: this is a live menu that guests rely on, and a wrong tool call or instructions hidden in imported text shouldn't be able to change it on their own.",
+                    "One decision shaped the assistant more than any other. Owners change their menu by chatting, for example raising every starter by 5%, and the obvious build gives the model write access. I didn't want that: this is a live menu that guests rely on, and a wrong tool call or instructions hidden in imported text shouldn't be able to change it on their own.",
                     "So the Cloud Function only talks to the model. Every tool call goes back to the dashboard, which validates it against the real menu and shows it as a proposal. Nothing is written until the owner confirms. Writes then go through the owner's normal permissions, which Firestore rules enforce on the server, and each change can be undone. Account, billing and imprint settings aren't changeable through chat at all, the assistant can only link to them.",
                     "The trade-off is one extra click per change, which I accepted on purpose. A bad suggestion can still appear, but only as a visible before and after that the owner has to approve. Each turn is also capped at 4 model rounds and 8 tool calls per message, so a looping model can't run up costs.",
                 ],
@@ -93,48 +118,73 @@ export const simpliCaseStudy: Record<Lang, CaseStudy> = {
     de: {
         metaTitle: "Simpli Case Study — Jannik Thieme",
         metaDescription:
-            "Wie ich Simpli gebaut habe: ein KI-Assistent, der nur vorschlagen darf, ein schnellerer QR-Scan und eine serverseitig gerenderte Speisekarte.",
+            "Wie Simpli von der Idee eines Kartenfilters zur Plattform wurde, warum die ersten Kunden gingen und was ich daraufhin entwickelt habe.",
         back: "← Zurück zu den Projekten",
         title: "Simpli",
-        intro: "Eine Plattform für digitale Speisekarten. Restaurants laden ihre bestehende Karte hoch, die KI macht daraus eine digitale, und Gäste öffnen sie per QR-Code. Hier geht es um die Entscheidungen dahinter, die man von außen nicht sieht.",
-        story: "Alleine gebaut. Die Idee entstand 2023, ein erster Prototyp umfasste nur die digitale Karte, danach habe ich es als vollständiges SaaS aufgebaut. Es ist live.",
-        live: "Live",
+        intro: "Eine Plattform für digitale Speisekarten. Restaurants laden ihre bestehende Speisekarte hoch, KI macht daraus eine digitale Karte, und Gäste öffnen sie per QR-Code. Hier steht, wie es dazu kam, und welche Entscheidungen dahinterstecken, die man von außen nicht sieht.",
+        story: "Ein Soloprojekt. Die Idee entstand 2023, der erste Prototyp war nur die digitale Karte, danach habe ich daraus ein vollständiges SaaS entwickelt.",
+        live: "Simpli besuchen",
         demo: "Editor ausprobieren",
         stackLabel: "Stack",
         stack: "Next.js · React · Firebase · Gemini · Stripe · Nx · Vercel",
         sections: [
             {
-                heading: "Das Problem",
+                heading: "Eine PDF auf dem Handy",
                 paragraphs: [
-                    "Simpli entstand bei einem Essen mit Freunden in Stuttgart: Der QR-Code auf dem Tisch führte zu einer veralteten PDF-Karte. Preise und Gerichte ändern sich ständig, aber bei einem PDF muss man jedes Mal zurück zu der Person, die es erstellt hat. Das Produkt hat deshalb zwei Aufgaben: Eine Karte muss in Minuten online sein, und Änderungen danach müssen mühelos gehen.",
+                    "Simpli entstand bei einem Essen mit Freunden in Stuttgart. Wir suchten etwas Vegetarisches und wollten erst mal die Getränke sehen, aber dafür mussten wir uns auf dem Handy durch eine PDF wühlen, die nie für so einen kleinen Bildschirm gedacht war. Warum kann man hier nicht einfach filtern? Aus dieser Frage wurde Simpli.",
+                ],
+            },
+            {
+                heading: "Vom Prototyp zur Plattform",
+                paragraphs: [
+                    "Am Anfang stand nur ein Prototyp der digitalen Karte. Dann wurde mir klar, dass Restaurants auch ein Dashboard brauchen, mit dem sie ihre Karte einfach und schnell einrichten können. Also habe ich alles noch einmal neu entwickelt.",
+                    "Dabei ging es nie nur um die Technik. Ein Restaurantbesuch ist immer auch ein Eintauchen in eine andere Welt, und diese Welt soll auf der Karte nicht verloren gehen. Deshalb gibt es verschiedene Themes und weitere Anpassungsmöglichkeiten wie eigene Farben, Schriften, Header-Layouts und Hintergründe, mit denen jedes Restaurant seine Corporate Identity behält.",
+                    "Auch die QR-Codes habe ich bewusst von den Karten getrennt. Jeder Code lebt eigenständig und kann mit einer beliebigen Karte belegt werden, auf Wunsch automatisch: mittags die eine Karte, abends die andere.",
+                ],
+            },
+            {
+                heading: "Dann kam KI",
+                paragraphs: [
+                    "Je besser KI wurde, desto mehr konnte sie den Restaurants abnehmen. Zuerst kamen Übersetzungen sowie Vorschläge für Allergene und Tags, später eine Rechtschreibkorrektur.",
+                ],
+            },
+            {
+                heading: "Warum die ersten Kunden gingen",
+                paragraphs: [
+                    "Dann kam der erste Rückschlag: Meine ersten registrierten Kunden verlängerten ihr Abo nicht. Als ich nach dem Grund suchte, zeigte sich, dass sie ihre Karte nie fertig eingerichtet hatten. Die Hürde lag also gleich am Anfang.",
+                    "Deshalb habe ich die Einrichtung neu gedacht. Ein Onboarding-Flow führt neue Nutzer jetzt Schritt für Schritt bis zur ersten veröffentlichten Karte, und der KI-Import verkürzt das Anlegen einer Karte je nach Umfang von rund 30 Minuten auf unter 3 Minuten.",
+                    "Und weil zu Zeiten von ChatGPT niemand mehr in Untermenüs nach der richtigen Einstellung suchen möchte, kam ein KI-Assistent dazu, der bei jeder Frage und Änderung rund um Account und Karten hilft und diese je nach Möglichkeit direkt durchführt.",
+                ],
+                facts: [
+                    { value: "30 → unter 3 Min.", label: "zum Anlegen einer Karte, je nach Umfang" },
                 ],
             },
             {
                 heading: "Das Modell schlägt vor, das Dashboard führt aus",
                 paragraphs: [
-                    "Betriebe können ihre Karte per Chat ändern, zum Beispiel alle Vorspeisen um 5 % erhöhen. Naheliegend wäre, dem Modell Schreibzugriff zu geben. Das wollte ich nicht: Es geht um eine Live-Karte, auf die sich Gäste verlassen, und ein falscher Tool-Aufruf oder in importiertem Text versteckte Anweisungen dürfen sie nicht von selbst ändern.",
+                    "Beim Assistenten war eine Entscheidung wichtiger als alle anderen. Restaurants ändern ihre Karte per Chat, zum Beispiel alle Vorspeisen um 5 %, und naheliegend wäre, dem Modell dafür Schreibzugriff zu geben. Das wollte ich nicht: Es geht um eine Live-Karte, auf die sich Gäste verlassen, und ein falscher Tool-Aufruf oder in importiertem Text versteckte Anweisungen dürfen sie nicht von selbst ändern.",
                     "Deshalb spricht die Cloud Function nur mit dem Modell. Jeder Tool-Aufruf geht zurück ans Dashboard, wird dort gegen die echte Karte geprüft und als Vorschlag angezeigt. Geschrieben wird erst nach der Bestätigung, und zwar mit den normalen Rechten des Betriebs, die Firestore-Regeln auf dem Server durchsetzen. Jede Änderung lässt sich rückgängig machen. Konto, Abrechnung und Impressum lassen sich per Chat gar nicht ändern, der Assistent kann nur dorthin verlinken.",
-                    "Der Preis ist ein zusätzlicher Klick pro Änderung, den ich bewusst in Kauf genommen habe. Ein schlechter Vorschlag kann weiterhin auftauchen, aber nur als sichtbares Vorher und Nachher, das der Betrieb bestätigen muss. Außerdem ist jeder Durchlauf auf 4 Modell-Runden und 8 Tool-Aufrufe pro Nachricht begrenzt, damit ein Modell in einer Schleife keine Kosten hochtreibt.",
+                    "Das kostet einen zusätzlichen Klick pro Änderung, und den nehme ich bewusst in Kauf. Ein schlechter Vorschlag kann weiterhin auftauchen, aber nur als sichtbares Vorher und Nachher, das der Betrieb bestätigen muss. Außerdem ist jeder Durchlauf auf 4 Modell-Runden und 8 Tool-Aufrufe pro Nachricht begrenzt, damit ein Modell in einer Schleife keine Kosten hochtreibt.",
                 ],
                 assistantDemo: true,
             },
             {
-                heading: "Der Request, den niemand sieht",
+                heading: "Die Anfrage, die niemand sieht",
                 paragraphs: [
-                    "Ein gescannter Code trifft zuerst auf eine Weiterleitung, bevor irgendetwas von der Karte lädt, und so lange sieht der Gast nichts. In Produktion dauerte das rund 370 ms bis zum ersten Byte, etwa doppelt so lange wie die Kartenseite dahinter, für eine Antwort, die der Gast nie sieht.",
-                    "Dahinter steckten vier aufeinanderfolgende Firestore-Zugriffe, darunter ein blockierender Analytics-Schreibvorgang. Der läuft jetzt per waitUntil nach der Antwort, denn ein loses Promise würde mit der Serverless-Funktion sterben. Die beiden übrigen Lesezugriffe laufen parallel und gecacht. Sie nutzen die Cache-Tags der Kartenseite mit, sodass ein deaktiviertes Restaurant seine Codes weiterhin beim nächsten Scan stoppt. Im warmen Zustand dauert es jetzt rund 215 ms.",
+                    "Ein gescannter Code trifft zuerst auf eine Weiterleitung, bevor irgendetwas von der Karte lädt, und so lange sehen Gäste nichts. In Produktion dauerte das rund 370 ms bis zum ersten Byte, etwa doppelt so lange wie die Kartenseite dahinter, für eine Antwort, die sie nie zu sehen bekommen.",
+                    "Dahinter steckten vier aufeinanderfolgende Firestore-Zugriffe, darunter ein blockierender Analytics-Schreibvorgang. Der läuft jetzt per waitUntil nach der Antwort, denn ein nicht abgewartetes Promise würde mit der Serverless-Funktion abgebrochen. Die beiden übrigen Lesezugriffe laufen parallel und aus dem Cache. Sie nutzen die Cache-Tags der Kartenseite mit, sodass die Codes eines deaktivierten Restaurants weiterhin ab dem nächsten Scan nicht mehr funktionieren. Ohne Kaltstart dauert es jetzt rund 215 ms.",
                 ],
                 facts: [
                     {
                         value: "370 → 215 ms",
-                        label: "QR-Weiterleitung, Zeit bis zum ersten Byte (warm)",
+                        label: "QR-Weiterleitung, Zeit bis zum ersten Byte (ohne Kaltstart)",
                     },
                 ],
             },
             {
                 heading: "Eine Karte, die nicht springt",
                 paragraphs: [
-                    "Das Theme-Stylesheet wurde erst nach der Hydration geladen, also sahen Gäste einen Vollbild-Spinner, der dann durch die Karte ersetzt wurde. Allein das verursachte auf dem Desktop einen Layout Shift von 0,204. Auf Mobilgeräten fiel es nicht auf, weil die CPU-Drosselung den Wechsel vor den ersten Paint verschob. Das Theme ist auf dem Server bekannt, sein CSS geht jetzt direkt mit dem HTML raus. In Produktion liegt der Shift jetzt bei 0.",
+                    "Das Theme-Stylesheet wurde erst nach der Hydration geladen, also sahen Gäste einen Vollbild-Spinner, der dann durch die Karte ersetzt wurde. Allein das verursachte auf dem Desktop einen Layout Shift von 0,204. Auf Mobilgeräten fiel es nicht auf, weil die CPU-Drosselung den Wechsel vor den ersten Paint verschob. Das Theme ist auf dem Server bekannt, sein CSS wird jetzt direkt mit dem HTML ausgeliefert. In Produktion liegt der Shift jetzt bei 0.",
                     "Das serverseitige Rendern brachte zwei weitere Probleme ans Licht: Alle Dashboard-Themes wurden auf der öffentlichen Seite als blockierende Stylesheets geladen, und Gäste luden Originalbilder in voller Auflösung für kleine Vorschauen. Das gemeinsame Karten-Paket läuft auch im Vite-Dashboard und kann next/image daher nicht importieren. Stattdessen übergibt die jeweilige App jetzt einen Bild-Renderer.",
                 ],
                 facts: [
@@ -156,7 +206,7 @@ export const simpliCaseStudy: Record<Lang, CaseStudy> = {
                 heading: "Das Geschäft absichern",
                 paragraphs: [
                     "KI-Aufrufe kosten pro Anfrage echtes Geld. Deshalb wird die Nutzung vor dem Modellaufruf in einer Firestore-Transaktion reserviert und bei einem Fehler wieder freigegeben. So kommen parallele Anfragen nicht am Limit vorbei, und eine fehlgeschlagene Anfrage verbraucht kein Kontingent.",
-                    "Pro Zahlungsmittel gibt es nur eine Testphase, ein neues Konto bedeutet also keine neue. Einmalkäufe werden direkt nach der Zahlung bestätigt, und ein geplanter Job fängt alle auf, die von der Bankverifizierung nicht mehr zurückkommen.",
+                    "Pro Zahlungsmittel gibt es nur eine Testphase, ein neues Konto bringt also keine neue. Einmalkäufe werden direkt nach der Zahlung bestätigt, und ein geplanter Job fängt alle auf, die von der Bankverifizierung nicht mehr zurückkommen.",
                 ],
             },
         ],

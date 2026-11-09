@@ -6,14 +6,8 @@ export type SimpliDemoText = {
     skipMenu: string;
     replayNote: string;
     menuHint: string;
-    alt: Record<
-        "typed" | "thinking" | "proposal" | "applied" | "menu-after",
-        string
-    >;
-    send: string;
-    apply: string;
-    restart: string;
-    hints: Record<"typed" | "thinking" | "proposal" | "saved" | "live", string>;
+    scenesLabel: string;
+    scenes: Record<"prices" | "soldout" | "images" | "translate" | "design", string>;
 };
 
 export type NearbyText = {
@@ -27,6 +21,7 @@ export type NearbyText = {
 
 type PreviewContent = {
     intro: {
+        role: string;
         before: string;
         simpli: string;
         middle: string;
@@ -55,6 +50,7 @@ type PreviewContent = {
 export const previewContent: Record<Lang, PreviewContent> = {
     en: {
         intro: {
+            role: "Product Engineer · Stuttgart",
             before: "Hi, I'm Jannik. I build products from the first idea to launch. Right now that's ",
             simpli: "Simpli",
             middle: ", a menu platform for restaurants, alongside software engineering at ",
@@ -65,7 +61,7 @@ export const previewContent: Record<Lang, PreviewContent> = {
         simpli: {
             headline: "Restaurant menus, digital in 3 minutes.",
             body: "Restaurants upload the menu they already have, AI turns it into a digital one, and guests open it by QR code. Owners can then change everything by chatting with an assistant.",
-            story: "Solo project. The idea started in 2023, a first prototype covered only the digital menu, and after that I built it as a full SaaS. It's live.",
+            story: "Solo project. The idea started in 2023, a first prototype covered only the digital menu, and after that I developed it into a full SaaS.",
             caseStudy: "Read the case study",
             demo: "Open the editor demo",
             text: {
@@ -74,28 +70,16 @@ export const previewContent: Record<Lang, PreviewContent> = {
                 menuTitle: "Live Simpli demo menu",
                 skipMenu: "Skip the live menu",
                 replayNote:
-                    "A replay of real screens from the German production app.",
+                    "A scripted replay of the assistant flow, recorded from simpli.menu.",
                 menuHint:
                     "This is the live menu guests see. Scroll it, open a dish, change the language.",
-                alt: {
-                    typed: "Real Simpli assistant with a request to change the Cappuccino price to 4.20 euros",
-                    thinking: "Real Simpli assistant working on the request",
-                    proposal:
-                        "Real Simpli assistant proposing to change the Cappuccino from 3.90 to 4.20 euros",
-                    applied:
-                        "Real Simpli assistant showing the change as saved",
-                    "menu-after":
-                        "Real Simpli guest menu with the Cappuccino at 4.20 euros",
-                },
-                send: "Send the request",
-                apply: "Apply the change",
-                restart: "Start over",
-                hints: {
-                    typed: "Tap send.",
-                    thinking: "The assistant is working…",
-                    proposal: "Guests still see €3.90. Tap apply.",
-                    saved: "Saved.",
-                    live: "Guests now see €4.20.",
+                scenesLabel: "Assistant examples",
+                scenes: {
+                    prices: "Prices",
+                    soldout: "Sold out",
+                    images: "Photos",
+                    translate: "Translation",
+                    design: "Design",
                 },
             },
         },
@@ -123,17 +107,18 @@ export const previewContent: Record<Lang, PreviewContent> = {
     },
     de: {
         intro: {
-            before: "Hi, ich bin Jannik. Ich baue Produkte von der ersten Idee bis zum Launch. Gerade ist das ",
+            role: "Product Engineer · Stuttgart",
+            before: "Hi, ich bin Jannik. Ich entwickle Produkte von der ersten Idee bis zum Launch. Aktuell ist das ",
             simpli: "Simpli",
-            middle: ", eine Plattform für digitale Speisekarten, neben meiner Arbeit als Softwareentwickler bei ",
+            middle: ", eine Plattform für digitale Speisekarten. Daneben arbeite ich als Softwareentwickler bei ",
             mercedes: "Mercedes-Benz",
             after: ".",
-            note: "Mobile-Medien-Student an der HdM Stuttgart, Abschluss 2027",
+            note: "Mobile-Medien-Studium an der HdM Stuttgart, Abschluss 2027",
         },
         simpli: {
-            headline: "Speisekarten, in 3 Minuten digital.",
-            body: "Restaurants laden ihre bestehende Karte hoch, die KI macht daraus eine digitale, und Gäste öffnen sie per QR-Code. Danach lässt sich alles im Chat mit einem Assistenten ändern.",
-            story: "Alleine gebaut. Die Idee entstand 2023, ein erster Prototyp umfasste nur die digitale Karte, danach habe ich es als vollständiges SaaS aufgebaut. Es ist live.",
+            headline: "Speisekarten in 3 Minuten digital.",
+            body: "Restaurants laden ihre bestehende Speisekarte hoch, KI macht daraus eine digitale Karte, und Gäste öffnen sie per QR-Code. Änderungen gehen danach einfach per Chat mit einem Assistenten.",
+            story: "Ein Soloprojekt. Die Idee entstand 2023, der erste Prototyp war nur die digitale Karte, danach habe ich daraus ein vollständiges SaaS entwickelt.",
             caseStudy: "Case Study lesen",
             demo: "Editor-Demo öffnen",
             text: {
@@ -142,40 +127,28 @@ export const previewContent: Record<Lang, PreviewContent> = {
                 menuTitle: "Live-Demokarte von Simpli",
                 skipMenu: "Live-Karte überspringen",
                 replayNote:
-                    "Eine Wiedergabe echter Screens aus der Produktions-App.",
+                    "Eine geskriptete Wiedergabe des Assistenten-Ablaufs, aufgenommen von simpli.menu.",
                 menuHint:
-                    "Das ist die echte Karte, die Gäste sehen. Scroll durch, öffne ein Gericht, wechsle die Sprache.",
-                alt: {
-                    typed: "Echter Simpli-Assistent mit der Anfrage, den Cappuccino auf 4,20 Euro zu ändern",
-                    thinking: "Echter Simpli-Assistent bearbeitet die Anfrage",
-                    proposal:
-                        "Echter Simpli-Assistent schlägt vor, den Cappuccino von 3,90 auf 4,20 Euro zu ändern",
-                    applied:
-                        "Echter Simpli-Assistent zeigt die Änderung als gespeichert",
-                    "menu-after":
-                        "Echte Simpli-Gästekarte mit dem Cappuccino für 4,20 Euro",
-                },
-                send: "Anfrage senden",
-                apply: "Änderung übernehmen",
-                restart: "Neu starten",
-                hints: {
-                    typed: "Tippe auf Senden.",
-                    thinking: "Der Assistent arbeitet…",
-                    proposal: "Gäste sehen noch 3,90 €. Tippe auf Übernehmen.",
-                    saved: "Gespeichert.",
-                    live: "Gäste sehen jetzt 4,20 €.",
+                    "Das ist die echte Karte, die auch Gäste sehen. Scroll durch, öffne ein Gericht oder wechsle die Sprache.",
+                scenesLabel: "Beispiele des Assistenten",
+                scenes: {
+                    prices: "Preise",
+                    soldout: "Ausverkauft",
+                    images: "Fotos",
+                    translate: "Übersetzung",
+                    design: "Design",
                 },
             },
         },
         nearby: {
-            tagline: "Was sich gerade lohnt, zu Fuß erreichbar.",
+            tagline: "Was sich gerade lohnt, nur ein paar Schritte entfernt.",
             paragraphs: [
-                "Ein Café oder eine Bar in der Nähe zu finden heißt meist, so lange durch eine Karte voller Pins zu scrollen, bis man aufgibt. nearby arbeitet dagegen an: Die App zeigt immer nur einen Ort als Karte. Nach links zum nächsten, nach rechts geht es los. Eine kompakte Liste ist da, wenn man den Überblick will.",
-                "Jede Karte zeigt Entfernung, Bewertung und ob gerade geöffnet ist, mit einem Tipp zur Navigation oder zum Merken.",
-                "Gebaut mit Ionic und React, mit Capacitor für iOS und Android verpackt.",
+                "Ein Café oder eine Bar in der Nähe zu finden heißt meist: durch eine Karte voller Pins scrollen, bis man aufgibt. nearby setzt genau da an und zeigt immer nur einen Ort. Nach links geht es zum nächsten, nach rechts direkt los. Für den Überblick gibt es eine kompakte Liste.",
+                "Jede Karte zeigt Entfernung, Bewertung und ob gerade geöffnet ist. Mit einem Tipp startest du die Navigation oder merkst dir den Ort.",
+                "Entwickelt mit Ionic und React, mit Capacitor als App für iOS und Android.",
             ],
             storyHeading: "Wie es entstand",
-            story: "nearby begann als Projekt im vierten Semester an der HdM Stuttgart, gebaut im Fünferteam von April bis Juli 2025. Wir haben es an der Hochschule präsentiert, und das edit.Magazin hat darüber berichtet. 2026 habe ich das Kartendesign und die Animationen verfeinert und die App-Logik verbessert.",
+            story: "nearby entstand im vierten Semester an der HdM Stuttgart, von April bis Juli 2025 im Fünferteam. Wir haben die App an der Hochschule präsentiert, und das edit.Magazin hat darüber berichtet. 2026 habe ich Kartendesign und Animationen verfeinert und die App-Logik verbessert.",
             press: "Presseartikel lesen",
             text: {
                 screenAlt:
@@ -183,7 +156,7 @@ export const previewContent: Record<Lang, PreviewContent> = {
                 save: "Für später merken",
                 skip: "Nächster Ort",
                 go: "Auf geht's",
-                hint: "Wisch die Karte.",
+                hint: "Wisch die Karte zur Seite.",
                 going: (place) => `Auf dem Weg zu ${place}.`,
             },
         },

@@ -5,7 +5,7 @@ export const translations = {
         metadata: {
             title: "Jannik Thieme – Product Engineer",
             description:
-                "Product Engineer aus Stuttgart. Ich baue und betreibe Simpli, ein SaaS für Restaurants, und entwickle daneben Software bei Mercedes-Benz.",
+                "Product Engineer aus Stuttgart. Ich entwickle und betreibe Simpli, ein SaaS für Restaurants, und arbeite daneben als Softwareentwickler bei Mercedes-Benz.",
         },
         nav: {
             experience: "Erfahrung",
@@ -16,7 +16,7 @@ export const translations = {
         hero: {
             subtitle: "Product Engineer · Studium an der HdM Stuttgart",
             description:
-                "Ich baue und betreibe Simpli, ein SaaS für Restaurants, und entwickle daneben Software bei Mercedes-Benz.",
+                "Ich entwickle und betreibe Simpli, ein SaaS für Restaurants, und arbeite daneben als Softwareentwickler bei Mercedes-Benz.",
             ctaProjects: "Projekte",
             ctaContact: "Kontakt",
         },
@@ -55,7 +55,7 @@ export const translations = {
             {
                 name: "Simpli",
                 description:
-                    "Entstanden bei einem Essen mit Freunden bei einem Italiener in Stuttgart: Hinter dem QR-Code auf dem Tisch steckte eine veraltete PDF-Karte. Mit Simpli laden Restaurants ihre bestehende Karte als PDF oder Foto hoch, die KI macht daraus in Minuten eine digitale Speisekarte, die Gäste direkt im Browser öffnen. Ein KI-Assistent im Dashboard setzt Änderungen per Chat um (Preise, Übersetzungen, Design) und übernimmt sie erst nach Bestätigung. Dazu 6 Sprachen, Echtzeit-Updates, Stripe-Abonnements und ein eigener QR-Code-Generator.",
+                    "Entstanden bei einem Essen mit Freunden bei einem Italiener in Stuttgart: Hinter dem QR-Code auf dem Tisch steckte eine veraltete PDF-Karte. Mit Simpli laden Restaurants ihre bestehende Karte als PDF oder Foto hoch, KI macht daraus in Minuten eine digitale Speisekarte, die Gäste direkt im Browser öffnen. Ein KI-Assistent im Dashboard setzt Änderungen per Chat um (Preise, Übersetzungen, Design) und übernimmt sie erst nach Bestätigung. Dazu 6 Sprachen, Echtzeit-Updates, Stripe-Abonnements und ein eigener QR-Code-Generator.",
                 type: "Eigenprojekt",
             },
             {
@@ -84,8 +84,8 @@ export const translations = {
             },
         ],
         contact: {
-            heading: "Let's work together.",
-            subtext: "Schreib mir — ich melde mich schnellstmöglich zurück.",
+            heading: "Lass uns zusammenarbeiten.",
+            subtext: "Schreib mir, ich melde mich so schnell wie möglich.",
             nameLabel: "Name",
             namePlaceholder: "Dein Name",
             emailLabel: "E-Mail",

@@ -7,64 +7,71 @@ import { Reveal } from "./Reveal";
 
 const rowGrid = "grid gap-1 md:grid-cols-[10rem_1fr] md:gap-6";
 
-const ACCENTS: Record<string, string> = {
-    Perky: "text-amber-300",
-    Torga: "text-sky-400",
-    "Gaia Protocol": "text-red-400",
+const WORK_STYLE: Record<
+    string,
+    { accent: string; panel: string; width: number; height: number }
+> = {
+    Perky: { accent: "text-amber-300", panel: "bg-[#4a3212]", width: 500, height: 1082 },
+    Torga: { accent: "text-sky-400", panel: "bg-[#12324a]", width: 1200, height: 934 },
+    "Gaia Protocol": { accent: "text-red-400", panel: "bg-[#4a1518]", width: 1920, height: 1080 },
 };
 
-function WorkTile({ item, wide }: { item: WorkItem; wide: boolean }) {
+// Every tile is the same: a colour panel with the whole image centred inside.
+function WorkTile({ item }: { item: WorkItem }) {
+    const style = WORK_STYLE[item.name];
+
     return (
-        <li className={wide ? "md:col-span-2" : ""}>
+        <li>
             <div
-                className={`relative overflow-hidden rounded-3xl bg-zinc-900 ring-1 ring-white/10 ${wide ? "aspect-[16/10] md:aspect-[21/9]" : "aspect-[16/10]"}`}
+                className={`relative aspect-[4/3] overflow-hidden rounded-3xl ${style.panel}`}
             >
-                {item.phoneScreens ? (
-                    <div className='absolute inset-0 flex items-center justify-center gap-4 p-5'>
-                        {item.phoneScreens.map((screen) => (
+                <div className='absolute inset-0 flex items-center justify-center gap-3 p-5'>
+                    {item.phoneScreens ? (
+                        item.phoneScreens.map((screen) => (
                             <Image
                                 key={screen.src}
                                 src={screen.src}
                                 alt={screen.alt}
-                                width={500}
-                                height={1082}
-                                sizes='240px'
-                                className='h-full w-auto rounded-lg'
+                                width={style.width}
+                                height={style.height}
+                                sizes='160px'
+                                className='h-full w-auto rounded-xl'
                             />
-                        ))}
-                    </div>
-                ) : (
-                    <Image
-                        src={item.image}
-                        alt={item.alt}
-                        fill
-                        sizes={wide ? "(max-width: 768px) 100vw, 1000px" : "(max-width: 768px) 100vw, 500px"}
-                        className={`object-cover ${wide ? "object-center" : "object-top"}`}
-                    />
-                )}
+                        ))
+                    ) : (
+                        <Image
+                            src={item.image}
+                            alt={item.alt}
+                            width={style.width}
+                            height={style.height}
+                            sizes='(max-width: 768px) 100vw, 320px'
+                            className='max-h-full w-auto max-w-full rounded-xl'
+                        />
+                    )}
+                </div>
             </div>
-            <div className='mt-4 max-w-2xl'>
-                <h3 className={`text-lg font-medium tracking-[-0.01em] ${ACCENTS[item.name] ?? "text-zinc-100"}`}>
-                    {item.name}
-                </h3>
-                <p className={`mt-1 ${BODY}`}>{item.body}</p>
-                <p className={`mt-2 ${SMALL}`}>
-                    {item.type}
-                    {item.links.map((link) => (
-                        <span key={link.href}>
-                            {" · "}
-                            <a
-                                href={link.href}
-                                target='_blank'
-                                rel='noopener noreferrer'
-                                className={`font-medium transition-opacity hover:opacity-80 ${ACCENTS[item.name] ?? "text-zinc-100"}`}
-                            >
-                                {link.label} ↗
-                            </a>
-                        </span>
-                    ))}
-                </p>
-            </div>
+            <h3
+                className={`mt-4 text-lg font-medium tracking-[-0.01em] ${style.accent}`}
+            >
+                {item.name}
+            </h3>
+            <p className={`mt-1 ${BODY}`}>{item.body}</p>
+            <p className={`mt-2 ${SMALL}`}>
+                {item.type}
+                {item.links.map((link) => (
+                    <span key={link.href}>
+                        {" · "}
+                        <a
+                            href={link.href}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className={`font-medium transition-opacity hover:opacity-80 ${style.accent}`}
+                        >
+                            {link.label} ↗
+                        </a>
+                    </span>
+                ))}
+            </p>
         </li>
     );
 }
@@ -122,13 +129,9 @@ export function MoreSections({ lang }: { lang: Lang }) {
                     <div className={SHELL}>
                         <h2 className={TITLE}>{more.workHeading}</h2>
                     </div>
-                    <ul className='mx-auto mt-8 grid w-full max-w-5xl gap-10 px-6 md:grid-cols-2 md:gap-8'>
-                        {more.work.map((item, index) => (
-                            <WorkTile
-                                key={item.name}
-                                item={item}
-                                wide={index === more.work.length - 1}
-                            />
+                    <ul className='mx-auto mt-8 grid w-full max-w-5xl gap-10 px-6 md:grid-cols-3 md:gap-6'>
+                        {more.work.map((item) => (
+                            <WorkTile key={item.name} item={item} />
                         ))}
                     </ul>
                 </Reveal>

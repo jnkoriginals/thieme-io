@@ -22,7 +22,9 @@ type AboutEntry = {
 
 type PreviewMore = {
     website: string;
-    music: { play: string; spotify: string; title: string; close: string };
+    tryIt: string;
+    swipeIt: string;
+    music: { intro: string; track: string; play: string; spotify: string; title: string; close: string };
     workHeading: string;
     work: WorkItem[];
     aboutHeading: string;
@@ -37,6 +39,7 @@ type PreviewMore = {
 
 const SOUNDTRACK =
     "https://soundcloud.com/jnkoriginals/sets/gaia-protocol-original-game";
+const GAIA_PAGE = "https://dendree.com/de/products/gaia-protocol";
 const GAMESCOM = "https://www.gamescom.global/de/product/gaiaprotocol";
 const MERCEDES_TAGS = [
     "Angular",
@@ -49,10 +52,14 @@ const MERCEDES_TAGS = [
 
 export const previewMore: Record<Lang, PreviewMore> = {
     en: {
-        website: "simpli.menu",
+        website: "Visit Simpli",
+        tryIt: "Try it out!",
+        swipeIt: "Swipe me!",
         music: {
+            intro: "I also make music",
+            track: "“Mission Success” from Gaia Protocol",
             play: "I also make music. Play “Mission Success” from Gaia Protocol",
-            spotify: "My music on Spotify",
+            spotify: "Spotify",
             title: "Mission Success from the Gaia Protocol score on SoundCloud",
             close: "Close player",
         },
@@ -82,7 +89,7 @@ export const previewMore: Record<Lang, PreviewMore> = {
                 type: "Client project",
                 body: "A SaaS platform for tradespeople, built solo, from site visits and quotes to legally compliant e-invoices.",
                 stack: "Java 21 · Spring Boot · React · PostgreSQL · Docker",
-                image: "/torga.png",
+                image: "/real/torga-window.webp",
                 alt: "Torga calendar with site visits and jobs",
                 links: [],
             },
@@ -95,6 +102,7 @@ export const previewMore: Record<Lang, PreviewMore> = {
                 alt: "Gaia Protocol game poster",
                 links: [
                     { label: "Listen to the score", href: SOUNDTRACK },
+                    { label: "Project page", href: GAIA_PAGE },
                     { label: "gamescom", href: GAMESCOM },
                 ],
             },
@@ -159,10 +167,14 @@ export const previewMore: Record<Lang, PreviewMore> = {
         ],
     },
     de: {
-        website: "simpli.menu",
+        website: "Simpli besuchen",
+        tryIt: "Probier's aus!",
+        swipeIt: "Wisch mich!",
         music: {
+            intro: "Ich mache auch Musik",
+            track: "„Mission Success“ aus Gaia Protocol",
             play: "Ich mache auch Musik. Hör dir „Mission Success“ aus Gaia Protocol an",
-            spotify: "Meine Musik auf Spotify",
+            spotify: "Spotify",
             title: "Mission Success aus dem Gaia-Protocol-Score auf SoundCloud",
             close: "Player schließen",
         },
@@ -171,7 +183,7 @@ export const previewMore: Record<Lang, PreviewMore> = {
             {
                 name: "Perky",
                 type: "Studienprojekt",
-                body: "Digitale Stempelkarten für Cafés und Restaurants, ohne Papier und ohne App-Installation. Im Sechserteam entwickelt, mein Part war die QR-Scan-Logik.",
+                body: "Digitale Stempelkarten für Cafés und Restaurants, ohne Papier und ohne App-Installation. Im Sechserteam entwickelt. Ich habe an der QR-Scan-Logik gearbeitet.",
                 stack: "Next.js · TypeScript · Express · PostgreSQL · Socket.IO",
                 image: "/perky-1.webp",
                 alt: "Perky-Wallet mit einem Stapel Stempelkarten",
@@ -190,9 +202,9 @@ export const previewMore: Record<Lang, PreviewMore> = {
             {
                 name: "Torga",
                 type: "Auftragsprojekt",
-                body: "Eine SaaS-Plattform für Handwerksbetriebe, als Soloprojekt entwickelt, von der Besichtigung über Angebote bis zur gesetzeskonformen E-Rechnung.",
+                body: "Eine SaaS-Plattform für Handwerksbetriebe, allein entwickelt: von der Besichtigung über Angebote bis zur gesetzeskonformen E-Rechnung.",
                 stack: "Java 21 · Spring Boot · React · PostgreSQL · Docker",
-                image: "/torga.png",
+                image: "/real/torga-window.webp",
                 alt: "Torga-Kalender mit Besichtigungen und Aufträgen",
                 links: [],
             },
@@ -205,12 +217,13 @@ export const previewMore: Record<Lang, PreviewMore> = {
                 alt: "Poster des Spiels Gaia Protocol",
                 links: [
                     { label: "Score anhören", href: SOUNDTRACK },
+                    { label: "Projektseite", href: GAIA_PAGE },
                     { label: "gamescom", href: GAMESCOM },
                 ],
             },
         ],
         aboutHeading: "Über mich",
-        about: "Full-Stack-Softwareentwickler und Mobile-Medien-Student an der HdM Stuttgart, mit praktischer Erfahrung in Web, Mobile und DevOps. Ich baue Produktivsysteme bei Mercedes-Benz und betreibe daneben eigene SaaS- und Game-Audio-Projekte.",
+        about: "Ich bin Full-Stack-Softwareentwickler und studiere Mobile Medien an der HdM Stuttgart, mit Praxiserfahrung in Web, Mobile und DevOps. Bei Mercedes-Benz entwickle ich Produktivsysteme, daneben betreibe ich eigene SaaS- und Game-Audio-Projekte.",
         experienceLabel: "Erfahrung",
         experience: [
             {
@@ -253,7 +266,7 @@ export const previewMore: Record<Lang, PreviewMore> = {
                 period: "Sep. 2023 – voraussichtlich 2027",
             },
             {
-                title: "Medizintechnik, 1 Jahr vor dem Studienwechsel",
+                title: "Medizintechnik (1 Jahr, dann Studienwechsel)",
                 place: "Eberhard Karls Universität Tübingen und Universität Stuttgart",
                 period: "Sep. 2022 – Juli 2023",
             },
