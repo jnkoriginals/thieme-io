@@ -17,7 +17,7 @@ export type NearbyText = {
     skip: string;
     go: string;
     hint: string;
-    going: (place: string) => string;
+    routeNote: string;
 };
 
 type PreviewContent = {
@@ -103,7 +103,7 @@ export const previewContent: Record<Lang, PreviewContent> = {
                 skip: "Next place",
                 go: "Let's go",
                 hint: "Swipe the card.",
-                going: (place) => `On your way to ${place}.`,
+                routeNote: "In the app, this opens the route in Apple Maps or Google Maps.",
             },
         },
     },
@@ -160,7 +160,7 @@ export const previewContent: Record<Lang, PreviewContent> = {
                 skip: "Nächster Ort",
                 go: "Auf geht's",
                 hint: "Wisch die Karte zur Seite.",
-                going: (place) => `Auf zu ${place}!`,
+                routeNote: "In der App öffnet sich hier die Route in Apple Maps oder Google Maps.",
             },
         },
     },
