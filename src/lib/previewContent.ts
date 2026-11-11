@@ -89,7 +89,7 @@ export const previewContent: Record<Lang, PreviewContent> = {
             tagline:
                 "What's worth going to, within walking distance, right now.",
             paragraphs: [
-                "Picking a café or bar nearby usually means scrolling a map full of pins until you give up. nearby works against that: it shows one place at a time as a card. Swipe left for the next one, right to go.",
+                "Picture yourself out in a city, in the mood for a coffee or a drink with friends. But where do you go? There are so many options that you end up not picking any. That's the idea behind nearby: it shows one place at a time as a card. Swipe left for the next one, right to go.",
                 "Each card shows distance, rating and whether it's open right now, with one tap to navigate or save it.",
                 "Built with Ionic and React and wrapped with Capacitor for iOS and Android.",
             ],
@@ -146,7 +146,7 @@ export const previewContent: Record<Lang, PreviewContent> = {
         nearby: {
             tagline: "Was sich gerade lohnt, nur ein paar Schritte entfernt.",
             paragraphs: [
-                "Sucht man ein Café oder eine Bar in der Nähe, scrollt man meist durch eine Karte voller Pins, bis man aufgibt. nearby macht es anders und zeigt immer nur einen Ort. Ein Wisch nach links zeigt den nächsten, ein Wisch nach rechts startet den Weg dorthin.",
+                "Stell dir vor, du bist in einer Stadt unterwegs und willst einen Kaffee trinken oder mit Freunden in eine Bar. Aber wo gehst du hin? Es gibt so viele Möglichkeiten, dass man sich am Ende für keine entscheidet. Genau daraus ist nearby entstanden: Die App zeigt immer nur einen Ort. Ein Wisch nach links zeigt den nächsten, ein Wisch nach rechts startet den Weg dorthin.",
                 "Auf jeder Karte siehst du Entfernung, Bewertung und ob gerade geöffnet ist. Mit einem Tipp startest du die Navigation oder merkst dir den Ort.",
                 "Gebaut mit Ionic und React, per Capacitor als App für iOS und Android verpackt.",
             ],
