@@ -1,3 +1,4 @@
+import type { ArchitectureDiagramContent } from "@/app/[lang]/work/simpli/ArchitectureDiagram";
 import type { FlowDiagramContent } from "@/app/[lang]/work/simpli/FlowDiagram";
 import type { Lang } from "@/lib/translations";
 
@@ -7,6 +8,7 @@ type CaseStudySection = {
     facts?: { value: string; label: string }[];
     assistantDemo?: boolean;
     diagram?: FlowDiagramContent;
+    architecture?: ArchitectureDiagramContent;
 };
 
 type CaseStudy = {
@@ -50,6 +52,28 @@ export const simpliCaseStudy: Record<Lang, CaseStudy> = {
                     "It was never only about the technology, though. Going to a restaurant is always a bit like stepping into another world, and that world shouldn't get lost on the menu. So Simpli offers different themes and further customization, such as own colours, fonts, header layouts and backgrounds, that let each restaurant keep its corporate identity.",
                     "I also deliberately separated QR codes from menus. Every code lives on its own and can be assigned any menu, automatically if you like: one menu at lunchtime, another in the evening.",
                 ],
+            },
+            {
+                heading: "How the pieces fit together",
+                paragraphs: [
+                    "Simpli is two apps on one Firebase project. Guests only ever see the Next.js menu site, which renders each menu on the server and caches it. Owners work in a separate Vite dashboard that reads and writes Firestore directly, with security rules deciding what each account can touch. Anything that needs a secret, like Stripe, Gemini or sending email, runs in Cloud Functions.",
+                    "Both apps render menus with the same shared package, so the dashboard preview is exactly the menu guests get, not an approximation of it. When an owner saves, a Firestore trigger clears the cache for only the affected menu. The change shows up on the next reload, and guest visits still don't hit the database every time.",
+                    "The editor demo builds on the same setup. Every Firebase call in the dashboard goes through one backend interface, and the demo swaps in an in-memory version seeded with the live demo menu. The real editor runs unchanged, nothing touches the database, and a reload resets everything.",
+                ],
+                architecture: {
+                    firebase: "Backend",
+                    site: { title: "Menu site", text: "Next.js. Where guests open the menu" },
+                    shared: { title: "Menu package", text: "Renders the menu in both apps" },
+                    dashboard: { title: "Dashboard", text: "Vite and React. Where owners edit" },
+                    data: { title: "Firestore & Storage", text: "Firebase. Security rules check every access" },
+                    functions: { title: "Cloud Functions", text: "Triggers and anything with a secret" },
+                    services: { title: "Gemini · Stripe · email", text: "External, only reached through functions" },
+                    uses: "uses",
+                    reads: "cached reads, cleared on save",
+                    writes: "direct writes",
+                    triggers: "triggers",
+                    calls: "API calls",
+                },
             },
             {
                 heading: "Then came AI",
@@ -126,12 +150,6 @@ export const simpliCaseStudy: Record<Lang, CaseStudy> = {
                     "A trial is limited to one per payment method, so a new account doesn't mean a new trial. One-off purchases are confirmed right after payment, with a scheduled job as a backstop for customers who never make it back from the bank's verification page.",
                 ],
             },
-            {
-                heading: "What I've already changed",
-                paragraphs: [
-                    "Simpli has already been through changes I'd make again. I completely redesigned and reworked the landing page once to fit the target audience better. And the dashboard used to follow the structure of the data, so I rebuilt its flow around what users are actually trying to do.",
-                ],
-            },
         ],
     },
     de: {
@@ -160,6 +178,28 @@ export const simpliCaseStudy: Record<Lang, CaseStudy> = {
                     "Dabei ging es nie nur um die Technik. Ein Restaurantbesuch ist immer auch ein kleiner Ausflug in eine andere Welt, und die darf auf der Karte nicht verloren gehen. Deshalb bietet Simpli verschiedene Themes und Anpassungen wie eigene Farben, Schriften, Header-Layouts und Hintergründe. So bleibt jedes Restaurant auch auf der Karte unverkennbar es selbst.",
                     "Auch die QR-Codes habe ich bewusst von den Karten getrennt. Jeder Code steht für sich und lässt sich einer beliebigen Karte zuweisen, auf Wunsch automatisch: mittags die eine, abends die andere.",
                 ],
+            },
+            {
+                heading: "Wie die Teile zusammenspielen",
+                paragraphs: [
+                    "Simpli besteht aus zwei Apps auf einem Firebase-Projekt. Gäste sehen nur die Kartenseite in Next.js, die jede Karte serverseitig rendert und cacht. Restaurants arbeiten in einem eigenen Vite-Dashboard, das direkt mit Firestore spricht. Was ein Konto lesen und ändern darf, entscheiden die Security Rules. Alles, was einen geheimen Schlüssel braucht, also Stripe, Gemini oder der E-Mail-Versand, läuft in Cloud Functions.",
+                    "Beide Apps rendern Karten mit demselben Paket. Die Vorschau im Dashboard ist also genau die Karte, die Gäste sehen, und keine bloße Annäherung. Beim Speichern leert ein Firestore-Trigger gezielt den Cache der betroffenen Karte. So ist die Änderung beim nächsten Neuladen sichtbar, ohne dass jeder Seitenaufruf die Datenbank abfragt.",
+                    "Auch die Editor-Demo baut darauf auf. Alle Firebase-Zugriffe im Dashboard laufen über eine einzige Backend-Schnittstelle, und die Demo setzt dort eine In-Memory-Version ein, befüllt mit der echten Demo-Karte. Der Editor läuft unverändert, nichts landet in der Datenbank, und nach dem Neuladen ist alles wieder wie vorher.",
+                ],
+                architecture: {
+                    firebase: "Backend",
+                    site: { title: "Kartenseite", text: "Next.js. Hier öffnen Gäste die Karte" },
+                    shared: { title: "Karten-Paket", text: "Rendert die Karte in beiden Apps" },
+                    dashboard: { title: "Dashboard", text: "Vite und React. Hier bearbeiten Restaurants ihre Karten" },
+                    data: { title: "Firestore & Storage", text: "Firebase. Security Rules prüfen jeden Zugriff" },
+                    functions: { title: "Cloud Functions", text: "Trigger und alles mit geheimem Schlüssel" },
+                    services: { title: "Gemini · Stripe · E-Mail", text: "Extern, nur über die Functions erreichbar" },
+                    uses: "nutzt",
+                    reads: "liest aus dem Cache, beim Speichern geleert",
+                    writes: "schreibt direkt",
+                    triggers: "Trigger",
+                    calls: "API-Aufrufe",
+                },
             },
             {
                 heading: "Dann kam die KI",
@@ -237,12 +277,6 @@ export const simpliCaseStudy: Record<Lang, CaseStudy> = {
                 paragraphs: [
                     "Jeder KI-Aufruf kostet echtes Geld. Deshalb wird das Kontingent schon vor dem Modellaufruf in einer Firestore-Transaktion reserviert und bei einem Fehler wieder freigegeben. So können parallele Anfragen das Limit eines Tarifs nicht umgehen, und eine fehlgeschlagene Anfrage verbraucht kein Kontingent.",
                     "Pro Zahlungsmittel gibt es nur eine Testphase, ein neues Konto bringt also keine neue. Einmalkäufe werden direkt nach der Zahlung bestätigt. Für alle, die von der Verifizierungsseite der Bank nicht mehr zurückkommen, springt ein geplanter Job ein.",
-                ],
-            },
-            {
-                heading: "Was sich schon geändert hat",
-                paragraphs: [
-                    "Einige Änderungen hat Simpli schon hinter sich, und ich würde sie wieder so machen. Die Landingpage habe ich einmal komplett neu gestaltet, damit sie besser zur Zielgruppe passt. Und das Dashboard war früher nach der Datenstruktur aufgebaut, deshalb habe ich es neu an dem ausgerichtet, was Nutzer tatsächlich erledigen wollen.",
                 ],
             },
         ],

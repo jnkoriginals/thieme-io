@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ClosingFooter } from "@/app/components/home/ClosingFooter";
+import { ArchitectureDiagram } from "./ArchitectureDiagram";
 import { AssistantScenes } from "./AssistantScenes";
 import { FlowDiagram } from "./FlowDiagram";
 import { simpliCaseStudy } from "@/lib/caseStudies";
@@ -113,6 +114,9 @@ export default async function SimpliCaseStudy({ params }: Props) {
                                         </div>
                                     ))}
                                 </dl>
+                            )}
+                            {section.architecture && (
+                                <ArchitectureDiagram content={section.architecture} />
                             )}
                             {section.diagram && (
                                 <FlowDiagram content={section.diagram} />
