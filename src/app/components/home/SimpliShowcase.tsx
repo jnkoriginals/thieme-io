@@ -67,7 +67,7 @@ export function SimpliShowcase({ lang }: { lang: Lang }) {
                         label={previewMore[lang].tryIt}
                         className='text-indigo-400'
                     />
-                    <PhoneFrame screenClass='relative bg-[#f8f1e4] pt-5'>
+                    <PhoneFrame screenClass='relative bg-[#f8f1e4]'>
                         <div
                             ref={screen}
                             className='relative overflow-hidden'
