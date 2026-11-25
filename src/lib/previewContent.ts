@@ -67,7 +67,7 @@ export const previewContent: Record<Lang, PreviewContent> = {
             demo: "Open the editor demo",
             text: {
                 editorAlt:
-                    "The Simpli menu editor with a live preview of the guest menu",
+                    "The Simpli menu editor with a weekly lunch menu and the first dishes",
                 menuTitle: "Live Simpli demo menu",
                 skipMenu: "Skip the live menu",
                 menuActivate: "Tap to use the menu",
@@ -125,7 +125,7 @@ export const previewContent: Record<Lang, PreviewContent> = {
             demo: "Editor-Demo öffnen",
             text: {
                 editorAlt:
-                    "Der Simpli-Editor mit Live-Vorschau der Speisekarte",
+                    "Der Simpli-Editor mit Mittagstisch und den ersten Gerichten der Karte",
                 menuTitle: "Live-Demo der Simpli-Speisekarte",
                 skipMenu: "Live-Karte überspringen",
                 menuActivate: "Zum Ausprobieren tippen",
