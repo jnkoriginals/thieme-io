@@ -52,7 +52,7 @@ export function SimpliShowcase({ lang }: { lang: Lang }) {
                     src='/real/simpli-editor-main.webp'
                     alt={text.editorAlt}
                     width={1500}
-                    height={1330}
+                    height={1113}
                     sizes='900px'
                     className='hidden w-[82%] h-auto rounded-3xl ring-1 ring-white/10 md:block'
                 />
