@@ -65,7 +65,7 @@ export function AssistantScenes({ lang }: { lang: Lang }) {
                 onEnded={() => {
                     if (!reduceMotion) setIndex((i) => (i + 1) % SCENES.length);
                 }}
-                className={`w-full rounded-2xl bg-white ${narrow ? "mx-auto aspect-[350/763] max-w-[22rem]" : "aspect-[960/742]"}`}
+                className={`w-full rounded-2xl bg-white ${narrow ? "mx-auto aspect-[350/795] max-w-[22rem]" : "aspect-[960/742]"}`}
             />
             <div
                 role='group'
